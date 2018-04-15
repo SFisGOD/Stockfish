@@ -174,6 +174,7 @@ namespace {
   constexpr Score Overload           = S( 10,  5);
   constexpr Score PawnlessFlank      = S( 20, 80);
   constexpr Score RookOnPawn         = S(  8, 24);
+  constexpr Score RookOnBishop      = S( 0, -10);
   constexpr Score SliderOnQueen      = S( 42, 21);
   constexpr Score ThreatByPawnPush   = S( 47, 26);
   constexpr Score ThreatByRank       = S( 16,  3);
@@ -391,6 +392,9 @@ namespace {
                 if ((kf < FILE_E) == (file_of(s) < kf))
                     score -= (TrappedRook - make_score(mob * 22, 0)) * (1 + !pos.can_castle(Us));
             }
+	    
+	    if (pos.pieces(Them, BISHOP))
+		    score += RookOnBishop;
         }
 
         if (Pt == QUEEN)
