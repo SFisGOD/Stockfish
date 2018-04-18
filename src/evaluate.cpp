@@ -335,6 +335,9 @@ namespace {
         // Penalty if the piece is far from the king
         score -= KingProtector[Pt - 2] * distance(s, pos.square<KING>(Us));
 
+	if ((pos.opposite_bishops() && (pos.count<PAWN>(Us)-pos.count<PAWN>(Them) ==1)) || (pos.opposite_bishops() && (pos.count<PAWN>(Them)-pos.count<PAWN>(Us) ==1)))
+			score -= OppositeColoredBishops;
+	
         if (Pt == BISHOP || Pt == KNIGHT)
         {
             // Bonus if piece is on an outpost square or can reach one
@@ -359,8 +362,6 @@ namespace {
                 if (more_than_one(Center & (attacks_bb<BISHOP>(s, pos.pieces(PAWN)) | s)))
                     score += LongDiagonalBishop;
 		
-		if (pos.opposite_bishops() && (popcount(pos.pieces(Us, PAWN))-popcount(pos.pieces(Them, PAWN)) ==1 || popcount(pos.pieces(Them, PAWN))-popcount(pos.pieces(Us, PAWN))==1))
-			score -= OppositeColoredBishops;
             
 }
 
