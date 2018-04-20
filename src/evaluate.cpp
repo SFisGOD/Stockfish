@@ -171,7 +171,7 @@ namespace {
   constexpr Score KnightOnQueen      = S( 21, 11);
   constexpr Score LongDiagonalBishop = S( 22,  0);
   constexpr Score MinorBehindPawn    = S( 16,  0);
-  constexpr Score OppositeColoredBishops = S( 0, 200);
+  constexpr Score OppositeColoredBishops = S( 0, 25);
   constexpr Score Overload           = S( 10,  5);
   constexpr Score PawnlessFlank      = S( 20, 80);
   constexpr Score RookOnPawn         = S(  8, 24);
@@ -362,6 +362,10 @@ namespace {
 			&&  pos.non_pawn_material(WHITE) == BishopValueMg
 		        && pos.non_pawn_material(BLACK) == BishopValueMg)
 			score -= OppositeColoredBishops;
+		if (pos.opposite_bishops() && (pos.count<PAWN>(Them)-pos.count<PAWN>(Us) ==1)
+			&&  pos.non_pawn_material(WHITE) == BishopValueMg
+		        && pos.non_pawn_material(BLACK) == BishopValueMg)
+			score += OppositeColoredBishops;
             }
 
             // An important Chess960 pattern: A cornered bishop blocked by a friendly
