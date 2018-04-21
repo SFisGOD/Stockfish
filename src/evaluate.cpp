@@ -362,15 +362,10 @@ namespace {
 		if (pos.opposite_bishops() &&  pos.non_pawn_material(WHITE) == BishopValueMg 
 			&& pos.non_pawn_material(BLACK) == BishopValueMg)
 		{
-			if (pos.count<PAWN>(Us)-pos.count<PAWN>(Them) ==1)
-				score -= OppositeColoredBishops;
-			if (pos.count<PAWN>(Them)-pos.count<PAWN>(Us) ==1)
-				score += OppositeColoredBishops;
-			if (pos.count<PAWN>(Us)-pos.count<PAWN>(Them) >1) 
-				score -= OppositeColoredBishops/2;
-			if (pos.count<PAWN>(Them)-pos.count<PAWN>(Us) >1) 
-				score += OppositeColoredBishops/2;
-			
+			if (pos.count<PAWN>(Us)-pos.count<PAWN>(Them) >=1)
+				score -= OppositeColoredBishops/(pos.count<PAWN>(Us)-pos.count<PAWN>(Them));
+			if (pos.count<PAWN>(Them)-pos.count<PAWN>(Us) >=1)
+				score += OppositeColoredBishops/(pos.count<PAWN>(Them)-pos.count<PAWN>(Us));
 		}
             }
 
