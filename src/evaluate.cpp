@@ -367,9 +367,9 @@ namespace {
 			if (pos.count<PAWN>(Them)-pos.count<PAWN>(Us) ==1)
 				score += OppositeColoredBishops;
 			if (pos.count<PAWN>(Us)-pos.count<PAWN>(Them) >1) 
-				score -= OppositeColoredBishops * pe->pawns_on_same_color_squares(Us, s);
+				score -= OppositeColoredBishops/2;
 			if (pos.count<PAWN>(Them)-pos.count<PAWN>(Us) >1) 
-				score += OppositeColoredBishops * pe->pawns_on_same_color_squares(Us, s);
+				score += OppositeColoredBishops/2;
 			
 		}
             }
