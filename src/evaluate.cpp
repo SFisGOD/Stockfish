@@ -142,7 +142,7 @@ namespace {
 
   // ThreatByKing[on one/on many] contains bonuses for king attacks on
   // pawns or pieces which are not pawn-defended.
-  constexpr Score ThreatByKing[] = { S(3, 65), S(9, 145) };
+  constexpr Score ThreatByKing[] = { S(6, 68), S(9, 145) };
 
   // PassedRank[Rank] contains a bonus according to the rank of a passed pawn
   constexpr Score PassedRank[RANK_NB] = {
