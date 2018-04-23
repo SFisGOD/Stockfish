@@ -171,6 +171,7 @@ namespace {
   constexpr Score KnightOnQueen      = S( 21, 11);
   constexpr Score LongDiagonalBishop = S( 22,  0);
   constexpr Score MinorBehindPawn    = S( 16,  0);
+  constexpr Score OCBBishopPawns        = S(  0, 12);
   constexpr Score OppositeColoredBishops = S( 0, 20);
   constexpr Score Overload           = S( 10,  5);
   constexpr Score PawnlessFlank      = S( 20, 80);
@@ -356,9 +357,9 @@ namespace {
 			&& pos.non_pawn_material(BLACK) == BishopValueMg)
 		{
 			if (pos.count<PAWN>(Us)-pos.count<PAWN>(Them) >=0)
-				score -= BishopPawns * pe->pawns_on_same_color_squares(Us, s);
+				score -= OCBBishopPawns * pe->pawns_on_same_color_squares(Us, s);
 			if (pos.count<PAWN>(Them)-pos.count<PAWN>(Us) >0)
-				score += BishopPawns * pe->pawns_on_same_color_squares(Us, s);
+				score += OCBBishopPawns * pe->pawns_on_same_color_squares(Us, s);
 			if (pos.count<PAWN>(Us)-pos.count<PAWN>(Them) ==1)
 				score -= OppositeColoredBishops;
 			if (pos.count<PAWN>(Them)-pos.count<PAWN>(Us) ==1)
