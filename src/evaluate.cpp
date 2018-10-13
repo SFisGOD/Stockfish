@@ -165,7 +165,7 @@ namespace {
   constexpr Score MinorBehindPawn    = S( 16,  0);
   constexpr Score Overload           = S( 13,  6);
   constexpr Score PawnlessFlank      = S( 19, 84);
-  constexpr Score QueenWithLessPawns = S( 60, 30);
+  constexpr Score QueenWithLessPawns = S(  5,  2);
   constexpr Score RookOnPawn         = S( 10, 30);
   constexpr Score SliderOnQueen      = S( 42, 21);
   constexpr Score ThreatByKing       = S( 23, 76);
@@ -608,10 +608,10 @@ namespace {
         score += SliderOnQueen * popcount(b & safe & attackedBy2[Us]);
     }
 
-	//Bonus if we have queen and no enemy queen
+	//Penalty based on number of pawns if we have queen and no enemy queen
 	if (pos.count<QUEEN>(Us) == 1 && pos.count<QUEEN>(Them) == 0)
 	{
-		score += QueenWithLessPawns / (1 + pos.count<PAWN>(Them));
+		score -= QueenWithLessPawns * pos.count<PAWN>();
 	}
 
     if (T)
