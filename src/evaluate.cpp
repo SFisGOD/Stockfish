@@ -155,6 +155,7 @@ namespace {
   constexpr int PassedDanger[RANK_NB] = { 0, 0, 0, 3, 7, 11, 20 };
 
   // Assorted bonuses and penalties
+  constexpr Score BishopPairOnQueen  = S( 50,  0);
   constexpr Score BishopPawns        = S(  3,  7);
   constexpr Score CloseEnemies       = S(  6,  0);
   constexpr Score CorneredBishop     = S( 50, 50);
@@ -600,7 +601,15 @@ namespace {
 
         score += SliderOnQueen * popcount(b & safe & attackedBy2[Us]);
     }
-
+	
+	if (pos.count<QUEEN>(Us) == 0 && pos.count<QUEEN>(Them) == 1)
+	{
+		if((pos.count<BISHOP>(Us) - pos.count<BISHOP>(Them) == 2) && (pos.count<KNIGHT>(Us) - pos.count<KNIGHT>(Them) == 1))
+		{
+			score += BishopPairOnQueen;
+		}
+	}
+	
     if (T)
         Trace::add(THREAT, Us, score);
 
