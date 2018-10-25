@@ -30,8 +30,6 @@
 #include "pawns.h"
 #include "thread.h"
 
-TUNE(SetRange(2450, 2600), QueenValueMg, SetRange(2650, 2750), QueenValueEg); 
-
 namespace Trace {
 
   enum Tracing { NO_TRACE, TRACE };

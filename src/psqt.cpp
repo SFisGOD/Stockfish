@@ -27,6 +27,8 @@ Value PieceValue[PHASE_NB][PIECE_NB] = {
   { VALUE_ZERO, PawnValueEg, KnightValueEg, BishopValueEg, RookValueEg, QueenValueEg }
 };
 
+TUNE(SetRange(2450, 2600), QueenValueMg, SetRange(2650, 2750), QueenValueEg); 
+
 namespace PSQT {
 
 #define S(mg, eg) make_score(mg, eg)
