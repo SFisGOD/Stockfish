@@ -180,10 +180,11 @@ enum Value : int {
   KnightValueMg = 784,   KnightValueEg = 868,
   BishopValueMg = 828,   BishopValueEg = 916,
   RookValueMg   = 1286,  RookValueEg   = 1378,
-  QueenValueMg  = 2528,  QueenValueEg  = 2698,
 
   MidgameLimit  = 15258, EndgameLimit  = 3915
 };
+
+extern Value QueenValueMg, QueenValueEg;
 
 enum PieceType {
   NO_PIECE_TYPE, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING,
