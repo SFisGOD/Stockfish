@@ -23,6 +23,7 @@
 #include "types.h"
 Value QueenValueMg  = Value(2528); Value QueenValueEg  = Value(2698);
 
+
 Value PieceValue[PHASE_NB][PIECE_NB] = {
   { VALUE_ZERO, PawnValueMg, KnightValueMg, BishopValueMg, RookValueMg, QueenValueMg },
   { VALUE_ZERO, PawnValueEg, KnightValueEg, BishopValueEg, RookValueEg, QueenValueEg }
@@ -125,6 +126,5 @@ void init() {
       }
   }
 }
-
-} // namespace PSQT
 TUNE(SetRange(2450, 2600), QueenValueMg, SetRange(2650, 2750), QueenValueEg, PSQT::init); 
+} // namespace PSQT
