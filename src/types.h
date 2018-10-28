@@ -180,7 +180,7 @@ enum Value : int {
   KnightValueMg = 784,   KnightValueEg = 868,
   BishopValueMg = 828,   BishopValueEg = 916,
   RookValueMg   = 1286,  RookValueEg   = 1378,
-  QueenValueMg  = 2528,  QueenValueEg  = 2698,
+  QueenValueMg  = 2518,  QueenValueEg  = 2691,
 
   MidgameLimit  = 15258, EndgameLimit  = 3915
 };
