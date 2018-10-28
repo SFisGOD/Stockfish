@@ -28,8 +28,8 @@ Value PieceValue[PHASE_NB][PIECE_NB] = {
 };
 
 namespace PSQT {
-int A = , B = ;
-TUNE(A, B);
+int A = 10, B = 9, C = 7, D = 19, E = 8, F = 10, G = 7, H = 21, I = 10;
+TUNE(A, B, C, D, E, F, G, H, I);
 #define S(mg, eg) make_score(mg, eg)
 
 // Bonus[PieceType][Square / 2] contains Piece-Square scores. For each piece
