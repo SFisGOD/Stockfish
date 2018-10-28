@@ -28,14 +28,15 @@ Value PieceValue[PHASE_NB][PIECE_NB] = {
 };
 
 namespace PSQT {
-
+int A = , B = ;
+TUNE(A, B);
 #define S(mg, eg) make_score(mg, eg)
 
 // Bonus[PieceType][Square / 2] contains Piece-Square scores. For each piece
 // type on a given square a (middlegame, endgame) score pair is assigned. Table
 // is defined for files A..D and white side: it is symmetric for black side and
 // second half of the files.
-constexpr Score Bonus[][RANK_NB][int(FILE_NB) / 2] = {
+Score Bonus[][RANK_NB][int(FILE_NB) / 2] = {
   { },
   { // Pawn
    { S(  0, 0), S(  0,  0), S(  0, 0), S( 0, 0) },
@@ -80,9 +81,9 @@ constexpr Score Bonus[][RANK_NB][int(FILE_NB) / 2] = {
    { S( 0,-71), S(-4,-56), S(-3,-42), S(-1,-29) },
    { S(-4,-56), S( 6,-30), S( 9,-21), S( 8, -5) },
    { S(-2,-39), S( 6,-17), S( 9, -8), S( 9,  5) },
-   { S(-1,-29), S( 8, -5), S(10,  9), S( 7, 19) },
-   { S(-3,-27), S( 9, -5), S( 8, 10), S( 7, 21) },
-   { S(-2,-40), S( 6,-16), S( 8,-10), S(10,  3) },
+   { S(-1,-29), S( 8, -5), S( A,  B), S( C,  D) },
+   { S(-3,-27), S( 9, -5), S( E,  F), S( G,  H) },
+   { S(-2,-40), S( 6,-16), S( 8,-10), S( I,  3) },
    { S(-2,-55), S( 7,-30), S( 7,-21), S( 6, -6) },
    { S(-1,-74), S(-4,-55), S(-1,-43), S( 0,-30) }
   },
