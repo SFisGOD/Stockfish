@@ -123,5 +123,6 @@ void init() {
       }
   }
 }
-TUNE(A, B, C, D, E, F, G, H, I, PSQT::init);
+
 } // namespace PSQT
+TUNE(A, B, C, D, E, F, G, H, I, PSQT::init);
