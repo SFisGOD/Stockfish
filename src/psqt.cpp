@@ -28,7 +28,7 @@ Value PieceValue[PHASE_NB][PIECE_NB] = {
 };
 
 namespace PSQT {
-int A = 10, B = 9, C = 7, D = 19, E = 8, F = 10, G = 7, H = 21, I = 10;
+int A = 10, B = 9, C = 7, D = 19, E = 8, F = 10, G = 7, H = 21, I = 10, J = 3, K = 9, L = 5;
 
 #define S(mg, eg) make_score(mg, eg)
 
@@ -80,10 +80,10 @@ Score Bonus[][RANK_NB][int(FILE_NB) / 2] = {
   { // Queen
    { S( 0,-71), S(-4,-56), S(-3,-42), S(-1,-29) },
    { S(-4,-56), S( 6,-30), S( 9,-21), S( 8, -5) },
-   { S(-2,-39), S( 6,-17), S( 9, -8), S( 9,  5) },
+   { S(-2,-39), S( 6,-17), S( 9, -8), S( K,  L) },
    { S(-1,-29), S( 8, -5), S( A,  B), S( C,  D) },
    { S(-3,-27), S( 9, -5), S( E,  F), S( G,  H) },
-   { S(-2,-40), S( 6,-16), S( 8,-10), S( I,  3) },
+   { S(-2,-40), S( 6,-16), S( 8,-10), S( I,  J) },
    { S(-2,-55), S( 7,-30), S( 7,-21), S( 6, -6) },
    { S(-1,-74), S(-4,-55), S(-1,-43), S( 0,-30) }
   },
@@ -107,6 +107,12 @@ Score psq[PIECE_NB][SQUARE_NB];
 // copied from Bonus[] adding the piece value, then the black halves of the
 // tables are initialized by flipping and changing the sign of the white scores.
 void init() {
+	Bonus[W_QUEEN][2][3] = make_score(K, L);
+	Bonus[W_QUEEN][3][2] = make_score(A, B);
+	Bonus[W_QUEEN][3][3] = make_score(C, D);
+	Bonus[W_QUEEN][4][2] = make_score(E, F);
+	Bonus[W_QUEEN][4][3] = make_score(G, H);
+	Bonus[W_QUEEN][5][3] = make_score(I, J);
 
   for (Piece pc = W_PAWN; pc <= W_KING; ++pc)
   {
@@ -123,6 +129,6 @@ void init() {
       }
   }
 }
-
+TUNE(A, B, C, D, E, F, G, H, I, J, K, L, PSQT::init);
 } // namespace PSQT
-TUNE(A, B, C, D, E, F, G, H, I, PSQT::init);
+
