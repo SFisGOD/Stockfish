@@ -92,11 +92,13 @@ namespace {
   constexpr int KingAttackWeights[PIECE_TYPE_NB] = { 0, 0, 77, 55, 44, 10 };
 
   // Penalties for enemy's safe checks
-  constexpr int QueenSafeCheck  = 780;
-  constexpr int RookSafeCheck   = 880;
-  constexpr int BishopSafeCheck = 435;
-  constexpr int KnightSafeCheck = 790;
+  int QueenSafeCheck  = 780;
+  int RookSafeCheck   = 880;
+  int BishopSafeCheck = 435;
+  int KnightSafeCheck = 790;
 
+  
+  
 #define S(mg, eg) make_score(mg, eg)
 
   // MobilityBonus[PieceType-2][attacked] contains bonuses for middle and end game,
