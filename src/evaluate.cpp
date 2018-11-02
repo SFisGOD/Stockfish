@@ -97,7 +97,7 @@ namespace {
   int BishopSafeCheck = 435;
   int KnightSafeCheck = 790;
 
-  
+  TUNE(QueenSafeCheck, RookSafeCheck, BishopSafeCheck, KnightSafeCheck);
   
 #define S(mg, eg) make_score(mg, eg)
 
