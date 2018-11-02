@@ -177,6 +177,8 @@ namespace {
 
 #undef S
 
+TUNE(RookOnPawn, TrappedRook);
+
   // Evaluation class computes and stores attacks tables and other working data
   template<Tracing T>
   class Evaluation {
