@@ -22,6 +22,15 @@
 
 #include "types.h"
 
+Value PawnValueMg   = (Value)142;
+Value PawnValueEg   = (Value)207;
+Value KnightValueMg = (Value)784;
+Value KnightValueEg = (Value)868;
+Value BishopValueMg = (Value)828;   
+Value BishopValueEg = (Value)916;
+Value RookValueMg   = (Value)1286;  
+Value RookValueEg   = (Value)1378;
+
 Value PieceValue[PHASE_NB][PIECE_NB] = {
   { VALUE_ZERO, PawnValueMg, KnightValueMg, BishopValueMg, RookValueMg, QueenValueMg },
   { VALUE_ZERO, PawnValueEg, KnightValueEg, BishopValueEg, RookValueEg, QueenValueEg }
@@ -106,6 +115,15 @@ Score psq[PIECE_NB][SQUARE_NB];
 // copied from Bonus[] adding the piece value, then the black halves of the
 // tables are initialized by flipping and changing the sign of the white scores.
 void init() {
+	
+	PieceValue[0][1] = PawnValueMg;
+	PieceValue[0][2] = KnightValueMg;
+	PieceValue[0][3] = BishopValueMg;
+	PieceValue[0][4] = RookValueMg;
+	PieceValue[1][1] = PawnValueEg;
+	PieceValue[1][2] = KnightValueEg;
+	PieceValue[1][3] = BishopValueEg;
+	PieceValue[1][4] = RookValueEg;
 
   for (Piece pc = W_PAWN; pc <= W_KING; ++pc)
   {
@@ -124,3 +142,5 @@ void init() {
 }
 
 } // namespace PSQT
+TUNE(PawnValueMg, PawnValueEg, KnightValueMg, KnightValueEg, BishopValueMg, BishopValueEg, RookValueMg, RookValueEg, PSQT::init);  
+
