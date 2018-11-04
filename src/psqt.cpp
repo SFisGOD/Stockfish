@@ -142,5 +142,5 @@ void init() {
 }
 
 } // namespace PSQT
-TUNE(PawnValueMg, PawnValueEg, KnightValueMg, KnightValueEg, BishopValueMg, BishopValueEg, RookValueMg, RookValueEg, PSQT::init);  
+TUNE(SetRange(82, 202), PawnValueMg, SetRange(147, 267), PawnValueEg, SetRange(724, 844), KnightValueMg, SetRange(808, 928), KnightValueEg, SetRange(768, 888), BishopValueMg, SetRange(856, 976), BishopValueEg, SetRange(1226, 1346), RookValueMg, SetRange(1318, 1438), RookValueEg, PSQT::init);  
 
