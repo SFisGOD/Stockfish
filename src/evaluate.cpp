@@ -92,10 +92,10 @@ namespace {
   constexpr int KingAttackWeights[PIECE_TYPE_NB] = { 0, 0, 77, 55, 44, 10 };
 
   // Penalties for enemy's safe checks
-  constexpr int QueenSafeCheck  = 780;
-  constexpr int RookSafeCheck   = 880;
-  constexpr int BishopSafeCheck = 435;
-  constexpr int KnightSafeCheck = 790;
+  constexpr int QueenSafeCheck  = 782;
+  constexpr int RookSafeCheck   = 857;
+  constexpr int BishopSafeCheck = 398;
+  constexpr int KnightSafeCheck = 749;
 
 #define S(mg, eg) make_score(mg, eg)
 
@@ -158,7 +158,7 @@ namespace {
   constexpr Score BishopPawns        = S(  3,  7);
   constexpr Score CloseEnemies       = S(  6,  0);
   constexpr Score CorneredBishop     = S( 50, 50);
-  constexpr Score Hanging            = S( 57, 32);
+  constexpr Score Hanging            = S( 58, 30);
   constexpr Score KingProtector      = S(  6,  6);
   constexpr Score KnightOnQueen      = S( 21, 11);
   constexpr Score LongDiagonalBishop = S( 46,  0);
@@ -173,7 +173,7 @@ namespace {
   constexpr Score ThreatBySafePawn   = S(173,102);
   constexpr Score TrappedRook        = S( 96,  5);
   constexpr Score WeakQueen          = S( 50, 10);
-  constexpr Score WeakUnopposedPawn  = S( 15, 19);
+  constexpr Score WeakUnopposedPawn  = S(  5, 19);
 
 #undef S
 
