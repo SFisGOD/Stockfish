@@ -940,7 +940,7 @@ moves_loop: // When in check, search starts from here
               extension = ONE_PLY;
       }
       else if (    givesCheck // Check extension (~2 Elo)
-               &&  pos.see_ge(move))
+               &&  (pos.see_ge(move) || type_of(movedPiece) == QUEEN) )
           extension = ONE_PLY;
 
       // Extension for king moves that change castling rights
@@ -948,12 +948,7 @@ moves_loop: // When in check, search starts from here
           && type_of(movedPiece) == KING
           && depth < 12 * ONE_PLY)
           extension = ONE_PLY;
-		  
-      // Extension for queen moves that gives check
-      if ( givesCheck && type_of(movedPiece) == QUEEN )
-          extension = ONE_PLY;
-		  
-		  
+		
       // Calculate new depth for this move
       newDepth = depth - ONE_PLY + extension;
 
