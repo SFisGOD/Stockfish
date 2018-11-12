@@ -951,8 +951,8 @@ moves_loop: // When in check, search starts from here
           && depth < 12 * ONE_PLY)
           extension = ONE_PLY;
 
-      // Extension for rook exchange
-      if ( type_of(capturedPiece) == ROOK && type_of(movedPiece) == ROOK )
+      // Extension when Queen captures Rook
+      if ( type_of(capturedPiece) == ROOK && type_of(movedPiece) == QUEEN )
           extension = ONE_PLY;
 		  
       // Calculate new depth for this move
