@@ -948,6 +948,12 @@ moves_loop: // When in check, search starts from here
           && type_of(movedPiece) == KING
           && depth < 12 * ONE_PLY)
           extension = ONE_PLY;
+	
+      //
+      if ( type_of(movedPiece) == KING 
+          && popcount(pos.pieces(QUEEN)) == 2
+          && pos.non_pawn_material() < Value(6000))
+          extension = ONE_PLY;
 
       // Calculate new depth for this move
       newDepth = depth - ONE_PLY + extension;
