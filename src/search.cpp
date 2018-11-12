@@ -952,7 +952,9 @@ moves_loop: // When in check, search starts from here
           extension = ONE_PLY;
 
       // Extension for rook exchange
-      if ( type_of(capturedPiece) == ROOK && type_of(movedPiece) == ROOK )
+      if ( type_of(capturedPiece) == ROOK 
+          && type_of(movedPiece) == ROOK
+          && pos.non_pawn_material() <= Value(6500))
           extension = ONE_PLY;
 		  
       // Calculate new depth for this move
