@@ -948,6 +948,12 @@ moves_loop: // When in check, search starts from here
           && type_of(movedPiece) == KING
           && depth < 12 * ONE_PLY)
           extension = ONE_PLY;
+		  
+      // Extension for pawn moves when pureStaticEval is greater than 2
+      if (   pureStaticEval > 2
+          && pureStaticEval < 3
+          && type_of(movedPiece) == PAWN)
+          extension = ONE_PLY;
 
       // Calculate new depth for this move
       newDepth = depth - ONE_PLY + extension;
