@@ -950,8 +950,8 @@ moves_loop: // When in check, search starts from here
           extension = ONE_PLY;
 		  
       // Extension for pawn moves
-      if (   pureStaticEval > 300
-          && pureStaticEval < 400
+      if (   pureStaticEval > 200
+          && pureStaticEval < 300
           && type_of(movedPiece) == PAWN)
           extension = ONE_PLY;
 
