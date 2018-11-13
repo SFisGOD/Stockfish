@@ -949,6 +949,11 @@ moves_loop: // When in check, search starts from here
           && depth < 12 * ONE_PLY)
           extension = ONE_PLY;
 
+      // Extension for pawn moves if rule50 count is greater than 30
+      if (   pos.rule50_count() > 30
+          && type_of(movedPiece) == PAWN)
+          extension = ONE_PLY;
+	  
       // Calculate new depth for this move
       newDepth = depth - ONE_PLY + extension;
 
