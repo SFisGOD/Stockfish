@@ -953,8 +953,8 @@ moves_loop: // When in check, search starts from here
 
       // Extension for piece exchange in opposite-colored bishops
       if ( pos.opposite_bishops()
-          && pureStaticEval > 150
-          && pureStaticEval < 400
+          && pureStaticEval > 100
+          && pureStaticEval < 600
           && type_of(capturedPiece) == type_of(movedPiece))
           extension = ONE_PLY;
 		  
