@@ -954,7 +954,8 @@ moves_loop: // When in check, search starts from here
       // Extension for piece exchange in opposite-colored bishops
       if ( pos.opposite_bishops()
           && (pos.count<PAWN>(us) - pos.count<PAWN>(~us) > 0)
-          && type_of(capturedPiece) == type_of(movedPiece))
+          && type_of(capturedPiece) == type_of(movedPiece)
+          && depth < 12 * ONE_PLY)
           extension = ONE_PLY;
 		  
       // Calculate new depth for this move
