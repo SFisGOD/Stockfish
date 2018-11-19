@@ -940,12 +940,16 @@ moves_loop: // When in check, search starts from here
           if (value < rBeta)
               extension = ONE_PLY;
       }
-      else if (    givesCheck // Check extension (~2 Elo)
+      else if (   givesCheck // Check extension (~2 Elo)
                &&  pos.see_ge(move))
           extension = ONE_PLY;
 
       else if (   pos.can_castle(us) // Extension for king moves that change castling rights
                && type_of(movedPiece) == KING)
+          extension = ONE_PLY;
+		  
+      else if (   type_of(pos.captured_piece()) == QUEEN  //Extension for queen exchange
+               && type_of(movedPiece) == QUEEN)
           extension = ONE_PLY;
 
       // Calculate new depth for this move
