@@ -162,6 +162,7 @@ namespace {
   constexpr Score MinorBehindPawn    = S( 16,  0);
   constexpr Score Overload           = S( 12,  6);
   constexpr Score PawnlessFlank      = S( 18, 94);
+  Score QueenWithLessPawns = S( 0, 0);
   constexpr Score RestrictedPiece    = S(  7,  6);
   constexpr Score RookOnPawn         = S( 10, 28);
   constexpr Score SliderOnQueen      = S( 49, 21);
@@ -174,6 +175,8 @@ namespace {
   constexpr Score WeakUnopposedPawn  = S( 14, 20);
 
 #undef S
+
+TUNE(SetRange(-80, 80), QueenWithLessPawns);
 
   // Evaluation class computes and stores attacks tables and other working data
   template<Tracing T>
@@ -388,6 +391,7 @@ namespace {
 
         if (Pt == QUEEN)
         {
+            score += QueenWithLessPawns * (8 - pos.count<PAWN>(Them));
             // Penalty if any relative pin or discovered attack against the queen
             Bitboard queenPinners;
             if (pos.slider_blockers(pos.pieces(Them, ROOK, BISHOP), s, queenPinners))
