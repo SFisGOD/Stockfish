@@ -156,6 +156,7 @@ namespace {
   constexpr Score CloseEnemies       = S(  7,  0);
   constexpr Score CorneredBishop     = S( 50, 50);
   constexpr Score Hanging            = S( 62, 34);
+  constexpr Score KeepPieces         = S(  0,  5);
   constexpr Score KingProtector      = S(  6,  7);
   constexpr Score KnightOnQueen      = S( 20, 12);
   constexpr Score LongDiagonalBishop = S( 44,  0);
@@ -350,6 +351,11 @@ namespace {
                 // Bonus for bishop on a long diagonal which can "see" both center squares
                 if (more_than_one(attacks_bb<BISHOP>(s, pos.pieces(PAWN)) & Center))
                     score += LongDiagonalBishop;
+				
+                // Bonus for keeping pieces in opposite-colored bishops
+                if (pos.opposite_bishops() && (pos.count<PAWN>(Us)-pos.count<PAWN>(Them) > 0)
+                    && (pos.non_pawn_material(Us) >= BishopValueMg + KnightValueMg))
+                    score += KeepPieces;
             }
 
             // An important Chess960 pattern: A cornered bishop blocked by a friendly
