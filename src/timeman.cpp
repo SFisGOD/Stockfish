@@ -44,9 +44,9 @@ namespace {
 
   double move_importance(int ply) {
 
-    constexpr double XScale = 6.85;
-    constexpr double XShift = 64.5;
-    constexpr double Skew   = 0.171;
+    constexpr double XScale = 6.81;
+    constexpr double XShift = 63.6;
+    constexpr double Skew   = 0.172;
 
     return pow((1 + exp((ply - XShift) / XScale)), -Skew) + DBL_MIN; // Ensure non-zero
   }
