@@ -22,6 +22,9 @@
 
 #include "types.h"
 
+Value PawnValueMg   = (Value)136;
+Value PawnValueEg   = (Value)208;
+
 Value PieceValue[PHASE_NB][PIECE_NB] = {
   { VALUE_ZERO, PawnValueMg, KnightValueMg, BishopValueMg, RookValueMg, QueenValueMg },
   { VALUE_ZERO, PawnValueEg, KnightValueEg, BishopValueEg, RookValueEg, QueenValueEg }
@@ -107,6 +110,9 @@ Score psq[PIECE_NB][SQUARE_NB];
 // tables are initialized by flipping and changing the sign of the white scores.
 void init() {
 
+    PieceValue[0][1] = PawnValueMg;
+    PieceValue[1][1] = PawnValueEg;
+
   for (Piece pc = W_PAWN; pc <= W_KING; ++pc)
   {
       PieceValue[MG][~pc] = PieceValue[MG][pc];
@@ -124,3 +130,4 @@ void init() {
 }
 
 } // namespace PSQT
+TUNE(SetRange(56, 216), PawnValueMg, SetRange(128, 288), PawnValueEg, PSQT::init);
