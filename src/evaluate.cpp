@@ -89,7 +89,7 @@ namespace {
   constexpr Value SpaceThreshold = Value(12222);
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
-  constexpr int KingAttackWeights[PIECE_TYPE_NB] = { 0, 0, 77, 55, 44, 10 };
+  constexpr int KingAttackWeights[PIECE_TYPE_NB] = { 0, 0, 77, 52, 43, 9 };
 
   // Penalties for enemy's safe checks
   constexpr int QueenSafeCheck  = 780;
@@ -102,53 +102,53 @@ namespace {
   // MobilityBonus[PieceType-2][attacked] contains bonuses for middle and end game,
   // indexed by piece type and number of attacked squares in the mobility area.
   constexpr Score MobilityBonus[][32] = {
-    { S(-62,-81), S(-53,-56), S(-12,-30), S( -4,-14), S(  3,  8), S( 13, 15), // Knights
-      S( 22, 23), S( 28, 27), S( 33, 33) },
-    { S(-48,-59), S(-20,-23), S( 16, -3), S( 26, 13), S( 38, 24), S( 51, 42), // Bishops
-      S( 55, 54), S( 63, 57), S( 63, 65), S( 68, 73), S( 81, 78), S( 81, 86),
-      S( 91, 88), S( 98, 97) },
-    { S(-58,-76), S(-27,-18), S(-15, 28), S(-10, 55), S( -5, 69), S( -2, 82), // Rooks
-      S(  9,112), S( 16,118), S( 30,132), S( 29,142), S( 32,155), S( 38,165),
-      S( 46,166), S( 48,169), S( 58,171) },
-    { S(-39,-36), S(-21,-15), S(  3,  8), S(  3, 18), S( 14, 34), S( 22, 54), // Queens
-      S( 28, 61), S( 41, 73), S( 43, 79), S( 48, 92), S( 56, 94), S( 60,104),
-      S( 60,113), S( 66,120), S( 67,123), S( 70,126), S( 71,133), S( 73,136),
-      S( 79,140), S( 88,143), S( 88,148), S( 99,166), S(102,170), S(102,175),
-      S(106,184), S(109,191), S(113,206), S(116,212) }
+    { S(-62,-81), S(-55,-55), S(-12,-31), S( -2,-12), S(  2,  8), S( 15, 15), // Knights
+      S( 20, 25), S( 30, 28), S( 33, 35) },
+    { S(-51,-58), S(-21,-24), S( 17, -3), S( 28, 13), S( 38, 26), S( 52, 42), // Bishops
+      S( 55, 55), S( 64, 56), S( 63, 65), S( 67, 72), S( 79, 76), S( 80, 83),
+      S( 90, 89), S( 98, 97) },
+    { S(-58,-78), S(-26,-15), S(-14, 28), S( -9, 54), S( -4, 69), S( -1, 83), // Rooks
+      S(  9,114), S( 16,119), S( 30,131), S( 30,141), S( 33,153), S( 38,164),
+      S( 48,167), S( 47,168), S( 59,173) },
+    { S(-38,-36), S(-20,-17), S(  5,  7), S(  3, 18), S( 13, 34), S( 22, 55), // Queens
+      S( 25, 61), S( 39, 74), S( 44, 80), S( 48, 93), S( 59, 96), S( 61,102),
+      S( 60,116), S( 67,121), S( 67,123), S( 67,126), S( 71,131), S( 72,138),
+      S( 78,138), S( 89,143), S( 87,150), S( 95,167), S(102,168), S(101,175),
+      S(107,185), S(110,190), S(113,208), S(117,213) }
   };
 
   // Outpost[knight/bishop][supported by pawn] contains bonuses for minor
   // pieces if they occupy or can reach an outpost square, bigger if that
   // square is supported by a pawn.
   constexpr Score Outpost[][2] = {
-    { S(22, 6), S(36,12) }, // Knight
-    { S( 9, 2), S(15, 5) }  // Bishop
+    { S(20, 6), S(37,13) }, // Knight
+    { S( 9, 2), S(17, 5) }  // Bishop
   };
 
   // RookOnFile[semiopen/open] contains bonuses for each rook when there is
   // no (friendly) pawn on the rook file.
-  constexpr Score RookOnFile[] = { S(18, 7), S(44, 20) };
+  constexpr Score RookOnFile[] = { S(15, 7), S(45, 20) };
 
   // ThreatByMinor/ByRook[attacked PieceType] contains bonuses according to
   // which piece type attacks which one. Attacks on lesser pieces which are
   // pawn-defended are not considered.
   constexpr Score ThreatByMinor[PIECE_TYPE_NB] = {
-    S(0, 0), S(0, 31), S(39, 42), S(57, 44), S(68, 112), S(62, 120)
+    S(0, 0), S(0, 32), S(37, 43), S(56, 45), S(70, 111), S(63, 121)
   };
 
   constexpr Score ThreatByRook[PIECE_TYPE_NB] = {
-    S(0, 0), S(0, 24), S(38, 71), S(38, 61), S(0, 38), S(51, 38)
+    S(0, 0), S(0, 23), S(38, 69), S(37, 60), S(0, 39), S(53, 39)
   };
 
   // PassedRank[Rank] contains a bonus according to the rank of a passed pawn
   constexpr Score PassedRank[RANK_NB] = {
-    S(0, 0), S(5, 18), S(12, 23), S(10, 31), S(57, 62), S(163, 167), S(271, 250)
+    S(0, 0), S(5, 19), S(13, 24), S(8, 31), S(56, 63), S(162, 167), S(273, 250)
   };
 
   // PassedFile[File] contains a bonus according to the file of a passed pawn
   constexpr Score PassedFile[FILE_NB] = {
-    S( -1,  7), S( 0,  9), S(-9, -8), S(-30,-14),
-    S(-30,-14), S(-9, -8), S( 0,  9), S( -1,  7)
+    S( 0, 10), S( -1, 11), S(-12, -7), S(-30,-15),
+    S(-30,-15), S(-12, -7), S( -1, 11), S( 0, 10)
   };
 
   // Assorted bonuses and penalties
