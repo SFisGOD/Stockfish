@@ -152,25 +152,25 @@ namespace {
   };
 
   // Assorted bonuses and penalties
-  constexpr Score BishopPawns        = S(  3,  8);
-  constexpr Score CloseEnemies       = S(  7,  0);
+  constexpr Score BishopPawns        = S(  3,  6);
+  constexpr Score CloseEnemies       = S(  9,  0);
   constexpr Score CorneredBishop     = S( 50, 50);
-  constexpr Score Hanging            = S( 62, 34);
-  constexpr Score KingProtector      = S(  6,  7);
-  constexpr Score KnightOnQueen      = S( 20, 12);
-  constexpr Score LongDiagonalBishop = S( 44,  0);
-  constexpr Score MinorBehindPawn    = S( 16,  0);
-  constexpr Score PawnlessFlank      = S( 18, 94);
-  constexpr Score RestrictedPiece    = S(  7,  6);
-  constexpr Score RookOnPawn         = S( 10, 28);
-  constexpr Score SliderOnQueen      = S( 49, 21);
-  constexpr Score ThreatByKing       = S( 21, 84);
-  constexpr Score ThreatByPawnPush   = S( 48, 42);
-  constexpr Score ThreatByRank       = S( 14,  3);
-  constexpr Score ThreatBySafePawn   = S(169, 99);
-  constexpr Score TrappedRook        = S( 98,  5);
-  constexpr Score WeakQueen          = S( 51, 10);
-  constexpr Score WeakUnopposedPawn  = S( 14, 20);
+  constexpr Score Hanging            = S( 70, 42);
+  constexpr Score KingProtector      = S(  8,  9);
+  constexpr Score KnightOnQueen      = S( 16, 12);
+  constexpr Score LongDiagonalBishop = S( 47,  0);
+  constexpr Score MinorBehindPawn    = S( 20,  4);
+  constexpr Score PawnlessFlank      = S( 15, 96);
+  constexpr Score RestrictedPiece    = S(  6,  8);
+  constexpr Score RookOnPawn         = S( 10, 32);
+  constexpr Score SliderOnQueen      = S( 54, 18);
+  constexpr Score ThreatByKing       = S( 26, 88);
+  constexpr Score ThreatByPawnPush   = S( 47, 38);
+  constexpr Score ThreatByRank       = S( 12,  0);
+  constexpr Score ThreatBySafePawn   = S(175, 99);
+  constexpr Score TrappedRook        = S( 94,  2);
+  constexpr Score WeakQueen          = S( 47, 14);
+  constexpr Score WeakUnopposedPawn  = S( 12, 25);
 
 #undef S
 
