@@ -161,6 +161,7 @@ namespace {
   constexpr Score LongDiagonalBishop = S( 44,  0);
   constexpr Score MinorBehindPawn    = S( 16,  0);
   constexpr Score PawnlessFlank      = S( 18, 94);
+  constexpr Score QueenDuty          = S(  8,  8);
   constexpr Score RestrictedPiece    = S(  7,  6);
   constexpr Score RookOnPawn         = S( 10, 28);
   constexpr Score SliderOnQueen      = S( 49, 21);
@@ -391,6 +392,11 @@ namespace {
             Bitboard queenPinners;
             if (pos.slider_blockers(pos.pieces(Them, ROOK, BISHOP), s, queenPinners))
                 score -= WeakQueen;
+
+            // Penalty if our queen is far and enemy queen is near our king
+            if (   pos.count<QUEEN>(Them) == 1
+                && (distance(s, pos.square<KING>(Us)) - distance(pos.square<QUEEN>(Them), pos.square<KING>(Us))) > 0 )
+                score -= QueenDuty * (distance(s, pos.square<KING>(Us)) - distance(pos.square<QUEEN>(Them), pos.square<KING>(Us)));				
         }
     }
     if (T)
