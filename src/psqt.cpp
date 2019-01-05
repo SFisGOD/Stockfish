@@ -90,7 +90,7 @@ constexpr Score Bonus[][RANK_NB][int(FILE_NB) / 2] = {
   }
 };
 
-constexpr Score PBonus[RANK_NB][FILE_NB] =
+Score PBonus[RANK_NB][FILE_NB] =
   { // Pawn (asymmetric distribution)
    { },
    { S(  0,-11), S( -3,-4), S(13, -1), S( 19, -4), S(16, 17), S(13,  7), S(  4,  4), S( -4,-13) },
@@ -126,5 +126,5 @@ void init() {
       }
   }
 }
-
+TUNE(SetRange(-150, 150), PBonus, init);
 } // namespace PSQT
