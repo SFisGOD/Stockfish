@@ -171,6 +171,11 @@ namespace {
   constexpr Score TrappedRook        = S( 96,  4);
   constexpr Score WeakQueen          = S( 49, 15);
   constexpr Score WeakUnopposedPawn  = S( 12, 23);
+  
+int cA = 0;
+int cB = 118;
+	
+TUNE(SetRange(-300, 300), cA, SetRange(-182, 418), cB); 
 
 #undef S
 
@@ -741,14 +746,20 @@ namespace {
 
     bool pawnsOnBothFlanks =   (pos.pieces(PAWN) & QueenSide)
                             && (pos.pieces(PAWN) & KingSide);
+							
+    bool imb =    (pos.count<KNIGHT>(WHITE) != pos.count<KNIGHT>(BLACK))
+               || (pos.count<BISHOP>(WHITE) != pos.count<BISHOP>(BLACK))
+               || (pos.count<ROOK>(WHITE)   != pos.count<ROOK>(BLACK)  )
+               || (pos.count<QUEEN>(WHITE)  != pos.count<QUEEN>(BLACK) );
 
     // Compute the initiative bonus for the attacking side
     int complexity =   8 * pe->pawn_asymmetry()
                     + 12 * pos.count<PAWN>()
                     + 12 * outflanking
                     + 16 * pawnsOnBothFlanks
+                    + cA * imb
                     + 48 * !pos.non_pawn_material()
-                    -118 ;
+                    - cB ;
 
     // Now apply the bonus: note that we find the attacking side by extracting
     // the sign of the endgame value, and that we carefully cap the bonus so
