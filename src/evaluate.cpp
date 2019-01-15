@@ -172,6 +172,14 @@ namespace {
   constexpr Score WeakQueen          = S( 49, 15);
   constexpr Score WeakUnopposedPawn  = S( 12, 23);
 
+int cA =  8;
+int cB = 12;
+int cC = 12;
+int cD = 16;
+int cE = 48;
+int cF =118;
+  
+TUNE(SetRange(-40, 40), cA, SetRange(-60, 60), cB, SetRange(-60, 60), cC, SetRange(-80, 80), cD, SetRange(-100, 100), cE, SetRange(18, 218), cF); 
 #undef S
 
   // Evaluation class computes and stores attacks tables and other working data
@@ -743,12 +751,12 @@ namespace {
                             && (pos.pieces(PAWN) & KingSide);
 
     // Compute the initiative bonus for the attacking side
-    int complexity =   8 * pe->pawn_asymmetry()
-                    + 12 * pos.count<PAWN>()
-                    + 12 * outflanking
-                    + 16 * pawnsOnBothFlanks
-                    + 48 * !pos.non_pawn_material()
-                    -118 ;
+    int complexity =  cA * pe->pawn_asymmetry()
+                    + cB * pos.count<PAWN>()
+                    + cC * outflanking
+                    + cD * pawnsOnBothFlanks
+                    + cE * !pos.non_pawn_material()
+                    - cF ;
 
     // Now apply the bonus: note that we find the attacking side by extracting
     // the sign of the endgame value, and that we carefully cap the bonus so
