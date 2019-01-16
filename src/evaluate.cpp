@@ -741,12 +741,16 @@ namespace {
 
     bool pawnsOnBothFlanks =   (pos.pieces(PAWN) & QueenSide)
                             && (pos.pieces(PAWN) & KingSide);
+							
+    bool oppositeBishops = pos.opposite_bishops() 
+                           && (pos.non_pawn_material() >= 2 * (BishopValueEg + QueenValueEg) );
 
     // Compute the initiative bonus for the attacking side
     int complexity =   8 * pe->pawn_asymmetry()
                     + 12 * pos.count<PAWN>()
                     + 12 * outflanking
                     + 16 * pawnsOnBothFlanks
+                    + 16 * oppositeBishops
                     + 48 * !pos.non_pawn_material()
                     -118 ;
 
