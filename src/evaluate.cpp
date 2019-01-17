@@ -752,7 +752,7 @@ namespace {
                     + 12 * pos.count<PAWN>()
                     + 12 * outflanking
                     + 16 * pawnsOnBothFlanks
-                    + 24 * oppositeBishops
+                    + 32 * oppositeBishops
                     + 48 * !pos.non_pawn_material()
                     -118 ;
 
