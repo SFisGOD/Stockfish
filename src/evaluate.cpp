@@ -158,20 +158,21 @@ namespace {
   constexpr Score Hanging            = S( 69, 36);
   constexpr Score KingProtector      = S(  7,  8);
   constexpr Score KnightOnQueen      = S( 16, 12);
-  constexpr Score LongDiagonalBishop = S( 45,  0);
-  constexpr Score MinorBehindPawn    = S( 18,  3);
-  constexpr Score PawnlessFlank      = S( 17, 95);
+  Score LongDiagonalBishop = S( 45,  3);
+  Score MinorBehindPawn    = S( 18,  3);
+  Score PawnlessFlank      = S( 17, 95);
   constexpr Score RestrictedPiece    = S(  7,  7);
   constexpr Score RookOnPawn         = S( 10, 32);
   constexpr Score SliderOnQueen      = S( 59, 18);
-  constexpr Score ThreatByKing       = S( 24, 89);
+  Score ThreatByKing       = S( 24, 89);
   constexpr Score ThreatByPawnPush   = S( 48, 39);
   constexpr Score ThreatByRank       = S( 13,  0);
   constexpr Score ThreatBySafePawn   = S(173, 94);
   constexpr Score TrappedRook        = S( 96,  4);
-  constexpr Score WeakQueen          = S( 49, 15);
+  Score WeakQueen          = S( 49, 15);
   constexpr Score WeakUnopposedPawn  = S( 12, 23);
 
+TUNE(SetRange(-50, 150), LongDiagonalBishop, MinorBehindPawn, PawnlessFlank, ThreatByKing, WeakQueen);
 #undef S
 
   // Evaluation class computes and stores attacks tables and other working data
