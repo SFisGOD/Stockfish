@@ -969,6 +969,11 @@ moves_loop: // When in check, search starts from here
       // Extension if castling
       else if (type_of(move) == CASTLING)
           extension = ONE_PLY;
+	  
+      // Extension if queen exchange
+      if (   type_of(pos.captured_piece()) == QUEEN
+          && type_of(movedPiece) == QUEEN	        )
+          extension = ONE_PLY;
 
       // Calculate new depth for this move
       newDepth = depth - ONE_PLY + extension;
