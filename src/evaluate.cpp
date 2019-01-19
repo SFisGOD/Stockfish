@@ -171,7 +171,14 @@ namespace {
   constexpr Score TrappedRook        = S( 96,  4);
   constexpr Score WeakQueen          = S( 49, 15);
   constexpr Score WeakUnopposedPawn  = S( 12, 23);
+  
+int rba = 48;
+int rbb =  0;
+int rbc =  0;
+int rbd =  0;
+int rbe =  0;
 
+TUNE(SetRange(-140, 140), rba, SetRange(-100, 100), rbb, SetRange(-100, 100), rbc, SetRange(-100, 100), rbd, SetRange(-100, 100), rbe); 
 #undef S
 
   // Evaluation class computes and stores attacks tables and other working data
@@ -769,6 +776,10 @@ namespace {
 
     Color strongSide = eg > VALUE_DRAW ? WHITE : BLACK;
     int sf = me->scale_factor(pos, strongSide);
+	
+    Bitboard b, c;
+    b = pe->passed_pawns(strongSide);
+    c = pe->passed_pawns(~strongSide);
 
     // If scale is not already specific, scale down the endgame via general heuristics
     if (sf == SCALE_FACTOR_NORMAL)
@@ -777,6 +788,9 @@ namespace {
             && pos.non_pawn_material(WHITE) == BishopValueMg
             && pos.non_pawn_material(BLACK) == BishopValueMg)
             sf = 8 + 4 * pe->pawn_asymmetry();
+        else if (    pos.non_pawn_material(~strongSide)  == BishopValueMg
+                  && pos.non_pawn_material(strongSide)   == RookValueMg)
+            sf = rba + rbb * popcount(b)- rbc * popcount(c) + rbd * pos.count<PAWN>(strongSide) - rbe * pos.count<PAWN>(~strongSide);
         else
             sf = std::min(40 + (pos.opposite_bishops() ? 2 : 7) * pos.count<PAWN>(strongSide), sf);
 
