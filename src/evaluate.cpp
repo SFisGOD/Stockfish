@@ -171,6 +171,14 @@ namespace {
   constexpr Score TrappedRook        = S( 96,  4);
   constexpr Score WeakQueen          = S( 49, 15);
   constexpr Score WeakUnopposedPawn  = S( 12, 23);
+  
+int sfa =  4;
+int sfb =  3;
+int sfc = 40;
+int sfd =  2;
+int sfe =  7;
+
+TUNE(SetRange(-40, 40), sfa, SetRange(-30, 30), sfb, SetRange(-100, 100), sfc, SetRange(-20, 20), sfd, SetRange(-70, 70), sfe); 
 
 #undef S
 
@@ -776,9 +784,9 @@ namespace {
         if (   pos.opposite_bishops()
             && pos.non_pawn_material(WHITE) == BishopValueMg
             && pos.non_pawn_material(BLACK) == BishopValueMg)
-            sf = 4 * pe->pawn_asymmetry() + 3 * pos.count<PAWN>(strongSide);
+            sf = sfa * pe->pawn_asymmetry() + sfb * pos.count<PAWN>(strongSide);
         else
-            sf = std::min(40 + (pos.opposite_bishops() ? 2 : 7) * pos.count<PAWN>(strongSide), sf);
+            sf = std::min(sfc + (pos.opposite_bishops() ? sfd : sfe) * pos.count<PAWN>(strongSide), sf);
 
     }
 
