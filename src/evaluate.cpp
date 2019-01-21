@@ -742,11 +742,15 @@ namespace {
 
     bool pawnsOnBothFlanks =   (pos.pieces(PAWN) & QueenSide)
                             && (pos.pieces(PAWN) & KingSide);
+							
+    bool oppositeBishops = pos.opposite_bishops() 
+                           && (pos.non_pawn_material() >= 2 * (BishopValueEg + QueenValueEg) );
 
     // Compute the initiative bonus for the attacking side
     int complexity =   9 * pe->pawn_asymmetry()
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
+                    + 16 * oppositeBishops
                     + 18 * pawnsOnBothFlanks
                     + 49 * !pos.non_pawn_material()
                     -121 ;
@@ -777,7 +781,7 @@ namespace {
         if (   pos.opposite_bishops()
             && pos.non_pawn_material(WHITE) == BishopValueMg
             && pos.non_pawn_material(BLACK) == BishopValueMg)
-            sf = 8 + 4 * pe->pawn_asymmetry();
+            sf = 4 * pe->pawn_asymmetry() + 3 * pos.count<PAWN>(strongSide);
         else
             sf = std::min(40 + (pos.opposite_bishops() ? 2 : 7) * pos.count<PAWN>(strongSide), sf);
 
