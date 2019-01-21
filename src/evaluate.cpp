@@ -742,14 +742,19 @@ namespace {
 
     bool pawnsOnBothFlanks =   (pos.pieces(PAWN) & QueenSide)
                             && (pos.pieces(PAWN) & KingSide);
+							
+    bool oppositeKings =   (pos.pieces(WHITE, KING) & QueenSide) 
+                        && (pos.pieces(BLACK, KING) & KingSide)
+                        && pos.non_pawn_material() >= 2 *( QueenValueMg + RookValueMg);
 
     // Compute the initiative bonus for the attacking side
     int complexity =   9 * pe->pawn_asymmetry()
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
                     + 18 * pawnsOnBothFlanks
+                    + 18 * oppositeKings
                     + 49 * !pos.non_pawn_material()
-                    -121 ;
+                    -124 ;
 
     // Now apply the bonus: note that we find the attacking side by extracting
     // the sign of the endgame value, and that we carefully cap the bonus so
