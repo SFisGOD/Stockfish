@@ -147,8 +147,8 @@ namespace {
 
   // PassedFile[File] contains a bonus according to the file of a passed pawn
   constexpr Score PassedFile[FILE_NB] = {
-    S( -1,  7), S( 0,  9), S(-9, -8), S(-30,-14),
-    S(-30,-14), S(-9, -8), S( 0,  9), S( -1,  7)
+    S( -6,  6), S( 2,  8), S(-5, -5), S(-35, -7),
+    S(-25,-14), S(-9, -9), S(-3,  8), S(-13,  2)
   };
 
   // Assorted bonuses and penalties
