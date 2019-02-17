@@ -582,7 +582,7 @@ namespace {
     blocked = shift<Up>(pos.pieces(Us, PAWN)) & pos.pieces();
     if ( popcount(blocked & CenterFiles)>=2
       && popcount(b & attackedBy[Them][PAWN] & attackedBy[Us][PAWN] & ~attackedBy2[Them]))
-        score += make_score(20,10);
+        score += make_score(10,7);
 
     b |= shift<Up>(b & TRank3BB) & ~pos.pieces();
 
