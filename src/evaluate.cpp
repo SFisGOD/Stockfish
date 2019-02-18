@@ -779,7 +779,7 @@ namespace {
             sf = 4 * pe->pawn_asymmetry() + 3 * pos.count<PAWN>(strongSide);
         else if (    pos.non_pawn_material(~strongSide)  == BishopValueMg
                   && pos.non_pawn_material(strongSide)   == RookValueMg)
-            sf = 6 * pe->pawn_asymmetry() + 4 * pos.count<PAWN>(strongSide);
+            sf = std::min(30 + 4 * pe->pawn_asymmetry() + 3 * pos.count<PAWN>(strongSide), sf);
         else
             sf = std::min(40 + (pos.opposite_bishops() ? 2 : 7) * pos.count<PAWN>(strongSide), sf);
 
