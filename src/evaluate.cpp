@@ -746,18 +746,21 @@ namespace {
 
   template<Tracing T>
   Score Evaluation<T>::initiative(Value eg) const {
-
+	  
     int outflanking =  distance<File>(pos.square<KING>(WHITE), pos.square<KING>(BLACK))
                      - distance<Rank>(pos.square<KING>(WHITE), pos.square<KING>(BLACK));
 
     bool pawnsOnBothFlanks =   (pos.pieces(PAWN) & QueenSide)
                             && (pos.pieces(PAWN) & KingSide);
 
+    Bitboard blocked = shift<NORTH>(pos.pieces(WHITE, PAWN)) & pos.pieces();
+
     // Compute the initiative bonus for the attacking side
     int complexity =   9 * pe->pawn_asymmetry()
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
                     + 18 * pawnsOnBothFlanks
+                    + 20 * bool(popcount(blocked & (FileDBB | FileEBB))==2)
                     + 49 * !pos.non_pawn_material()
                     -121 ;
 
