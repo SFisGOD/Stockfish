@@ -581,7 +581,7 @@ namespace {
 	
     blocked = shift<Up>(pos.pieces(Us, PAWN)) & pos.pieces();
     if ( popcount(blocked & ((FileDBB | FileEBB) & (Rank5BB | Rank6BB)))==2)
-        score += make_score(15,15);
+        score += make_score(20,20);
 
     b |= shift<Up>(b & TRank3BB) & ~pos.pieces();
 
