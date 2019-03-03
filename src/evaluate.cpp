@@ -603,13 +603,13 @@ namespace {
         score += SliderOnQueen * popcount(b & safe & attackedBy2[Us]);
     }
 	
-    // Bonus/Malus based on pawn majority in enemy's king flank
-    if (pos.count<QUEEN>(Us) == 1)
+    // Bonus based on pawn majority in enemy's king flank
+    if (!pos.castling_rights(Them))
     {
         Bitboard b1 = pos.pieces(Us, PAWN) & KingFlank[file_of(pos.square<KING>(Them))];
         Bitboard b2 = pos.pieces(Them, PAWN) & KingFlank[file_of(pos.square<KING>(Them))];
         
-        score += make_score(30,15) * ( popcount(b1) - popcount(b2) );
+        score += make_score(7,7) * std::max( popcount(b1) - popcount(b2), 0);
     }
 		
     if (T)
