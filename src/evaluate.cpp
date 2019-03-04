@@ -164,6 +164,29 @@ namespace {
   constexpr Score WeakQueen          = S( 49, 15);
   constexpr Score WeakUnopposedPawn  = S( 12, 23);
   constexpr Score Outpost            = S(  9,  3);
+  
+  int kdA =  69;
+  int kdB = 185;
+  int kdC = 100;
+  int kdD = 150;
+  int kdE = 873;
+  int kdF =   6;
+  int kdG =   8;
+  int kdH =   5;
+  int kdI =  16;
+  int kdJ =  25;
+  
+  TUNE(SetRange(-100, 300), kdA);
+  TUNE(SetRange( -50, 350), kdB);
+  TUNE(SetRange(-100, 300), kdC);
+  TUNE(SetRange( -50, 350), kdD);
+  TUNE(SetRange( 573,1173), kdE);
+  TUNE(SetRange( -10,  30), kdF);
+  TUNE(SetRange( -10,  30), kdG);
+  TUNE(SetRange( -10,  30), kdH);
+  TUNE(SetRange(  -5,  35), kdI);
+  TUNE(SetRange(-100, 100), kdJ);
+  
 
 #undef S
 
@@ -474,15 +497,15 @@ namespace {
     int kingFlankAttacks = popcount(b1) + popcount(b2);
 
     kingDanger +=        kingAttackersCount[Them] * kingAttackersWeight[Them]
-                 +  69 * kingAttacksCount[Them]
-                 + 185 * popcount(kingRing[Us] & weak)
-                 - 100 * bool(attackedBy[Us][KNIGHT] & attackedBy[Us][KING])
-                 + 150 * popcount(pos.blockers_for_king(Us) | unsafeChecks)
-                 - 873 * !pos.count<QUEEN>(Them)
-                 -   6 * mg_value(score) / 8
+                 + kdA * kingAttacksCount[Them]
+                 + kdB * popcount(kingRing[Us] & weak)
+                 - kdC * bool(attackedBy[Us][KNIGHT] & attackedBy[Us][KING])
+                 + kdD * popcount(pos.blockers_for_king(Us) | unsafeChecks)
+                 - kdE * !pos.count<QUEEN>(Them)
+                 - kdF * mg_value(score) / kdG
                  +       mg_value(mobility[Them] - mobility[Us])
-                 +   5 * kingFlankAttacks * kingFlankAttacks / 16
-                 -   25;
+                 + kdH * kingFlankAttacks * kingFlankAttacks / kdI
+                 - kdJ;
 
     // Transform the kingDanger units into a Score, and subtract it from the evaluation
     if (kingDanger > 0)
