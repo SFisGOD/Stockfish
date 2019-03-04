@@ -609,7 +609,7 @@ namespace {
         Bitboard b1 = pos.pieces(Us, PAWN) & KingFlank[file_of(pos.square<KING>(Them))];
         Bitboard b2 = pos.pieces(Them, PAWN) & KingFlank[file_of(pos.square<KING>(Them))];
         
-        score += make_score(7,7) * std::max( popcount(b1) - popcount(b2), 0);
+        score += make_score(13,0) * std::max( popcount(b1) - popcount(b2), 0);
     }
 		
     if (T)
