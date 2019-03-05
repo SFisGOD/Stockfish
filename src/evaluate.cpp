@@ -577,7 +577,7 @@ namespace {
     score += ThreatBySafePawn * popcount(b);
 
     // Bonus for threats on the next moves against enemy queen
-    if (pos.count<QUEEN>(Them) == 1)
+    if (pos.count<QUEEN>(Them) > 0)
     {
         Square s = pos.square<QUEEN>(Them);
         safe = mobilityArea[Us] & ~stronglyProtected;
@@ -590,6 +590,10 @@ namespace {
            | (attackedBy[Us][ROOK  ] & pos.attacks_from<ROOK  >(s));
 
         score += SliderOnQueen * popcount(b & safe & attackedBy2[Us]);
+    }
+    else if (pos.count<QUEEN>(Us) == 1)
+    {
+        score += make_score(10,2) * (8 - pos.count<PAWN>(Them));
     }
 
     if (T)
