@@ -556,9 +556,9 @@ namespace {
 
     score += RestrictedPiece * popcount(b);
 	
-	// Bonus for advanced blocked center pawn formation
+    // Bonus for advanced blocked center pawn formation
     b = shift<Up>(pos.pieces(Us, PAWN)) & pos.pieces();
-    if ( popcount(b & AdvancedRanks & CenterFiles) >=2 )
+    if (more_than_one(b & AdvancedRanks & CenterFiles))
         score += make_score(17,17);
 
     // Bonus for enemy unopposed weak pawns
