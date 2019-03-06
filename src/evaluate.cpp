@@ -498,6 +498,7 @@ namespace {
     constexpr Color     Them     = (Us == WHITE ? BLACK   : WHITE);
     constexpr Direction Up       = (Us == WHITE ? NORTH   : SOUTH);
     constexpr Bitboard  TRank3BB = (Us == WHITE ? Rank3BB : Rank6BB);
+    constexpr Bitboard AdvancedRanks = (Us == WHITE ? Rank5BB | Rank6BB | Rank7BB : Rank2BB | Rank3BB | Rank4BB);
 
     Bitboard b, weak, defended, nonPawnEnemies, stronglyProtected, safe;
     Score score = SCORE_ZERO;
@@ -554,6 +555,11 @@ namespace {
        &  attackedBy[Us][ALL_PIECES];
 
     score += RestrictedPiece * popcount(b);
+	
+	// Bonus for advanced blocked center pawn formation
+    b = shift<Up>(pos.pieces(Us, PAWN)) & pos.pieces();
+    if ( popcount(b & AdvancedRanks & CenterFiles) >=2 )
+        score += make_score(17,17);
 
     // Bonus for enemy unopposed weak pawns
     if (pos.pieces(Us, ROOK, QUEEN))
