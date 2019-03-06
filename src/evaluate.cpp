@@ -498,6 +498,7 @@ namespace {
     constexpr Color     Them     = (Us == WHITE ? BLACK   : WHITE);
     constexpr Direction Up       = (Us == WHITE ? NORTH   : SOUTH);
     constexpr Bitboard  TRank3BB = (Us == WHITE ? Rank3BB : Rank6BB);
+    constexpr Bitboard AdvancedRanks = (Us == WHITE ? Rank6BB | Rank7BB | Rank8BB : Rank1BB | Rank2BB | Rank3BB);
 
     Bitboard b, weak, defended, nonPawnEnemies, stronglyProtected, safe;
     Score score = SCORE_ZERO;
@@ -575,6 +576,10 @@ namespace {
 
     b = pawn_attacks_bb<Us>(b) & nonPawnEnemies;
     score += ThreatBySafePawn * popcount(b);
+	
+    // Bonus for pawn control in advanced ranks
+    b = attackedBy[Us][PAWN] & AdvancedRanks & ~attackedBy[Them][PAWN];
+    score += make_score(7,7) * popcount(b);
 
     // Bonus for threats on the next moves against enemy queen
     if (pos.count<QUEEN>(Them) == 1)
