@@ -462,15 +462,15 @@ namespace {
     int kingFlankAttacks = popcount(b1) + popcount(b2);
 
     kingDanger +=        kingAttackersCount[Them] * kingAttackersWeight[Them]
-                 +  72 * kingAttacksCount[Them]
-                 + 188 * popcount(kingRing[Us] & weak)
+                 +  64 * kingAttacksCount[Them]
+                 + 189 * popcount(kingRing[Us] & weak)
                  - 103 * bool(attackedBy[Us][KNIGHT] & attackedBy[Us][KING])
                  + 153 * popcount(pos.blockers_for_king(Us) | unsafeChecks)
-                 - 876 * !pos.count<QUEEN>(Them)
+                 - 878 * !pos.count<QUEEN>(Them)
                  -   6 * mg_value(score) / 9
                  +       mg_value(mobility[Them] - mobility[Us])
                  +   5 * kingFlankAttacks * kingFlankAttacks / 16
-                 -   22;
+                 -   21;
 
     // Transform the kingDanger units into a Score, and subtract it from the evaluation
     if (kingDanger > 0)
