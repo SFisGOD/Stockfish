@@ -123,7 +123,7 @@ namespace {
 
   // PassedRank[Rank] contains a bonus according to the rank of a passed pawn
   constexpr Score PassedRank[RANK_NB] = {
-    S(0, 0), S(5, 18), S(12, 23), S(10, 31), S(57, 62), S(163, 167), S(271, 250)
+    S(0, 0), S(2, 16), S(9, 25), S(7, 34), S(51, 65), S(158, 162), S(277, 252)
   };
 
   // PassedFile[File] contains a bonus according to the file of a passed pawn
