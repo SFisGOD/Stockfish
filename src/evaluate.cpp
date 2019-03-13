@@ -560,7 +560,7 @@ namespace {
     b = shift<Up>(pos.pieces(Us, PAWN)) & pos.pieces(Them, PAWN)
        & AdvancedRanks;
 
-    score += make_score(10,10) * popcount(b);
+    score += make_score(13,13) * popcount(b);
 
     // Bonus for enemy unopposed weak pawns
     if (pos.pieces(Us, ROOK, QUEEN))
