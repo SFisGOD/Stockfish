@@ -774,8 +774,9 @@ namespace {
     if (sf == SCALE_FACTOR_NORMAL)
     {
         if (   pos.non_pawn_material(WHITE) == RookValueMg
-            && pos.non_pawn_material(BLACK) == RookValueMg)
-            sf = 32;
+            && pos.non_pawn_material(BLACK) == RookValueMg
+            && pos.count<PAWN>(WHITE) != pos.count<PAWN>(BLACK))
+            sf = 8 * pos.count<PAWN>(strongSide);
         else if (   pos.opposite_bishops()
             && pos.non_pawn_material(WHITE) == BishopValueMg
             && pos.non_pawn_material(BLACK) == BishopValueMg)
