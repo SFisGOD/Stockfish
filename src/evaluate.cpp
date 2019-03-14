@@ -776,7 +776,7 @@ namespace {
         if (   pos.non_pawn_material(WHITE) == RookValueMg
             && pos.non_pawn_material(BLACK) == RookValueMg
             && pos.count<PAWN>(WHITE) != pos.count<PAWN>(BLACK))
-            sf = 8 * pos.count<PAWN>(strongSide);
+            sf = 6 * pe->pawn_asymmetry();
         else if (   pos.opposite_bishops()
             && pos.non_pawn_material(WHITE) == BishopValueMg
             && pos.non_pawn_material(BLACK) == BishopValueMg)
