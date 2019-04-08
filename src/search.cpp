@@ -941,6 +941,10 @@ moves_loop: // When in check, search starts from here
       // Castling extension
       else if (type_of(move) == CASTLING)
           extension = ONE_PLY;
+	  
+      else if (   type_of(pos.captured_piece()) >= ROOK
+               && type_of(movedPiece) >= ROOK)
+          extension = ONE_PLY;			   
 
       // Calculate new depth for this move
       newDepth = depth - ONE_PLY + extension;
