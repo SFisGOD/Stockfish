@@ -361,12 +361,12 @@ void Thread::search() {
               beta  = std::min(previousScore + delta, VALUE_INFINITE);
 
               // Adjust contempt based on root move's previousScore (dynamic contempt)
-              int dct = 88 * previousScore / (abs(previousScore) + 200);
-              int neg_ct1 = (previousScore < -3 * PawnValueEg / 2 ? -ct : ct );
-              int neg_ct2 = (previousScore >  3 * PawnValueEg / 2 ? -ct : ct );
+              int dct = 95 * previousScore / (abs(previousScore) + 270);
+              int ct1 = (previousScore < -6 * PawnValueEg / 5 ? 0 : ct );
+              int ct2 = (previousScore >  6 * PawnValueEg / 5 ? 0 : ct );
 
-              contempt = (us == WHITE ?  make_score(neg_ct1 + dct, (neg_ct1 + dct) / 2)
-                                      : -make_score(neg_ct2 + dct, (neg_ct2 + dct) / 2));
+              contempt = (us == WHITE ?  make_score(ct1 + dct, (ct1 + dct) / 2)
+                                      : -make_score(ct2 + dct, (ct2 + dct) / 2));
           }
 
           // Start with a small aspiration window and, in the case of a fail
