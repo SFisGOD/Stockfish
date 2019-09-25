@@ -584,7 +584,7 @@ namespace {
 	
     blocked = shift<Up>(pos.pieces(Us, PAWN)) & pos.pieces(Them, PAWN);
     if (more_than_one(blocked & CenterFiles))
-        score += ActiveRook * popcount(pos.pieces(Them) & file_of(pos.square<ROOK>(Us)));
+        score += ActiveRook * popcount(pos.pieces(Them) & attackedBy[Us][ROOK]);
 
     if (T)
         Trace::add(THREAT, Us, score);
