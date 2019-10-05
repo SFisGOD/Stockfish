@@ -127,6 +127,7 @@ namespace {
   };
 
   // Assorted bonuses and penalties
+  constexpr Score AdvancedCenter     = S( 15, 15);
   constexpr Score BishopPawns        = S(  3,  7);
   constexpr Score CorneredBishop     = S( 50, 50);
   constexpr Score FlankAttacks       = S(  8,  0);
@@ -487,7 +488,7 @@ namespace {
     constexpr Direction Up       = (Us == WHITE ? NORTH   : SOUTH);
     constexpr Bitboard  TRank3BB = (Us == WHITE ? Rank3BB : Rank6BB);
 
-    Bitboard b, weak, defended, nonPawnEnemies, stronglyProtected, safe;
+    Bitboard b, blocked, advancedCenter, weak, defended, nonPawnEnemies, stronglyProtected, safe;
     Score score = SCORE_ZERO;
 
     // Non-pawn enemies
@@ -564,6 +565,13 @@ namespace {
 
         score += SliderOnQueen * popcount(b & safe & attackedBy2[Us]);
     }
+	
+    blocked = shift<Up>(pos.pieces(Us, PAWN)) & pos.pieces(Them, PAWN);
+    advancedCenter =
+      Us == WHITE ? CenterFiles & (Rank5BB | Rank6BB)
+                  : CenterFiles & (Rank3BB | Rank4BB);
+    if ( more_than_one(blocked & advancedCenter & ~attackedBy[Them][PAWN]))
+        score += AdvancedCenter;
 
     if (T)
         Trace::add(THREAT, Us, score);
