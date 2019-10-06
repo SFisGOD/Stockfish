@@ -568,9 +568,11 @@ namespace {
 	
     blocked = shift<Up>(pos.pieces(Us, PAWN)) & pos.pieces(Them, PAWN);
     advancedCenter =
-      Us == WHITE ? CenterFiles & (Rank5BB | Rank6BB)
-                  : CenterFiles & (Rank3BB | Rank4BB);
-    if ( more_than_one(blocked & advancedCenter & ~attackedBy[Them][PAWN]))
+      Us == WHITE ? (FileDBB | FileEBB) & (Rank5BB | Rank6BB)
+                  : (FileDBB | FileEBB) & (Rank3BB | Rank4BB);
+    if (   blocked & advancedCenter 
+	    & ~attackedBy[Them][PAWN] 
+	    &  attackedBy[Us][PAWN])
         score += AdvancedCenter;
 
     if (T)
