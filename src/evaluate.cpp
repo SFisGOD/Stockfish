@@ -127,6 +127,7 @@ namespace {
   };
 
   // Assorted bonuses and penalties
+  constexpr Score AdvancedPawns      = S(  7,  7);
   constexpr Score BishopPawns        = S(  3,  7);
   constexpr Score CorneredBishop     = S( 50, 50);
   constexpr Score FlankAttacks       = S(  8,  0);
@@ -467,7 +468,7 @@ namespace {
     // Penalty when our king is on a pawnless flank
     if (!(pos.pieces(PAWN) & KingFlank[file_of(ksq)]))
         score -= PawnlessFlank;
-
+	
     // Penalty if king flank is under attack, potentially moving toward the king
     score -= FlankAttacks * kingFlankAttacks;
 
@@ -486,6 +487,8 @@ namespace {
     constexpr Color     Them     = (Us == WHITE ? BLACK   : WHITE);
     constexpr Direction Up       = (Us == WHITE ? NORTH   : SOUTH);
     constexpr Bitboard  TRank3BB = (Us == WHITE ? Rank3BB : Rank6BB);
+    constexpr Bitboard advanceRank = (Us == WHITE ? (Rank5BB | Rank6BB)
+                                                  : (Rank3BB | Rank4BB));
 
     Bitboard b, weak, defended, nonPawnEnemies, stronglyProtected, safe;
     Score score = SCORE_ZERO;
@@ -564,6 +567,11 @@ namespace {
 
         score += SliderOnQueen * popcount(b & safe & attackedBy2[Us]);
     }
+
+    b = shift<Up>(pos.pieces(Us, PAWN)) & pos.pieces(Them)
+      & KingFlank[file_of(pos.square<KING>(Them))] & advanceRank;
+	
+	score += AdvancedPawns * popcount(b);
 
     if (T)
         Trace::add(THREAT, Us, score);
