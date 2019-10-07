@@ -1012,6 +1012,12 @@ moves_loop: // When in check, search starts from here
       // Castling extension
       if (type_of(move) == CASTLING)
           extension = 1;
+	  
+      // Queen exchange extension
+      if ( type_of(pos.captured_piece()) == QUEEN 
+          && type_of(movedPiece) == QUEEN
+          && depth < 12 )
+          extension = 1;
 
       // Calculate new depth for this move
       newDepth = depth - 1 + extension;
