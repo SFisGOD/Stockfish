@@ -715,9 +715,9 @@ namespace {
     int outflanking =  distance<File>(pos.square<KING>(WHITE), pos.square<KING>(BLACK))
                      - distance<Rank>(pos.square<KING>(WHITE), pos.square<KING>(BLACK));
 					 
-    bool pawnKingSide  = pos.pieces(strongSide, PAWN) & AdvancedRanks & KingSide;
+    bool pawnKingSide  = pos.pieces(strongSide, PAWN) & AdvancedRanks & (FileGBB | FileHBB);
 	
-    bool pawnQueenSide = pos.pieces(strongSide, PAWN) & AdvancedRanks & QueenSide;
+    bool pawnQueenSide = pos.pieces(strongSide, PAWN) & AdvancedRanks & (FileABB | FileBBB);
 
     bool pawnsOnBothFlanks =   (pos.pieces(PAWN) & QueenSide)
                             && (pos.pieces(PAWN) & KingSide);
@@ -731,7 +731,7 @@ namespace {
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
                     + 18 * pawnsOnBothFlanks
-                    + 20 * (pawnKingSide + pawnQueenSide)
+                    + 15 * (pawnKingSide + pawnQueenSide)
                     + 49 * !pos.non_pawn_material()
                     - 36 * almostUnwinnable
                     -103 ;
