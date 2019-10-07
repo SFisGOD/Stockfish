@@ -96,10 +96,10 @@ namespace {
     { S(-48,-59), S(-20,-23), S( 16, -3), S( 26, 13), S( 38, 24), S( 51, 42), // Bishops
       S( 55, 54), S( 63, 57), S( 63, 65), S( 68, 73), S( 81, 78), S( 81, 86),
       S( 91, 88), S( 98, 97) },
-    { S(-58,-76), S(-27,-18), S(-15, 28), S(-10, 55), S( -5, 69), S( -2, 82), // Rooks
+    { S(-66,-76), S(-35,-18), S(-15, 28), S(-10, 55), S( -5, 69), S( -2, 82), // Rooks
       S(  9,112), S( 16,118), S( 30,132), S( 29,142), S( 32,155), S( 38,165),
       S( 46,166), S( 48,169), S( 58,171) },
-    { S(-39,-36), S(-21,-15), S(  3,  8), S(  3, 18), S( 14, 34), S( 22, 54), // Queens
+    { S(-47,-44), S(-21,-15), S(  3,  8), S(  3, 18), S( 14, 34), S( 22, 54), // Queens
       S( 28, 61), S( 41, 73), S( 43, 79), S( 48, 92), S( 56, 94), S( 60,104),
       S( 60,113), S( 66,120), S( 67,123), S( 70,126), S( 71,133), S( 73,136),
       S( 79,140), S( 88,143), S( 88,148), S( 99,166), S(102,170), S(102,175),
@@ -720,10 +720,10 @@ namespace {
     int complexity =   9 * pe->passed_count()
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
-                    + 18 * pawnsOnBothFlanks
-                    + 49 * !pos.non_pawn_material()
-                    - 36 * almostUnwinnable
-                    -103 ;
+                    + 21 * pawnsOnBothFlanks
+                    + 51 * !pos.non_pawn_material()
+                    - 43 * almostUnwinnable
+                    - 95 ;
 
     // Now apply the bonus: note that we find the attacking side by extracting the
     // sign of the midgame or endgame values, and that we carefully cap the bonus
