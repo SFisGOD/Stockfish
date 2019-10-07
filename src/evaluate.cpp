@@ -705,12 +705,20 @@ namespace {
 
     Value mg = mg_value(score);
     Value eg = eg_value(score);
+	
+    Color strongSide = mg > VALUE_DRAW ? WHITE : BLACK;
+
+    Bitboard AdvancedRanks =
+      (strongSide == WHITE ? (FileDBB | FileEBB) & (Rank7BB | Rank6BB | Rank5BB)
+                           : (FileDBB | FileEBB) & (Rank2BB | Rank3BB | Rank4BB));
 
     int outflanking =  distance<File>(pos.square<KING>(WHITE), pos.square<KING>(BLACK))
                      - distance<Rank>(pos.square<KING>(WHITE), pos.square<KING>(BLACK));
 
     bool pawnsOnBothFlanks =   (pos.pieces(PAWN) & QueenSide)
                             && (pos.pieces(PAWN) & KingSide);
+							
+    bool pawnsOnCenter = more_than_one(pos.pieces(strongSide, PAWN) & AdvancedRanks);
 
     bool almostUnwinnable =   !pe->passed_count()
                            &&  outflanking < 0
@@ -721,6 +729,7 @@ namespace {
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
                     + 18 * pawnsOnBothFlanks
+                    + 20 * pawnsOnCenter
                     + 49 * !pos.non_pawn_material()
                     - 36 * almostUnwinnable
                     -103 ;
