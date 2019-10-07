@@ -146,6 +146,16 @@ namespace {
   constexpr Score ThreatBySafePawn   = S(173, 94);
   constexpr Score TrappedRook        = S( 47,  4);
   constexpr Score WeakQueen          = S( 49, 15);
+  
+int cA =  9;
+int cB = 11;
+int cC =  9;
+int cD = 18;
+int cE = 49;
+int cF =103;
+int cG = 36;
+
+TUNE(SetRange(-60, 60), cA, SetRange(-60, 60), cB, SetRange(-60, 60), cC, SetRange(-80, 80), cD, SetRange(-100, 100), cE, SetRange(18, 218), cF, SetRange(-100, 100), cG); 
 
 #undef S
 
@@ -717,13 +727,13 @@ namespace {
                            && !pawnsOnBothFlanks;
 
     // Compute the initiative bonus for the attacking side
-    int complexity =   9 * pe->passed_count()
-                    + 11 * pos.count<PAWN>()
-                    +  9 * outflanking
-                    + 18 * pawnsOnBothFlanks
-                    + 49 * !pos.non_pawn_material()
-                    - 36 * almostUnwinnable
-                    -103 ;
+    int complexity =  cA * pe->passed_count()
+                    + cB * pos.count<PAWN>()
+                    + cC * outflanking
+                    + cD * pawnsOnBothFlanks
+                    + cE * !pos.non_pawn_material()
+                    - cG * almostUnwinnable
+                    - cF ;
 
     // Now apply the bonus: note that we find the attacking side by extracting the
     // sign of the midgame or endgame values, and that we carefully cap the bonus
