@@ -138,7 +138,7 @@ namespace {
   constexpr Score Outpost            = S( 16,  5);
   constexpr Score PassedFile         = S( 11,  8);
   constexpr Score PawnlessFlank      = S( 17, 95);
-  constexpr Score PushSides          = S( 15, 15);
+  constexpr Score PushSides          = S( 10, 15);
   constexpr Score RestrictedPiece    = S(  7,  7);
   constexpr Score RookOnQueenFile    = S(  7,  6);
   constexpr Score SliderOnQueen      = S( 59, 18);
@@ -488,8 +488,8 @@ namespace {
     constexpr Direction Up       = (Us == WHITE ? NORTH   : SOUTH);
     constexpr Bitboard  TRank3BB = (Us == WHITE ? Rank3BB : Rank6BB);
     constexpr Bitboard advancedRanks =
-           (Us == WHITE ? (Rank5BB | Rank6BB)
-                        : (Rank3BB | Rank4BB));
+                       (Us == WHITE ? (Rank5BB | Rank6BB | Rank7BB)
+                                    : (Rank2BB | Rank3BB | Rank4BB));
 
     Bitboard b, blocked, weak, defended, nonPawnEnemies, stronglyProtected, safe;
     Score score = SCORE_ZERO;
@@ -571,7 +571,7 @@ namespace {
 	
     blocked = shift<Up>(pos.pieces(Us, PAWN)) & pos.pieces(Them, PAWN);
     if(    more_than_one(blocked & advancedRanks & (FileDBB | FileEBB))
-       && (pos.pieces(Us, PAWN) & advancedRanks & (FileABB | FileHBB)))
+       && (blocked & advancedRanks & (FileABB | FileHBB)))
         score += PushSides;
 
     if (T)
