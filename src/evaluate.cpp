@@ -571,7 +571,8 @@ namespace {
 	
     blocked = shift<Up>(pos.pieces(Us, PAWN)) & pos.pieces(Them, PAWN);
     if(    more_than_one(blocked & advancedRanks & (FileDBB | FileEBB))
-       && (blocked & advancedRanks & (FileABB | FileHBB)))
+       && (blocked & advancedRanks & (FileABB | FileHBB)) )
+   
         score += PushSides;
 
     if (T)
