@@ -457,7 +457,7 @@ namespace {
                  - 873 * !pos.count<QUEEN>(Them)
                  -   6 * mg_value(score) / 8
                  +       mg_value(mobility[Them] - mobility[Us])
-                 +   3 * kingFlankAttacks * kingFlankAttacks / 8
+                 +   7 * kingFlankAttacks * kingFlankAttacks / 16
                  -   7;
 
     // Transform the kingDanger units into a Score, and subtract it from the evaluation
@@ -720,10 +720,10 @@ namespace {
     int complexity =   9 * pe->passed_count()
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
-                    + 18 * pawnsOnBothFlanks
-                    + 49 * !pos.non_pawn_material()
-                    - 36 * almostUnwinnable
-                    -103 ;
+                    + 21 * pawnsOnBothFlanks
+                    + 51 * !pos.non_pawn_material()
+                    - 43 * almostUnwinnable
+                    - 95 ;
 
     // Now apply the bonus: note that we find the attacking side by extracting the
     // sign of the midgame or endgame values, and that we carefully cap the bonus
