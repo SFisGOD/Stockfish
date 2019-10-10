@@ -488,8 +488,8 @@ namespace {
     constexpr Direction Up       = (Us == WHITE ? NORTH   : SOUTH);
     constexpr Bitboard  TRank3BB = (Us == WHITE ? Rank3BB : Rank6BB);
     constexpr Bitboard advancedRanks =
-                       (Us == WHITE ? (Rank6BB | Rank7BB | Rank8BB)
-                                    : (Rank1BB | Rank2BB | Rank3BB));
+             (Us == WHITE ? (Rank5BB | Rank6BB | Rank7BB | Rank8BB)
+                          : (Rank1BB | Rank2BB | Rank3BB | Rank4BB));
 
     Bitboard b, b1, weak, defended, nonPawnEnemies, stronglyProtected, safe;
     Score score = SCORE_ZERO;
@@ -534,8 +534,10 @@ namespace {
 
     score += RestrictedPiece * popcount(b);
 	
-    b  = attackedBy[Us][PAWN] & advancedRanks;
-    b1 = pos.pieces(Us, PAWN) & ~attackedBy[Them][PAWN];
+    b  = attackedBy[Us][PAWN] & advancedRanks & ~(Rank5BB | Rank4BB);
+    b1 =   pos.pieces(Us, PAWN) 
+        &  advancedRanks
+        & ~attackedBy[Them][PAWN];
 
     if ((popcount(b) > 2) && more_than_one(b1))
         score += AdvancedPawns;
