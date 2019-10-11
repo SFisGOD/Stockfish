@@ -487,7 +487,7 @@ namespace {
     constexpr Direction Up       = (Us == WHITE ? NORTH   : SOUTH);
     constexpr Bitboard  TRank3BB = (Us == WHITE ? Rank3BB : Rank6BB);
 
-    Bitboard b, weak, defended, nonPawnEnemies, stronglyProtected, safe;
+    Bitboard b, b1, weak, defended, nonPawnEnemies, stronglyProtected, safe;
     Score score = SCORE_ZERO;
 
     // Non-pawn enemies
@@ -564,6 +564,11 @@ namespace {
 
         score += SliderOnQueen * popcount(b & safe & attackedBy2[Us]);
     }
+	
+    b  = pos.pieces(Them) & attackedBy[Us  ][ROOK];
+    b1 = pos.pieces(Us  ) & attackedBy[Them][ROOK];
+	
+    score += make_score(5,0) * (popcount(b) - popcount(b1));
 
     if (T)
         Trace::add(THREAT, Us, score);
