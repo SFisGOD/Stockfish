@@ -536,6 +536,7 @@ namespace {
 	
     b = attackedBy[Us][PAWN] & advancedRanks;
 	
+    if ( popcount(b) > 2 )
     score += AdvancedPawns * popcount(b);
 
     // Protected or unattacked squares
