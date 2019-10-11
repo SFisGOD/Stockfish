@@ -127,7 +127,7 @@ namespace {
   };
 
   // Assorted bonuses and penalties
-  constexpr Score AdvancedPawns      = S( 15, 15);
+  constexpr Score AdvancedPawns      = S( 17, 12);
   constexpr Score BishopPawns        = S(  3,  7);
   constexpr Score CorneredBishop     = S( 50, 50);
   constexpr Score FlankAttacks       = S(  8,  0);
