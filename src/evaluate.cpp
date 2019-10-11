@@ -672,12 +672,13 @@ namespace {
     constexpr Color Them     = (Us == WHITE ? BLACK : WHITE);
     constexpr Direction Down = (Us == WHITE ? SOUTH : NORTH);
     constexpr Bitboard SpaceMask =
-      Us == WHITE ? CenterFiles & (Rank2BB | Rank3BB | Rank4BB)
-                  : CenterFiles & (Rank7BB | Rank6BB | Rank5BB);
+      Us == WHITE ? (QueenSide | KingSide) & (Rank2BB | Rank3BB | Rank4BB)
+                  : (QueenSide | KingSide) & (Rank7BB | Rank6BB | Rank5BB);
 
     // Find the available squares for our pieces inside the area defined by SpaceMask
     Bitboard safe =   SpaceMask
                    & ~pos.pieces(Us, PAWN)
+                   & ~pos.pieces(Them, PAWN)
                    & ~attackedBy[Them][PAWN];
 
     // Find all squares which are at most three squares behind some friendly pawn
