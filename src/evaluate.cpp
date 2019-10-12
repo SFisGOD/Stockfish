@@ -146,6 +146,9 @@ namespace {
   constexpr Score ThreatBySafePawn   = S(173, 94);
   constexpr Score TrappedRook        = S( 47,  4);
   constexpr Score WeakQueen          = S( 49, 15);
+  
+int space_f = 16;
+TUNE(SetRange(-80, 80), space_f);
 
 #undef S
 
@@ -672,8 +675,8 @@ namespace {
     constexpr Color Them     = (Us == WHITE ? BLACK : WHITE);
     constexpr Direction Down = (Us == WHITE ? SOUTH : NORTH);
     constexpr Bitboard SpaceMask =
-      Us == WHITE ? CenterFiles & (Rank2BB | Rank3BB | Rank4BB)
-                  : CenterFiles & (Rank7BB | Rank6BB | Rank5BB);
+      Us == WHITE ? (QueenSide | KingSide) & (Rank2BB | Rank3BB | Rank4BB)
+                  : (QueenSide | KingSide) & (Rank7BB | Rank6BB | Rank5BB);
 
     // Find the available squares for our pieces inside the area defined by SpaceMask
     Bitboard safe =   SpaceMask
@@ -687,7 +690,7 @@ namespace {
 
     int bonus = popcount(safe) + popcount(behind & safe & ~attackedBy[Them][ALL_PIECES]);
     int weight = pos.count<ALL_PIECES>(Us) - 1;
-    Score score = make_score(bonus * weight * weight / 16, 0);
+    Score score = make_score(bonus * weight * weight / space_f, 0);
 
     if (T)
         Trace::add(SPACE, Us, score);
