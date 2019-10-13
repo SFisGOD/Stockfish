@@ -687,7 +687,7 @@ namespace {
 
     int bonus = popcount(safe) + popcount(behind & safe & ~attackedBy[Them][ALL_PIECES]);
     int weight = pos.count<ALL_PIECES>(Us) - 1;
-    Score score = make_score(bonus * weight * weight / 18, 0);
+    Score score = make_score(bonus * weight * weight / 20, 0);
 
     if (T)
         Trace::add(SPACE, Us, score);
