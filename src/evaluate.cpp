@@ -146,6 +146,15 @@ namespace {
   constexpr Score ThreatBySafePawn   = S(173, 94);
   constexpr Score TrappedRook        = S( 47,  4);
   constexpr Score WeakQueen          = S( 49, 15);
+  
+int cA = 0;
+int cB = 0;
+int cC = 0;
+int cD = 0;
+int cE = 103;
+
+TUNE(SetRange(-200, 200), cA, cB, cC, cD); 
+TUNE(SetRange(18,218), cE);
 
 #undef S
 
@@ -705,6 +714,8 @@ namespace {
 
     Value mg = mg_value(score);
     Value eg = eg_value(score);
+	
+    Color strongSide = eg > VALUE_DRAW ? WHITE : BLACK;
 
     int outflanking =  distance<File>(pos.square<KING>(WHITE), pos.square<KING>(BLACK))
                      - distance<Rank>(pos.square<KING>(WHITE), pos.square<KING>(BLACK));
@@ -721,9 +732,13 @@ namespace {
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
                     + 18 * pawnsOnBothFlanks
+                    + cA * bool(pos.count<ROOK>(strongSide) != pos.count<ROOK>(~strongSide))
+                    + cB * bool(pos.count<KNIGHT>(strongSide) != pos.count<KNIGHT>(~strongSide))
+                    + cC * bool(pos.count<BISHOP>(strongSide) != pos.count<BISHOP>(~strongSide))
+                    + cD * bool(pos.count<QUEEN>(strongSide) != pos.count<QUEEN>(~strongSide))
                     + 49 * !pos.non_pawn_material()
                     - 36 * almostUnwinnable
-                    -103 ;
+                    - cE ;
 
     // Now apply the bonus: note that we find the attacking side by extracting the
     // sign of the midgame or endgame values, and that we carefully cap the bonus
