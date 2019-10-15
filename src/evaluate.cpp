@@ -128,7 +128,7 @@ namespace {
 
   // Assorted bonuses and penalties
   constexpr Score BishopPawns        = S(  3,  7);
-  constexpr Score CenterControl      = S(  3,  3);
+  constexpr Score CenterControl      = S(  3,  0);
   constexpr Score CorneredBishop     = S( 50, 50);
   constexpr Score FlankAttacks       = S(  8,  0);
   constexpr Score Hanging            = S( 69, 36);
@@ -487,6 +487,7 @@ namespace {
     constexpr Color     Them     = (Us == WHITE ? BLACK   : WHITE);
     constexpr Direction Up       = (Us == WHITE ? NORTH   : SOUTH);
     constexpr Bitboard  TRank3BB = (Us == WHITE ? Rank3BB : Rank6BB);
+    constexpr Bitboard CenterRanks = Rank3BB | Rank4BB | Rank5BB | Rank6BB;
 
     Bitboard b, b1, weak, defended, nonPawnEnemies, stronglyProtected, safe;
     Score score = SCORE_ZERO;
@@ -566,8 +567,8 @@ namespace {
         score += SliderOnQueen * popcount(b & safe & attackedBy2[Us]);
     }
 	
-    b  = Center & (attackedBy[Us  ][ALL_PIECES] | pos.pieces(Us  , PAWN));
-    b1 = Center & (attackedBy[Them][ALL_PIECES] | pos.pieces(Them, PAWN));
+    b  = CenterFiles & CenterRanks & (attackedBy[Us  ][ALL_PIECES] | pos.pieces(Us  , PAWN));
+    b1 = CenterFiles & CenterRanks & (attackedBy[Them][ALL_PIECES] | pos.pieces(Them, PAWN));
 	
     if ( popcount(b) > popcount(b1))
         score += CenterControl * (popcount(b) - popcount(b1));
