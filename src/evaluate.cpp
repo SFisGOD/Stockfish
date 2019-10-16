@@ -723,7 +723,7 @@ namespace {
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
                     + 18 * pawnsOnBothFlanks
-                    + 18 * bool(pos.count<ROOK>(strongSide) != pos.count<ROOK>(~strongSide))
+                    + 18 * bool(pos.count<QUEEN>(strongSide) != pos.count<QUEEN>(~strongSide))
                     + 49 * !pos.non_pawn_material()
                     - 36 * almostUnwinnable
                     -103 ;
