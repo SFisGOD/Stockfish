@@ -1012,6 +1012,10 @@ moves_loop: // When in check, search starts from here
       // Castling extension
       if (type_of(move) == CASTLING)
           extension = 1;
+	  
+      if (   type_of(pos.piece_on(to_sq(move))) == QUEEN
+          && type_of(movedPiece) == QUEEN)
+          extension = 1;
 
       // Calculate new depth for this move
       newDepth = depth - 1 + extension;
