@@ -1008,6 +1008,10 @@ moves_loop: // When in check, search starts from here
                && pos.advanced_pawn_push(move)
                && pos.pawn_passed(us, to_sq(move)))
           extension = 1;
+		  
+      else if (   type_of(pos.piece_on(to_sq(move))) == QUEEN
+               && type_of(movedPiece) == QUEEN)
+          extension = 1;
 
       // Castling extension
       if (type_of(move) == CASTLING)
