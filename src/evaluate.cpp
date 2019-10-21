@@ -705,8 +705,6 @@ namespace {
 
     Value mg = mg_value(score);
     Value eg = eg_value(score);
-	
-    Color strongSide = eg > VALUE_DRAW ? WHITE : BLACK;
 
     int outflanking =  distance<File>(pos.square<KING>(WHITE), pos.square<KING>(BLACK))
                      - distance<Rank>(pos.square<KING>(WHITE), pos.square<KING>(BLACK));
@@ -719,8 +717,9 @@ namespace {
                            && !pawnsOnBothFlanks;
 						   
     bool drawish =    pos.non_pawn_material() == 2 * RookValueMg
-                  && !pawnsOnBothFlanks
-                  &&  pos.count<PAWN>(strongSide) - pos.count<PAWN>(~strongSide) == 1;
+                  &&  outflanking < 0
+                  &&  pe->passed_count() == 1
+                  && !pawnsOnBothFlanks;
 
     // Compute the initiative bonus for the attacking side
     int complexity =   9 * pe->passed_count()
@@ -729,7 +728,7 @@ namespace {
                     + 18 * pawnsOnBothFlanks
                     + 49 * !pos.non_pawn_material()
                     - 36 * almostUnwinnable
-                    - 18 * drawish
+                    - 36 * drawish
                     -103 ;
 
     // Now apply the bonus: note that we find the attacking side by extracting the
