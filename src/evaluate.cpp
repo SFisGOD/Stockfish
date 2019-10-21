@@ -127,7 +127,7 @@ namespace {
   };
   
   constexpr Score RestrictedPiece[RANK_NB] = {
-    S(11, 0), S(15, 6), S(7, 4), S(8, 3), S(9, 4), S(7, 5), S(5, 12), S(11, 5)
+    S(9, 3), S(11, 6), S(7, 5), S(8, 5), S(8, 5), S(7, 6), S(6, 10), S(9, 6)
   };
 
   // Assorted bonuses and penalties
