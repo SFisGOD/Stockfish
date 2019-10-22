@@ -716,9 +716,9 @@ namespace {
                            &&  outflanking < 0
                            && !pawnsOnBothFlanks;
 						   
-    bool bishopSuperiority =    pos.count<BISHOP>(WHITE) * pos.count<BISHOP>(BLACK) == 0
-                            && !pos.count<BISHOP>()
-                            &&  pawnsOnBothFlanks;
+    bool bishopSuperiority =   pos.count<BISHOP>(WHITE) * pos.count<BISHOP>(BLACK) == 0
+                            && pos.count<BISHOP>() != 0
+                            && pawnsOnBothFlanks;
 
     // Compute the initiative bonus for the attacking side
     int complexity =   9 * pe->passed_count()
