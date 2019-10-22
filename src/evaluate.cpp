@@ -712,7 +712,8 @@ namespace {
     bool pawnsOnBothFlanks =   (pos.pieces(PAWN) & QueenSide)
                             && (pos.pieces(PAWN) & KingSide);
 
-    bool almostUnwinnable =   !pe->passed_count()
+    bool almostUnwinnable =  (!pe->passed_count()
+                           ||  pe->passed_count() == 1)
                            &&  outflanking < 0
                            && !pawnsOnBothFlanks;
 
@@ -722,7 +723,7 @@ namespace {
                     +  9 * outflanking
                     + 18 * pawnsOnBothFlanks
                     + 49 * !pos.non_pawn_material()
-                    - 36 * almostUnwinnable
+                    - 30 * almostUnwinnable
                     -103 ;
 
     // Now apply the bonus: note that we find the attacking side by extracting the
