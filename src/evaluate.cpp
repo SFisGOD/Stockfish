@@ -524,7 +524,7 @@ namespace {
     }
 
     // Bonus for restricting their piece moves
-    b =   attackedBy[Them][ALL_PIECES]
+    b =  (attackedBy[Them][ALL_PIECES] | pos.pieces(Them))
        & ~stronglyProtected
        &  attackedBy[Us][ALL_PIECES];
 
