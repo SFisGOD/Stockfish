@@ -745,6 +745,9 @@ namespace {
 
     Color strongSide = eg > VALUE_DRAW ? WHITE : BLACK;
     int sf = me->scale_factor(pos, strongSide);
+	
+    bool pawnsOnBothFlanks =   (pos.pieces(PAWN) & QueenSide)
+                            && (pos.pieces(PAWN) & KingSide);
 
     // If scale is not already specific, scale down the endgame via general heuristics
     if (sf == SCALE_FACTOR_NORMAL)
@@ -752,12 +755,10 @@ namespace {
         if (   pos.opposite_bishops()
             && pos.non_pawn_material() == 2 * BishopValueMg)
             sf = 16 + 4 * pe->passed_count();
-			
-        else if ( pos.non_pawn_material() == 2 * RookValueMg )
-            sf = 32 + 4 * pe->passed_count();
 			 
         else
-            sf = std::min(sf, 36 + (pos.opposite_bishops() ? 2 : 7) * pos.count<PAWN>(strongSide));
+            sf = std::min(sf, 36 + (pos.opposite_bishops() ? 2 : 6) * pos.count<PAWN>(strongSide)
+                                 + 3 * pe->passed_count() - 6 * !pawnsOnBothFlanks);
 
         sf = std::max(0, sf - (pos.rule50_count() - 12) / 4  );
     }
