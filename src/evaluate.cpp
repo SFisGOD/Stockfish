@@ -138,6 +138,7 @@ namespace {
   constexpr Score Outpost            = S( 32, 10);
   constexpr Score PassedFile         = S( 11,  8);
   constexpr Score PawnlessFlank      = S( 17, 95);
+  constexpr Score QueenWithLessPawns = S( 10,  2);
   constexpr Score RestrictedPiece    = S(  7,  7);
   constexpr Score RookOnQueenFile    = S(  7,  6);
   constexpr Score SliderOnQueen      = S( 59, 18);
@@ -563,6 +564,11 @@ namespace {
            | (attackedBy[Us][ROOK  ] & pos.attacks_from<ROOK  >(s));
 
         score += SliderOnQueen * popcount(b & safe & attackedBy2[Us]);
+    }
+	
+    if (pos.count<QUEEN>(Us) == 1)
+    {
+        score += QueenWithLessPawns * (8 - pos.count<PAWN>(Them));
     }
 
     if (T)
