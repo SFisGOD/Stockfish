@@ -721,6 +721,7 @@ namespace {
                     +  9 * outflanking
                     + 18 * pawnsOnBothFlanks
                     + 49 * !pos.non_pawn_material()
+                    - 25 * !pos.pieces(QUEEN)
                     - 36 * almostUnwinnable
                     -103 ;
 
