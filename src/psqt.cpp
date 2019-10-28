@@ -37,7 +37,15 @@ namespace PSQT {
 // second half of the files.
 constexpr Score Bonus[][RANK_NB][int(FILE_NB) / 2] = {
   { },
-  { },
+  { // Pawn
+   { },
+   { S( -1,-15), S(  5, -6), S( 15,  9), S( 18,  7) },
+   { S(-16, -7), S( -5, -8), S( 17, -4), S( 24,  4) },
+   { S(-10, -2), S(-10, -6), S( 12,-10), S( 30, -9) },
+   { S(  9,  9), S( -7,  9), S( -8, -2), S(  6,-12) },
+   { S(-12, 21), S(-14, 13), S( -6, 14), S(  7, 29) },
+   { S( -8,  4), S(  9, -4), S(-10, 16), S( -4, 23) }
+  },
   { // Knight
    { S(-169,-105), S(-96,-74), S(-80,-46), S(-79,-18) },
    { S( -79, -70), S(-39,-56), S(-24,-15), S( -9,  6) },
@@ -90,17 +98,6 @@ constexpr Score Bonus[][RANK_NB][int(FILE_NB) / 2] = {
   }
 };
 
-constexpr Score PBonus[RANK_NB][FILE_NB] =
-  { // Pawn (asymmetric distribution)
-   { },
-   { S(  3,-10), S(  3, -6), S( 10, 10), S( 19,  0), S( 16, 14), S( 19,  7), S(  7, -5), S( -5,-19) },
-   { S( -9,-10), S(-15,-10), S( 11,-10), S( 15,  4), S( 32,  4), S( 22,  3), S(  5, -6), S(-22, -4) },
-   { S( -8,  6), S(-23, -2), S(  6, -8), S( 20, -4), S( 40,-13), S( 17,-12), S(  4,-10), S(-12, -9) },
-   { S( 13,  9), S(  0,  4), S(-13,  3), S(  1,-12), S( 11,-12), S( -2, -6), S(-13, 13), S(  5,  8) },
-   { S( -5, 28), S(-12, 20), S( -7, 21), S( 22, 28), S( -8, 30), S( -5,  7), S(-15,  6), S(-18, 13) },
-   { S( -7,  0), S(  7,-11), S( -3, 12), S(-13, 21), S(  5, 25), S(-16, 19), S( 10,  4), S( -8,  7) }
-  };
-
 #undef S
 
 Score psq[PIECE_NB][SQUARE_NB];
@@ -120,8 +117,7 @@ void init() {
       for (Square s = SQ_A1; s <= SQ_H8; ++s)
       {
           File f = map_to_queenside(file_of(s));
-          psq[ pc][ s] = score + (type_of(pc) == PAWN ? PBonus[rank_of(s)][file_of(s)]
-                                                      : Bonus[pc][rank_of(s)][f]);
+          psq[ pc][ s] = score + Bonus[pc][rank_of(s)][f];
           psq[~pc][~s] = -psq[pc][s];
       }
   }
