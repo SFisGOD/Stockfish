@@ -715,7 +715,7 @@ namespace {
                            &&  outflanking < 0
                            && !pawnsOnBothFlanks;
 						   
-    bool countRook =    pos.non_pawn_material() < SpaceThreshold
+    bool countRook =    pos.non_pawn_material(WHITE) != pos.non_pawn_material(BLACK)
                     && !pos.pieces(ROOK);
 
     // Compute the initiative bonus for the attacking side
@@ -724,7 +724,7 @@ namespace {
                     +  9 * outflanking
                     + 18 * pawnsOnBothFlanks
                     + 49 * !pos.non_pawn_material()
-                    - 27 * countRook
+                    - 25 * countRook
                     - 36 * almostUnwinnable
                     -103 ;
 
