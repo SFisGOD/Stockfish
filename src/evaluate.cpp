@@ -714,6 +714,9 @@ namespace {
     bool almostUnwinnable =   !pe->passed_count()
                            &&  outflanking < 0
                            && !pawnsOnBothFlanks;
+						   
+    bool countRook =    pos.non_pawn_material() < SpaceThreshold
+                    && !pos.pieces(ROOK);
 
     // Compute the initiative bonus for the attacking side
     int complexity =   9 * pe->passed_count()
@@ -721,6 +724,7 @@ namespace {
                     +  9 * outflanking
                     + 18 * pawnsOnBothFlanks
                     + 49 * !pos.non_pawn_material()
+                    - 27 * countRook
                     - 36 * almostUnwinnable
                     -103 ;
 
