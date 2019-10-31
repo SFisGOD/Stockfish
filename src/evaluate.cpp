@@ -458,8 +458,7 @@ namespace {
                  - 100 * bool(attackedBy[Us][KNIGHT] & attackedBy[Us][KING])
                  -  70 * more_than_one(attackedBy[Us][ROOK] & attackedBy[Us][KING])
                  -  35 * bool(attackedBy[Us][BISHOP] & attackedBy[Us][KING])
-                 -   6 * mg_value(score) / 8
-                 -   7;
+                 -   6 * mg_value(score) / 8 ;
 
     // Transform the kingDanger units into a Score, and subtract it from the evaluation
     if (kingDanger > 100)
