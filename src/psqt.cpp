@@ -35,7 +35,7 @@ namespace PSQT {
 // type on a given square a (middlegame, endgame) score pair is assigned. Table
 // is defined for files A..D and white side: it is symmetric for black side and
 // second half of the files.
-constexpr Score Bonus[][RANK_NB][int(FILE_NB) / 2] = {
+Score Bonus[][RANK_NB][int(FILE_NB) / 2] = {
   { },
   { },
   { // Knight
@@ -126,5 +126,5 @@ void init() {
       }
   }
 }
-
+TUNE(SetRange(-300, 300), Bonus[QUEEN], init);
 } // namespace PSQT
