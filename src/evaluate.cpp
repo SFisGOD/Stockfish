@@ -127,25 +127,44 @@ namespace {
   };
 
   // Assorted bonuses and penalties
-  constexpr Score BishopPawns        = S(  3,  7);
+  Score BishopPawns        = S(  3,  7);
   constexpr Score CorneredBishop     = S( 50, 50);
-  constexpr Score FlankAttacks       = S(  8,  0);
-  constexpr Score Hanging            = S( 69, 36);
-  constexpr Score KingProtector      = S(  7,  8);
-  constexpr Score KnightOnQueen      = S( 16, 12);
-  constexpr Score LongDiagonalBishop = S( 45,  0);
-  constexpr Score MinorBehindPawn    = S( 18,  3);
-  constexpr Score Outpost            = S( 32, 10);
-  constexpr Score PassedFile         = S( 11,  8);
-  constexpr Score PawnlessFlank      = S( 17, 95);
-  constexpr Score RestrictedPiece    = S(  7,  7);
-  constexpr Score RookOnQueenFile    = S(  7,  6);
-  constexpr Score SliderOnQueen      = S( 59, 18);
-  constexpr Score ThreatByKing       = S( 24, 89);
-  constexpr Score ThreatByPawnPush   = S( 48, 39);
-  constexpr Score ThreatBySafePawn   = S(173, 94);
-  constexpr Score TrappedRook        = S( 47,  4);
-  constexpr Score WeakQueen          = S( 49, 15);
+  Score FlankAttacks       = S(  8,  0);
+  Score Hanging            = S( 69, 36);
+  Score KingProtector      = S(  7,  8);
+  Score KnightOnQueen      = S( 16, 12);
+  Score LongDiagonalBishop = S( 45,  0);
+  Score MinorBehindPawn    = S( 18,  3);
+  Score Outpost            = S( 32, 10);
+  Score PassedFile         = S( 11,  8);
+  Score PawnlessFlank      = S( 17, 95);
+  Score RestrictedPiece    = S(  7,  7);
+  Score RookOnQueenFile    = S(  7,  6);
+  Score SliderOnQueen      = S( 59, 18);
+  Score ThreatByKing       = S( 24, 89);
+  Score ThreatByPawnPush   = S( 48, 39);
+  Score ThreatBySafePawn   = S(173, 94);
+  Score TrappedRook        = S( 47,  4);
+  Score WeakQueen          = S( 49, 15);
+  
+TUNE(SetRange(-20, 20), BishopPawns);
+TUNE(SetRange(-20, 20), FlankAttacks);
+TUNE(SetRange(-30,130), Hanging);
+TUNE(SetRange(-20, 20), KingProtector);
+TUNE(SetRange(-80, 80), KnightOnQueen);
+TUNE(SetRange(-30,130), LongDiagonalBishop);
+TUNE(SetRange(-80, 80), MinorBehindPawn);
+TUNE(SetRange(-80, 80), Outpost);
+TUNE(SetRange(-20, 20), PassedFile);
+TUNE(SetRange(-20,140), PawnlessFlank);
+TUNE(SetRange(-20, 20), RestrictedPiece);
+TUNE(SetRange(-20, 20), RookOnQueenFile);
+TUNE(SetRange(-30,130), SliderOnQueen);
+TUNE(SetRange(-30,130), ThreatByKing);
+TUNE(SetRange(-30,130), ThreatByPawnPush);
+TUNE(SetRange( 50,210), ThreatBySafePawn);
+TUNE(SetRange(-30,130), TrappedRook);
+TUNE(SetRange(-30,130), WeakQueen);
 
 #undef S
 
