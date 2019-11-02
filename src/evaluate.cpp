@@ -716,7 +716,7 @@ namespace {
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
                     + 18 * pawnsOnBothFlanks
-                    + 40 * (separation > 3) * (outflanking <= 0)
+                    + 80 * (separation > 3) * (outflanking <= 0)
                     + 49 * !pos.non_pawn_material()
                     - 36 * almostUnwinnable
                     -103 ;
