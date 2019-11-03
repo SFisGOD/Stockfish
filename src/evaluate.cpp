@@ -440,6 +440,11 @@ namespace {
     b2 = b1 & attackedBy2[Them];
 
     int kingFlankAttacks = popcount(b1) + popcount(b2);
+	
+    b1 =    attackedBy[Us][KING]  
+        &  (attackedBy[Us][KNIGHT] | attackedBy[Us][BISHOP])
+        &  (attackedBy[Them][QUEEN] | attackedBy[Them][ROOK])
+        &  ~attackedBy2[Them];
 
     kingDanger +=        kingAttackersCount[Them] * kingAttackersWeight[Them]
                  + 185 * popcount(kingRing[Us] & weak)
@@ -450,6 +455,7 @@ namespace {
                  +       mg_value(mobility[Them] - mobility[Us])
                  - 873 * !pos.count<QUEEN>(Them)
                  - 100 * bool(attackedBy[Us][KNIGHT] & attackedBy[Us][KING])
+                 -  70 * popcount(b1)
                  -  35 * bool(attackedBy[Us][BISHOP] & attackedBy[Us][KING])
                  -   6 * mg_value(score) / 8
                  -   7;
