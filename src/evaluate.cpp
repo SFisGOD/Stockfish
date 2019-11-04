@@ -698,6 +698,8 @@ namespace {
 
     Value mg = mg_value(score);
     Value eg = eg_value(score);
+	
+    int separation = distance<File>(pos.square<KING>(WHITE), pos.square<KING>(BLACK));
 
     int outflanking =  distance<File>(pos.square<KING>(WHITE), pos.square<KING>(BLACK))
                      - distance<Rank>(pos.square<KING>(WHITE), pos.square<KING>(BLACK));
@@ -716,7 +718,8 @@ namespace {
                     + 21 * pawnsOnBothFlanks
                     + 51 * !pos.non_pawn_material()
                     - 43 * almostUnwinnable
-                    - 95 ;
+                    - 45 * (separation < 3) * (outflanking <= 0) * (pos.count<QUEEN>() != 0)
+                    - 50 ;
 
     // Now apply the bonus: note that we find the attacking side by extracting the
     // sign of the midgame or endgame values, and that we carefully cap the bonus
