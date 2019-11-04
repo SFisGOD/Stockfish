@@ -146,6 +146,26 @@ namespace {
   constexpr Score ThreatBySafePawn   = S(173, 94);
   constexpr Score TrappedRook        = S( 47,  4);
   constexpr Score WeakQueen          = S( 49, 15);
+  
+  int kdA = 185;
+  int kdB = 148;
+  int kdC =  98;
+  int kdD =  69;
+  int kdE = 873;
+  int kdF = 100;
+  int kdG =  35;
+  int kdH =   7;
+  int kdI = 100;
+  
+  TUNE(SetRange( -50, 350), kdA);
+  TUNE(SetRange( -50, 350), kdB);
+  TUNE(SetRange(-100, 300), kdC);
+  TUNE(SetRange(-100, 300), kdD);
+  TUNE(SetRange( 573,1173), kdE);
+  TUNE(SetRange(-100, 300), kdF);
+  TUNE(SetRange(-100, 300), kdG);
+  TUNE(SetRange(-100, 300), kdH);
+  TUNE(SetRange(-100, 300), kdI);
 
 #undef S
 
@@ -442,20 +462,20 @@ namespace {
     int kingFlankAttacks = popcount(b1) + popcount(b2);
 
     kingDanger +=        kingAttackersCount[Them] * kingAttackersWeight[Them]
-                 + 185 * popcount(kingRing[Us] & weak)
-                 + 148 * popcount(unsafeChecks)
-                 +  98 * popcount(pos.blockers_for_king(Us))
-                 +  69 * kingAttacksCount[Them]
+                 + kdA * popcount(kingRing[Us] & weak)
+                 + kdB * popcount(unsafeChecks)
+                 + kdC * popcount(pos.blockers_for_king(Us))
+                 + kdD * kingAttacksCount[Them]
                  +   3 * kingFlankAttacks * kingFlankAttacks / 8
                  +       mg_value(mobility[Them] - mobility[Us])
-                 - 873 * !pos.count<QUEEN>(Them)
-                 - 100 * bool(attackedBy[Us][KNIGHT] & attackedBy[Us][KING])
-                 -  35 * bool(attackedBy[Us][BISHOP] & attackedBy[Us][KING])
+                 - kdE * !pos.count<QUEEN>(Them)
+                 - kdF * bool(attackedBy[Us][KNIGHT] & attackedBy[Us][KING])
+                 - kdG * bool(attackedBy[Us][BISHOP] & attackedBy[Us][KING])
                  -   6 * mg_value(score) / 8
-                 -   7;
+                 - kdH;
 
     // Transform the kingDanger units into a Score, and subtract it from the evaluation
-    if (kingDanger > 100)
+    if (kingDanger > kdI)
         score -= make_score(kingDanger * kingDanger / 4096, kingDanger / 16);
 
     // Penalty when our king is on a pawnless flank
