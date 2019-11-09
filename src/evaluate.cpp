@@ -137,7 +137,7 @@ namespace {
   constexpr Score MinorBehindPawn    = S( 18,  3);
   constexpr Score Outpost            = S( 32, 10);
   constexpr Score PassedFile         = S( 11,  8);
-  constexpr Score PawnlessFlank      = S( 17, 95);
+  constexpr Score PawnlessFlank      = S( 17, 48);
   constexpr Score RestrictedPiece    = S(  7,  7);
   constexpr Score RookOnQueenFile    = S(  7,  6);
   constexpr Score SliderOnQueen      = S( 59, 18);
@@ -442,6 +442,7 @@ namespace {
     int kingFlankAttacks = popcount(b1) + popcount(b2);
 
     kingDanger +=        kingAttackersCount[Them] * kingAttackersWeight[Them]
+                 + 200 * !(pos.pieces(PAWN) & KingFlank[file_of(ksq)])
                  + 185 * popcount(kingRing[Us] & weak)
                  + 148 * popcount(unsafeChecks)
                  +  98 * popcount(pos.blockers_for_king(Us))
