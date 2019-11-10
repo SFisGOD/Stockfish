@@ -127,9 +127,11 @@ namespace {
   };
   
   // Outpost[Rank] contains a bonus according to the rank of the outpost
-  constexpr Score Outpost[RANK_NB] = {
-    S(0, 0), S(0, 0), S(0, 0), S(24, 10), S(32, 10), S(40, 10), S(0, 0), S(0, 0)
+  Score Outpost[RANK_NB] = {
+    S(0, 0), S(0, 0), S(0, 0), S(32, 10), S(32, 10), S(32, 10), S(0, 0), S(0, 0)
   };
+  
+  TUNE(SetRange(-120,120), Outpost);
 
   // Assorted bonuses and penalties
   constexpr Score BishopPawns        = S(  3,  7);
