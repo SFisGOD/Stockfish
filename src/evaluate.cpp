@@ -127,10 +127,11 @@ namespace {
   };
   
   // MinorBehindPawn[Rank] contains a bonus according to the rank of the minor behind a pawn
-  constexpr Score MinorBehindPawn[RANK_NB] = {
-    S(18, 12), S(20, 10), S(18, 8), S(20, 8), S(20, 10), S(20, 12), S(0, 0), S(0, 0)
+  Score MinorBehindPawn[RANK_NB] = {
+    S(18, 3), S(18, 3), S(18, 3), S(18, 3), S(18, 3), S(18, 3), S(0, 0), S(0, 0)
   };
-
+  
+  TUNE(SetRange(-120,120), MinorBehindPawn);
 
   // Assorted bonuses and penalties
   constexpr Score BishopPawns        = S(  3,  7);
