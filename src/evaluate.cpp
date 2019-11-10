@@ -443,9 +443,9 @@ namespace {
 
     kingDanger +=        kingAttackersCount[Them] * kingAttackersWeight[Them]
                  + 185 * popcount(kingRing[Us] & weak)
+                 + 150 * !more_than_one(pos.pieces(Us, PAWN) & attackedBy[Us][KING])
                  + 148 * popcount(unsafeChecks)
                  +  98 * popcount(pos.blockers_for_king(Us))
-                 +  70 * !bool(pos.pieces(Us, PAWN) & attackedBy[Us][KING])
                  +  69 * kingAttacksCount[Them]
                  +   3 * kingFlankAttacks * kingFlankAttacks / 8
                  +       mg_value(mobility[Them] - mobility[Us])
