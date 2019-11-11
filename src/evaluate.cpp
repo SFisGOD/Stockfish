@@ -139,6 +139,7 @@ namespace {
   constexpr Score PassedFile         = S( 11,  8);
   constexpr Score PawnlessFlank      = S( 17, 95);
   constexpr Score RestrictedPiece    = S(  7,  7);
+  constexpr Score RookBehindPawn     = S(  8, 15);
   constexpr Score RookOnQueenFile    = S(  7,  6);
   constexpr Score SliderOnQueen      = S( 59, 18);
   constexpr Score ThreatByKing       = S( 24, 89);
@@ -335,6 +336,10 @@ namespace {
 
         if (Pt == ROOK)
         {
+            // Bonus for being right behind a pawn
+            if (shift<Down>(pos.pieces(PAWN)) & s)
+                score += RookBehindPawn;
+			
             // Bonus for rook on the same file as a queen
             if (file_bb(s) & pos.pieces(QUEEN))
                 score += RookOnQueenFile;
