@@ -525,11 +525,8 @@ namespace {
     b =   attackedBy[Them][ALL_PIECES]
        & ~stronglyProtected
        &  attackedBy[Us][ALL_PIECES];
-
-    if (popcount(b)>2)
-        score += RestrictedPiece * popcount(b);
 	
-    else
+    if (more_than_one(b))
     {
         while (b)
         {
@@ -538,6 +535,9 @@ namespace {
             score += RestrictedPieceRank[r];
         }
     }
+	
+    else
+        score += RestrictedPiece;
 
     // Protected or unattacked squares
     safe = ~attackedBy[Them][ALL_PIECES] | attackedBy[Us][ALL_PIECES];
