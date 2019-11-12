@@ -295,7 +295,7 @@ namespace {
         {
             // Bonus if piece is on an outpost square or can reach one
             bb = OutpostRanks & attackedBy[Us][PAWN] & ~pe->pawn_attacks_span(Them);
-            Square ss = frontmost_sq(Us, bb);
+            Square ss = frontmost_sq(Them, bb);
             int r = relative_rank(Us, ss);
 			
             if (s & bb)
