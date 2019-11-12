@@ -128,7 +128,7 @@ namespace {
   
   // Outpost[Rank] contains a bonus according to the rank of the outpost
   constexpr Score Outpost[RANK_NB] = {
-    S(0, 0), S(0, 0), S(0, 0), S(30, 11), S(33, 14), S(31, 11), S(0, 0), S(0, 0)
+    S(0, 0), S(0, 0), S(0, 0), S(27, 18), S(28, 13), S(32, 18)
   };
 
   // Assorted bonuses and penalties
@@ -295,11 +295,13 @@ namespace {
         {
             // Bonus if piece is on an outpost square or can reach one
             bb = OutpostRanks & attackedBy[Us][PAWN] & ~pe->pawn_attacks_span(Them);
+            int r = relative_rank(Us, s);
+			
             if (s & bb)
-                score += Outpost[relative_rank(Us, s)] * (Pt == KNIGHT ? 2 : 1);
+                score += Outpost[r] * (Pt == KNIGHT ? 2 : 1);
 
             else if (Pt == KNIGHT && bb & b & ~pos.pieces(Us))
-                score += Outpost[relative_rank(Us, s)];
+                score += Outpost[r];
 
             // Knight and Bishop bonus for being right behind a pawn
             if (shift<Down>(pos.pieces(PAWN)) & s)
