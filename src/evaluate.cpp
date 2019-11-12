@@ -128,7 +128,7 @@ namespace {
   
   // RestrictedSquareRank [Rank] contains a bonus according to the rank of the restricted square
   constexpr Score RestrictedSquareRank[RANK_NB] = {
-    S(8, 3), S(12, 6), S(6, 5), S(7, 5), S(6, 10), S(8, 12), S(5, 14), S(6, 7)
+    S(8, 0), S(12, 3), S(3, 2), S(7, 2), S(3, 10), S(8, 12), S(2, 14), S(3, 7)
   };
 
   // Assorted bonuses and penalties
