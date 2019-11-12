@@ -128,7 +128,7 @@ namespace {
   
   // Outpost[Rank] contains a bonus according to the rank of the outpost
   constexpr Score Outpost[RANK_NB] = {
-    S(0, 0), S(0, 0), S(0, 0), S(27, 18), S(28, 13), S(32, 18)
+    S(0, 0), S(0, 0), S(0, 0), S(29, 14), S(30, 17), S(32, 14)
   };
 
   // Assorted bonuses and penalties
