@@ -125,6 +125,11 @@ namespace {
   constexpr Score PassedRank[RANK_NB] = {
     S(0, 0), S(10, 28), S(17, 33), S(15, 41), S(62, 72), S(168, 177), S(276, 260)
   };
+  
+  // RestrictedSquareRank [Rank] contains a bonus according to the rank of the restricted square
+  constexpr Score RestrictedSquareRank[RANK_NB] = {
+    S(11, 3), S(15, 6), S(6, 5), S(7, 5), S(6, 13), S(11, 15), S(5, 17), S(6, 7)
+  };
 
   // Assorted bonuses and penalties
   constexpr Score BishopPawns        = S(  3,  7);
@@ -522,7 +527,14 @@ namespace {
        & ~stronglyProtected
        &  attackedBy[Us][ALL_PIECES];
 
-    score += RestrictedPiece * popcount(b);
+    if ( more_than_one(b) )
+         score += RestrictedPiece * popcount(b);
+    else
+    {
+         Square ss = pop_lsb(&b);
+         int r = relative_rank(Us, ss);
+         score += RestrictedSquareRank[r];
+    }
 
     // Protected or unattacked squares
     safe = ~attackedBy[Them][ALL_PIECES] | attackedBy[Us][ALL_PIECES];
