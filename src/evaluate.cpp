@@ -529,9 +529,9 @@ namespace {
 
     if ( more_than_one(b) )
          score += RestrictedPiece * popcount(b);
-    else
+    else if (b)
     {
-         Square ss = pop_lsb(&b);
+         Square ss = lsb(b);
          int r = relative_rank(Us, ss);
          score += RestrictedSquareRank[r];
     }
