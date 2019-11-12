@@ -126,7 +126,7 @@ namespace {
     S(0, 0), S(10, 28), S(17, 33), S(15, 41), S(62, 72), S(168, 177), S(276, 260)
   };
   
-  constexpr Score RestrictedPiece[RANK_NB] = {
+  constexpr Score RestrictedPieceRank[RANK_NB] = {
     S(8, 3), S(12, 6), S(6, 5), S(7, 5), S(6, 10), S(8, 12), S(5, 14), S(6, 7)
   };
 
@@ -142,6 +142,7 @@ namespace {
   constexpr Score Outpost            = S( 32, 10);
   constexpr Score PassedFile         = S( 11,  8);
   constexpr Score PawnlessFlank      = S( 17, 95);
+  constexpr Score RestrictedPiece    = S(  7,  7);
   constexpr Score RookOnQueenFile    = S(  7,  6);
   constexpr Score SliderOnQueen      = S( 59, 18);
   constexpr Score ThreatByKing       = S( 24, 89);
@@ -525,11 +526,17 @@ namespace {
        & ~stronglyProtected
        &  attackedBy[Us][ALL_PIECES];
 
-    while (b)
+    if (popcount(b)>2)
+        score += RestrictedPiece * popcount(b);
+	
+    else
     {
-       Square ss = pop_lsb(&b);
-       int r = relative_rank(Us, ss);
-       score += RestrictedPiece[r];
+        while (b)
+        {
+            Square ss = pop_lsb(&b);
+            int r = relative_rank(Us, ss);
+            score += RestrictedPieceRank[r];
+        }
     }
 
     // Protected or unattacked squares
