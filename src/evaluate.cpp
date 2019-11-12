@@ -128,7 +128,7 @@ namespace {
   
   // MinorBehindPawn[Rank] contains a bonus according to the rank of the minor behind a pawn
   constexpr Score MinorBehindPawn[RANK_NB] = {
-    S(16, 9), S(12, 4), S(22, 4), S(15, 4), S(15, 22), S(15, -8)
+    S(17, 6), S(15, 3), S(20, 3), S(17, 3), S(17, 12), S(17, -3)
   };
 
   // Assorted bonuses and penalties
