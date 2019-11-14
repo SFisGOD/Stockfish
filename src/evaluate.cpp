@@ -530,7 +530,7 @@ namespace {
     int c = popcount(b);
 	
     if (c > 5)
-         score += RestrictedPiece * c * 3/2;
+         score += RestrictedPiece * 4 * c / 3;
     else
          score += RestrictedPiece * c;
 
