@@ -144,6 +144,7 @@ namespace {
   constexpr Score PassedFile         = S( 11,  8);
   constexpr Score PawnlessFlank      = S( 17, 95);
   constexpr Score RestrictedPiece    = S(  7,  7);
+  constexpr Score RestrictedPiece2   = S( 10,  8);
   constexpr Score RookOnQueenFile    = S(  7,  6);
   constexpr Score SliderOnQueen      = S( 59, 18);
   constexpr Score ThreatByKing       = S( 24, 89);
@@ -529,10 +530,10 @@ namespace {
 	   
     int c = popcount(b);
 	
-    if (c > 5)
-         score += RestrictedPiece * c * 3/2;
+    if (c > 3)
+         score += RestrictedPiece2 * c;
     else
-         score += RestrictedPiece * c;
+         score += RestrictedPiece  * c;
 
     // Protected or unattacked squares
     safe = ~attackedBy[Them][ALL_PIECES] | attackedBy[Us][ALL_PIECES];
