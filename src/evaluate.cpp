@@ -143,8 +143,8 @@ namespace {
   constexpr Score Outpost            = S( 32, 10);
   constexpr Score PassedFile         = S( 11,  8);
   constexpr Score PawnlessFlank      = S( 17, 95);
-  constexpr Score RestrictedPiece    = S(  8,  7);
-  constexpr Score RestrictedPiece2   = S(  9,  8);
+  constexpr Score RestrictedPiece    = S(  8,  8);
+  constexpr Score RestrictedPiece2   = S(  9,  9);
   constexpr Score RookOnQueenFile    = S(  7,  6);
   constexpr Score SliderOnQueen      = S( 59, 18);
   constexpr Score ThreatByKing       = S( 24, 89);
@@ -530,7 +530,7 @@ namespace {
 	   
     int c = popcount(b);
 
-    if (c < 8)
+    if (c < 7)
          score += RestrictedPiece  * c;
     else
          score += RestrictedPiece2 * c;
