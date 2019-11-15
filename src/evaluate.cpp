@@ -137,6 +137,7 @@ namespace {
   constexpr Score FlankAttacks       = S(  8,  0);
   constexpr Score Hanging            = S( 69, 36);
   constexpr Score KingProtector      = S(  7,  8);
+  constexpr Score KnightOnCenter     = S( 20,  0);
   constexpr Score KnightOnQueen      = S( 16, 12);
   constexpr Score LongDiagonalBishop = S( 45,  0);
   constexpr Score MinorBehindPawn    = S( 18,  3);
@@ -308,6 +309,13 @@ namespace {
 
             // Penalty if the piece is far from the king
             score -= KingProtector * distance(s, pos.square<KING>(Us));
+			
+            if (Pt == KNIGHT)
+            {
+                // Bonus for knight attacking/supporting two pawns on center
+                if (more_than_one(Center & pos.pieces(PAWN) & attackedBy[Us][KNIGHT]))
+                   score += KnightOnCenter;
+            }
 
             if (Pt == BISHOP)
             {
