@@ -130,6 +130,12 @@ namespace {
   constexpr Score OutpostRank[RANK_NB] = {
     S(0, 0), S(0, 0), S(0, 0), S(28, 18), S(30, 24), S(32, 19)
   };
+  
+  // ThreatBySafePawn[Rank] contains a bonus according 
+  // to the rank of the attacked pieces
+  constexpr Score ThreatBySafePawn[RANK_NB] = {
+    S(0, 0), S(0, 0), S(161, 82), S(167, 88), S(173, 94), S(183, 104), S(203, 124), S(233, 154)
+  };
 
   // Assorted bonuses and penalties
   constexpr Score BishopPawns        = S(  3,  7);
@@ -148,7 +154,6 @@ namespace {
   constexpr Score SliderOnQueen      = S( 59, 18);
   constexpr Score ThreatByKing       = S( 24, 89);
   constexpr Score ThreatByPawnPush   = S( 48, 39);
-  constexpr Score ThreatBySafePawn   = S(173, 94);
   constexpr Score TrappedRook        = S( 47,  4);
   constexpr Score WeakQueen          = S( 49, 15);
 
@@ -538,7 +543,12 @@ namespace {
     // Bonus for attacking enemy pieces with our relatively safe pawns
     b = pos.pieces(Us, PAWN) & safe;
     b = pawn_attacks_bb<Us>(b) & nonPawnEnemies;
-    score += ThreatBySafePawn * popcount(b);
+
+    while (b)
+    {
+       Square ss = pop_lsb(&b);
+       score += ThreatBySafePawn[relative_rank(Us, ss)];
+    }
 
     // Find squares where our pawns can push on the next move
     b  = shift<Up>(pos.pieces(Us, PAWN)) & ~pos.pieces();
