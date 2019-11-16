@@ -134,7 +134,7 @@ namespace {
   // ThreatBySafePawn[Rank] contains a bonus according 
   // to the rank of the attacked pieces
   constexpr Score ThreatBySafePawn[RANK_NB] = {
-    S(0, 0), S(0, 0), S(161, 82), S(167, 88), S(173, 94), S(183, 104), S(203, 124), S(233, 154)
+    S(0, 0), S(0, 0), S(161, 82), S(167, 88), S(173, 94), S(183, 104), S(193, 114), S(203, 124)
   };
 
   // Assorted bonuses and penalties
