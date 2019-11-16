@@ -130,6 +130,12 @@ namespace {
   constexpr Score OutpostRank[RANK_NB] = {
     S(0, 0), S(0, 0), S(0, 0), S(28, 18), S(30, 24), S(32, 19)
   };
+  
+  // LongDiagonalBishop[Rank] contains a bonus/malus according to
+  // the rank of the bishop which can "see" both center squares
+  constexpr Score LongDiagonalBishop[RANK_NB] = {
+    S(49, -22), S(38, -19), S(51, 0), S(0, 0), S(0, 0), S(38, 0), S(51, 0), S(38, -4)
+  };
 
   // Assorted bonuses and penalties
   constexpr Score BishopPawns        = S(  3,  7);
@@ -138,7 +144,6 @@ namespace {
   constexpr Score Hanging            = S( 69, 36);
   constexpr Score KingProtector      = S(  7,  8);
   constexpr Score KnightOnQueen      = S( 16, 12);
-  constexpr Score LongDiagonalBishop = S( 45,  0);
   constexpr Score MinorBehindPawn    = S( 18,  3);
   constexpr Score Outpost            = S( 32, 10);
   constexpr Score PassedFile         = S( 11,  8);
@@ -320,7 +325,7 @@ namespace {
 
                 // Bonus for bishop on a long diagonal which can "see" both center squares
                 if (more_than_one(attacks_bb<BISHOP>(s, pos.pieces(PAWN)) & Center))
-                    score += LongDiagonalBishop;
+                    score += LongDiagonalBishop[relative_rank(Us, s)];
             }
 
             // An important Chess960 pattern: A cornered bishop blocked by a friendly
