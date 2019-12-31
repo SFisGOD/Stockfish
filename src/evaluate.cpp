@@ -147,6 +147,23 @@ namespace {
   constexpr Score ThreatBySafePawn   = S(173, 94);
   constexpr Score TrappedRook        = S( 52, 10);
   constexpr Score WeakQueen          = S( 49, 15);
+  
+  // Complexity bonuses and penalties
+  Score PassedCount        = S(  9,  9);
+  Score PawnCount          = S( 11, 11);
+  Score Outflanking        = S(  9,  9);
+  Score PawnsOnBothFlanks  = S( 21, 21);
+  Score NoPieces           = S( 51, 51);
+  Score AlmostUnwinnable   = S( 43, 43);
+  Score Offset             = S( 45, 95);
+  
+  TUNE(SetRange(   0,  60), PassedCount       ); 
+  TUNE(SetRange(   0,  40), PawnCount         );
+  TUNE(SetRange(   0,  40), Outflanking       );
+  TUNE(SetRange(-150, 150), PawnsOnBothFlanks );
+  TUNE(SetRange(-150, 150), NoPieces          );
+  TUNE(SetRange(-150, 150), AlmostUnwinnable  );
+  TUNE(SetRange(-150, 150), Offset            );
 
 #undef S
 
@@ -702,30 +719,30 @@ namespace {
     Value mg = mg_value(score);
     Value eg = eg_value(score);
 
-    int outflanking =  distance<File>(pos.square<KING>(WHITE), pos.square<KING>(BLACK))
+    int out_flanking =  distance<File>(pos.square<KING>(WHITE), pos.square<KING>(BLACK))
                      - distance<Rank>(pos.square<KING>(WHITE), pos.square<KING>(BLACK));
 
-    bool pawnsOnBothFlanks =   (pos.pieces(PAWN) & QueenSide)
-                            && (pos.pieces(PAWN) & KingSide);
+    bool pawns_on_both_flanks =   (pos.pieces(PAWN) & QueenSide)
+                               && (pos.pieces(PAWN) & KingSide);
 
-    bool almostUnwinnable =   !pe->passed_count()
-                           &&  outflanking < 0
-                           && !pawnsOnBothFlanks;
+    bool almost_unwinnable =   !pe->passed_count()
+                            &&  out_flanking < 0
+                            && !pawns_on_both_flanks;
 
     // Compute the initiative bonus for the attacking side
-    int complexity =   9 * pe->passed_count()
-                    + 11 * pos.count<PAWN>()
-                    +  9 * outflanking
-                    + 21 * pawnsOnBothFlanks
-                    + 51 * !pos.non_pawn_material()
-                    - 43 * almostUnwinnable
-                    - 95 ;
+    Score complexity =  PassedCount       * pe->passed_count()
+                      + PawnCount         * pos.count<PAWN>()
+                      + Outflanking       * out_flanking
+                      + PawnsOnBothFlanks * pawns_on_both_flanks
+                      + NoPieces          * !pos.non_pawn_material()
+                      - AlmostUnwinnable  * almost_unwinnable
+                      - Offset ;
 
     // Now apply the bonus: note that we find the attacking side by extracting the
     // sign of the midgame or endgame values, and that we carefully cap the bonus
     // so that the midgame and endgame scores do not change sign after the bonus.
-    int u = ((mg > 0) - (mg < 0)) * std::max(std::min(complexity + 50, 0), -abs(mg));
-    int v = ((eg > 0) - (eg < 0)) * std::max(complexity, -abs(eg));
+    int u = ((mg > 0) - (mg < 0)) * std::max(std::min(int(mg_value(complexity)), 0), -abs(mg));
+    int v = ((eg > 0) - (eg < 0)) * std::max(int(eg_value(complexity)), -abs(eg));
 
     if (T)
         Trace::add(INITIATIVE, make_score(u, v));
