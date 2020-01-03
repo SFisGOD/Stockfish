@@ -149,13 +149,13 @@ namespace {
   constexpr Score WeakQueen          = S( 49, 15);
   
   // Complexity bonuses and penalties
-  constexpr Score PassedCount        = S( 10, 10);
-  constexpr Score PawnCount          = S( 13, 11);
-  constexpr Score Outflanking        = S(  8,  8);
-  constexpr Score PawnsOnBothFlanks  = S( 10, 25);
-  constexpr Score NoPieces           = S( 53, 40);
-  constexpr Score AlmostUnwinnable   = S( 42, 47);
-  constexpr Score Offset             = S( 52, 98);
+  constexpr Score PassedCount        = S( 11, 12);
+  constexpr Score PawnCount          = S( 12, 11);
+  constexpr Score Outflanking        = S(  8,  9);
+  constexpr Score PawnsOnBothFlanks  = S(  8, 27);
+  constexpr Score NoPieces           = S( 55, 38);
+  constexpr Score AlmostUnwinnable   = S( 44, 49);
+  constexpr Score Offset             = S( 45, 95);
 
 #undef S
 
