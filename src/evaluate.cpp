@@ -154,8 +154,9 @@ namespace {
   constexpr Score Outflanking        = S(  8,  9);
   constexpr Score PawnsOnBothFlanks  = S(  8, 27);
   constexpr Score NoPieces           = S( 55, 38);
+  constexpr Score KingInfiltration   = S( 12, 12);
   constexpr Score AlmostUnwinnable   = S( 44, 49);
-  constexpr Score Offset             = S( 45, 95);
+  constexpr Score Offset             = S( 50,100);
 
 #undef S
 
@@ -720,6 +721,9 @@ namespace {
     bool almost_unwinnable =   !pe->passed_count()
                             &&  out_flanking < 0
                             && !pawns_on_both_flanks;
+							
+    bool king_infiltration = !(rank_of(pos.square<KING>(WHITE)) < RANK_5 
+                            && rank_of(pos.square<KING>(BLACK)) > RANK_4); 
 
     // Compute the initiative bonus for the attacking side
     Score complexity =  PassedCount        * pe->passed_count()
@@ -727,6 +731,7 @@ namespace {
                       + Outflanking        * out_flanking
                       + PawnsOnBothFlanks  * pawns_on_both_flanks
                       + NoPieces           * !pos.non_pawn_material()
+                      + KingInfiltration   * king_infiltration
                       - AlmostUnwinnable   * almost_unwinnable
                       - Offset  ;
 
