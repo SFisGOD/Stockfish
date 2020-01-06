@@ -125,6 +125,12 @@ namespace {
   constexpr Score PassedRank[RANK_NB] = {
     S(0, 0), S(10, 28), S(17, 33), S(15, 41), S(62, 72), S(168, 177), S(276, 260)
   };
+  
+  // ReachableOutpost[Rank] contains a bonus according to 
+  // the rank of the knight that can reach an outpost
+  constexpr Score ReachableOutpost[RANK_NB] = {
+    S(0, 0), S(32, 10), S(32, 10), S(35, 16), S(32, 8), S(36, 5), S(32, 10), S(32, 10)
+  };
 
   // Assorted bonuses and penalties
   constexpr Score BishopPawns        = S(  3,  7);
@@ -139,7 +145,6 @@ namespace {
   constexpr Score PassedFile         = S( 11,  8);
   constexpr Score PawnlessFlank      = S( 17, 95);
   constexpr Score RestrictedPiece    = S(  7,  7);
-  constexpr Score ReachableOutpost   = S( 32, 10);
   constexpr Score RookOnQueenFile    = S(  7,  6);
   constexpr Score SliderOnQueen      = S( 59, 18);
   constexpr Score ThreatByKing       = S( 24, 89);
@@ -296,7 +301,7 @@ namespace {
                 score += Outpost * (Pt == KNIGHT ? 2 : 1);
 
             else if (Pt == KNIGHT && bb & b & ~pos.pieces(Us))
-                score += ReachableOutpost;
+                score += ReachableOutpost[relative_rank(Us, s)];
 
             // Knight and Bishop bonus for being right behind a pawn
             if (shift<Down>(pos.pieces(PAWN)) & s)
