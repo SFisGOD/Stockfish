@@ -129,7 +129,7 @@ namespace {
   // ReachableOutpost[Rank] contains a bonus according to 
   // the rank of the knight that can reach an outpost
   constexpr Score ReachableOutpost[RANK_NB] = {
-    S(0, 0), S(32, 5), S(32, 11), S(38, 18), S(32, 8), S(36, 5), S(32, 16), S(32, 20)
+    S(0, 0), S(32, 10), S(32, 10), S(32, 16), S(32, 8), S(32, 5), S(32, 12), S(32, 14)
   };
 
   // Assorted bonuses and penalties
