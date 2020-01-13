@@ -129,7 +129,7 @@ namespace {
   // LongDiagonalBishop[Rank] contains a bonus/malus according to
   // the rank of the bishop which can "see" both center squares
   constexpr Score LongDiagonalBishop[RANK_NB] = {
-    S(51, -18), S(36, -15), S(53, -5), S(0, 0), S(0, 0), S(34, -6), S(53, 5), S(35, -6)
+    S(52, -13), S(35, -10), S(54, 0), S(0, 0), S(0, 0), S(45, 0), S(45, 0), S(45, 0)
   };
 
   // Assorted bonuses and penalties
