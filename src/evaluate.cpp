@@ -700,6 +700,8 @@ namespace {
 
   template<Tracing T>
   Score Evaluation<T>::initiative(Score score) const {
+	  
+    Color strongSide = mg_value(score) > VALUE_DRAW ? WHITE : BLACK;
 
     int outflanking =  distance<File>(pos.square<KING>(WHITE), pos.square<KING>(BLACK))
                      - distance<Rank>(pos.square<KING>(WHITE), pos.square<KING>(BLACK));
@@ -717,6 +719,7 @@ namespace {
     int complexity =   9 * pe->passed_count()
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
+                    + 20 * !pos.castling_rights(~strongSide)
                     + 21 * pawnsOnBothFlanks
                     + 24 * infiltration
                     + 51 * !pos.non_pawn_material()
