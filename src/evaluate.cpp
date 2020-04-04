@@ -127,7 +127,7 @@ namespace {
   };
 
   // Assorted bonuses and penalties
-  constexpr Score AdvancedPawns       = S(  7, 10);
+  constexpr Score AdvancedPawns       = S(  4,  7);
   constexpr Score BishopPawns         = S(  3,  7);
   constexpr Score CorneredBishop      = S( 50, 50);
   constexpr Score FlankAttacks        = S(  8,  0);
@@ -528,9 +528,7 @@ namespace {
     // Bonus for advanced pawns
     b =  pos.pieces(Us, PAWN)
        & AdvancedRanks
-       & (attackedBy[Us][PAWN] 
-       | (attackedBy2[Us] & ~attackedBy2[Them])
-       | ~attackedBy[Them][ALL_PIECES]);
+       & attackedBy[Us][PAWN];
     score += AdvancedPawns * popcount(b);
 
     // Bonus for restricting their piece moves
