@@ -127,6 +127,7 @@ namespace {
   };
 
   // Assorted bonuses and penalties
+  constexpr Score AdvancedPawns       = S(  7, 10);
   constexpr Score BishopPawns         = S(  3,  7);
   constexpr Score CorneredBishop      = S( 50, 50);
   constexpr Score FlankAttacks        = S(  8,  0);
@@ -483,6 +484,8 @@ namespace {
     constexpr Color     Them     = ~Us;
     constexpr Direction Up       = pawn_push(Us);
     constexpr Bitboard  TRank3BB = (Us == WHITE ? Rank3BB : Rank6BB);
+    constexpr Bitboard AdvancedRanks = (Us == WHITE ? Rank5BB | Rank6BB | Rank7BB
+                                                    : Rank4BB | Rank3BB | Rank2BB);
 
     Bitboard b, weak, defended, nonPawnEnemies, stronglyProtected, safe;
     Score score = SCORE_ZERO;
@@ -522,6 +525,13 @@ namespace {
         // Additional bonus if weak piece is only protected by a queen
         score += WeakQueenProtection * popcount(weak & attackedBy[Them][QUEEN]);
     }
+    // Bonus for advanced pawns
+    b =  pos.pieces(Us, PAWN)
+       & AdvancedRanks
+       & (attackedBy[Us][PAWN] 
+       | (attackedBy2[Us] & ~attackedBy2[Them])
+       | ~attackedBy[Them][ALL_PIECES]);
+    score += AdvancedPawns * popcount(b);
 
     // Bonus for restricting their piece moves
     b =   attackedBy[Them][ALL_PIECES]
