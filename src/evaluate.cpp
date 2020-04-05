@@ -706,6 +706,9 @@ namespace {
 
     bool infiltration = rank_of(pos.square<KING>(WHITE)) > RANK_4
                      || rank_of(pos.square<KING>(BLACK)) < RANK_5;
+					 
+    bool ocb =   pos.opposite_bishops()
+              && pe->passed_count() < 2;
 
     // Compute the initiative bonus for the attacking side
     int complexity =   9 * pe->passed_count()
@@ -714,6 +717,7 @@ namespace {
                     + 21 * pawnsOnBothFlanks
                     + 24 * infiltration
                     + 51 * !pos.non_pawn_material()
+                    - 25 * ocb
                     - 43 * almostUnwinnable
                     -110 ;
 
