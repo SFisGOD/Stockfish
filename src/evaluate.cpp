@@ -142,6 +142,7 @@ namespace {
   constexpr Score RookOnQueenFile     = S(  7,  6);
   constexpr Score SliderOnQueen       = S( 59, 18);
   constexpr Score ThreatByKing        = S( 24, 89);
+  constexpr Score ThreatByQueen       = S( 15, 15);
   constexpr Score ThreatByPawnPush    = S( 48, 39);
   constexpr Score ThreatBySafePawn    = S(173, 94);
   constexpr Score TrappedRook         = S( 52, 10);
@@ -514,6 +515,9 @@ namespace {
 
         if (weak & attackedBy[Us][KING])
             score += ThreatByKing;
+		
+        if (weak & attackedBy[Us][QUEEN])
+            score += ThreatByQueen;
 
         b =  ~attackedBy[Them][ALL_PIECES]
            | (nonPawnEnemies & attackedBy2[Us]);
