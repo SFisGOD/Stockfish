@@ -146,6 +146,7 @@ namespace {
   constexpr Score ThreatBySafePawn    = S(173, 94);
   constexpr Score TrappedRook         = S( 52, 10);
   constexpr Score WeakQueen           = S( 49, 15);
+  constexpr Score WeakKingProtection  = S( 10, 10);
   constexpr Score WeakQueenProtection = S( 14,  0);
 
 #undef S
@@ -514,6 +515,9 @@ namespace {
 
         if (weak & attackedBy[Us][KING])
             score += ThreatByKing;
+		
+        if (weak & attackedBy[Them][KING])
+            score += WeakKingProtection;
 
         b =  ~attackedBy[Them][ALL_PIECES]
            | (nonPawnEnemies & attackedBy2[Us]);
