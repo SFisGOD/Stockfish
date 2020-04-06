@@ -706,14 +706,12 @@ namespace {
 
     bool infiltration = rank_of(pos.square<KING>(WHITE)) > RANK_4
                      || rank_of(pos.square<KING>(BLACK)) < RANK_5;
-					 
-    bool castlingRights =   pos.castling_rights(WHITE) != pos.castling_rights(BLACK);
 
     // Compute the initiative bonus for the attacking side
     int complexity =   9 * pe->passed_count()
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
-                    + 30 * castlingRights
+                    + 13 * (pos.castling_rights(WHITE) + pos.castling_rights(BLACK))
                     + 21 * pawnsOnBothFlanks
                     + 24 * infiltration
                     + 51 * !pos.non_pawn_material()
