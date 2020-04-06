@@ -717,8 +717,8 @@ namespace {
                     + 21 * pawnsOnBothFlanks
                     + 24 * infiltration
                     + 51 * !pos.non_pawn_material()
-                    - 25 * rookEndgames
                     - 43 * almostUnwinnable
+                    - 50 * rookEndgames
                     -110 ;
 
     Value mg = mg_value(score);
