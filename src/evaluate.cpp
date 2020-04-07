@@ -707,14 +707,14 @@ namespace {
     bool infiltration = rank_of(pos.square<KING>(WHITE)) > RANK_4
                      || rank_of(pos.square<KING>(BLACK)) < RANK_5;
 				
-    bool bishopPair =   pos.count<BISHOP>(WHITE) == 2
-                     || pos.count<BISHOP>(BLACK) == 2;
+    bool bishopPair =   (pos.count<BISHOP>(WHITE) == 2 && pos.count<BISHOP>(BLACK) != 2)
+                     || (pos.count<BISHOP>(BLACK) == 2 && pos.count<BISHOP>(WHITE) != 2);
 
     // Compute the initiative bonus for the attacking side
     int complexity =   9 * pe->passed_count()
                     + 11 * pos.count<PAWN>()
                     +  9 * outflanking
-                    + 20 * bishopPair
+                    + 40 * bishopPair
                     + 21 * pawnsOnBothFlanks
                     + 24 * infiltration
                     + 51 * !pos.non_pawn_material()
