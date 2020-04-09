@@ -547,6 +547,10 @@ namespace {
     // Bonus for safe pawn threats on the next move
     b = pawn_attacks_bb<Us>(b) & nonPawnEnemies;
     score += ThreatByPawnPush * popcount(b);
+	
+    // Additional bonus for threats on the center
+    if (b & Center)
+        score += ThreatByPawnPush / 4;
 
     // Bonus for threats on the next moves against enemy queen
     if (pos.count<QUEEN>(Them) == 1)
