@@ -549,8 +549,7 @@ namespace {
     score += ThreatByPawnPush * popcount(b);
 	
     // Additional bonus for threats on the center
-    if (b & Center)
-        score += ThreatByPawnPush / 4;
+    score += ThreatByPawnPush / 4 * popcount(b & Center);
 
     // Bonus for threats on the next moves against enemy queen
     if (pos.count<QUEEN>(Them) == 1)
