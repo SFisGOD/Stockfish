@@ -719,6 +719,9 @@ namespace {
 
     Value mg = mg_value(score);
     Value eg = eg_value(score);
+	
+    if ((((mg > 0) - (mg < 0))*((eg > 0) - (eg < 0)) >= 0) && abs(mg) > abs(eg))
+    complexity += complexity / 6;
 
     // Now apply the bonus: note that we find the attacking side by extracting the
     // sign of the midgame or endgame values, and that we carefully cap the bonus
