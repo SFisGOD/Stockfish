@@ -128,6 +128,7 @@ namespace {
 
   // Assorted bonuses and penalties
   constexpr Score BishopPawns         = S(  3,  7);
+  constexpr Score CenterThreat        = S( 20, 20);
   constexpr Score CorneredBishop      = S( 50, 50);
   constexpr Score FlankAttacks        = S(  8,  0);
   constexpr Score Hanging             = S( 69, 36);
@@ -536,6 +537,9 @@ namespace {
     b = pos.pieces(Us, PAWN) & safe;
     b = pawn_attacks_bb<Us>(b) & nonPawnEnemies;
     score += ThreatBySafePawn * popcount(b);
+	
+    // Additional bonus for threats on the center
+    score += CenterThreat * popcount(b & Center);
 
     // Find squares where our pawns can push on the next move
     b  = shift<Up>(pos.pieces(Us, PAWN)) & ~pos.pieces();
