@@ -635,6 +635,9 @@ namespace {
                     k += 5;
 
                 bonus += make_score(k * w, k * w);
+				
+                if (!((pos.pieces(PAWN) & QueenSide)&&(pos.pieces(PAWN) & KingSide)))
+                    bonus -= bonus / 7;
             }
         } // r > RANK_3
 
