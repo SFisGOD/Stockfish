@@ -128,6 +128,7 @@ namespace {
 
   // Assorted bonuses and penalties
   constexpr Score BishopPawns         = S(  3,  7);
+  constexpr Score BlockedCenter       = S( 15, 15);
   constexpr Score CorneredBishop      = S( 50, 50);
   constexpr Score FlankAttacks        = S(  8,  0);
   constexpr Score Hanging             = S( 69, 36);
@@ -481,10 +482,11 @@ namespace {
   Score Evaluation<T>::threats() const {
 
     constexpr Color     Them     = ~Us;
-    constexpr Direction Up       = pawn_push(Us);
+    constexpr Direction Up       =  pawn_push(Us);
+    constexpr Direction Down     = -Up;
     constexpr Bitboard  TRank3BB = (Us == WHITE ? Rank3BB : Rank6BB);
 
-    Bitboard b, weak, defended, nonPawnEnemies, stronglyProtected, safe;
+    Bitboard b, b1, weak, defended, nonPawnEnemies, stronglyProtected, safe;
     Score score = SCORE_ZERO;
 
     // Non-pawn enemies
@@ -562,6 +564,16 @@ namespace {
            | (attackedBy[Us][ROOK  ] & pos.attacks_from<ROOK  >(s));
 
         score += SliderOnQueen * popcount(b & safe & attackedBy2[Us]);
+    }
+	
+    // Bonus for advancing h pawn if center is blocked
+    b  = shift<Down>(pos.pieces(Them, PAWN)) & pos.pieces(Us, PAWN) & Center;
+    b &= ~attackedBy[Them][PAWN] | (attackedBy[Them][PAWN] & attackedBy[Us][PAWN]);
+    if (more_than_one(b))
+    {
+        b1 = pos.pieces(Us, PAWN) & FileHBB;
+        bool r = (Us == WHITE ? (rank_of(lsb(b1)) >= RANK_4) : (rank_of(lsb(b1)) <= RANK_5));
+        score += BlockedCenter * r;
     }
 
     if (T)
