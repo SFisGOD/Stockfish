@@ -482,7 +482,7 @@ namespace {
   Score Evaluation<T>::threats() const {
 
     constexpr Color     Them     = ~Us;
-    constexpr Direction Up       =  pawn_push(Us);
+    constexpr Direction Up       = pawn_push(Us);
     constexpr Direction Down     = -Up;
     constexpr Bitboard  TRank3BB = (Us == WHITE ? Rank3BB : Rank6BB);
 
@@ -572,8 +572,12 @@ namespace {
     if (more_than_one(b))
     {
         b1 = pos.pieces(Us, PAWN) & FileHBB;
+
+        if (popcount(b1) == 1)
+        {
         bool r = (Us == WHITE ? (rank_of(lsb(b1)) >= RANK_4) : (rank_of(lsb(b1)) <= RANK_5));
         score += BlockedCenter * r;
+        }
     }
 
     if (T)
