@@ -781,13 +781,21 @@ namespace {
             else
                 sf = 22 + 3 * pos.count<ALL_PIECES>(strongSide);
         }
-        else if (  pos.non_pawn_material(WHITE) == RookValueMg
-                && pos.non_pawn_material(BLACK) == RookValueMg
-                && !pe->passed_pawns(strongSide)
-                && pos.count<PAWN>(strongSide) - pos.count<PAWN>(~strongSide) <= 1
+        else if (  !pe->passed_pawns(strongSide)
                 && bool(KingSide & pos.pieces(strongSide, PAWN)) != bool(QueenSide & pos.pieces(strongSide, PAWN))
                 && (attacks_bb<KING>(pos.square<KING>(~strongSide)) & pos.pieces(~strongSide, PAWN)))
+        {
+            if (   pos.non_pawn_material(WHITE) == RookValueMg
+                && pos.non_pawn_material(BLACK) == RookValueMg
+                && pos.count<PAWN>(strongSide) - pos.count<PAWN>(~strongSide) <= 1)
             sf = 36;
+            else if (   pos.non_pawn_material( strongSide) == RookValueMg
+                     && pos.non_pawn_material(~strongSide) == BishopValueMg
+                     && pos.count<PAWN>(~strongSide) - pos.count<PAWN>(strongSide) >= 1)
+            sf = 36;
+            else
+            sf = std::min(sf, 36 + 7 * pos.count<PAWN>(strongSide));
+        }
         else if (pos.count<QUEEN>() == 1)
             sf = 37;
         else
