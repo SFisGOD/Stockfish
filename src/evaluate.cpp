@@ -792,6 +792,8 @@ namespace {
             else if (   pos.non_pawn_material(WHITE) == (RookValueMg + BishopValueMg)
                      && pos.non_pawn_material(BLACK) == (RookValueMg + BishopValueMg))
             sf = 48;
+            else
+            sf = std::min(sf, 36 + 7 * pos.count<PAWN>(strongSide));
         }
         else if (pos.count<QUEEN>() == 1)
             sf = 37;
