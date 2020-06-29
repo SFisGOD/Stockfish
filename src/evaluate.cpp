@@ -791,7 +791,7 @@ namespace {
             sf = 36;
             else if (   pos.non_pawn_material(WHITE) == (RookValueMg + BishopValueMg)
                      && pos.non_pawn_material(BLACK) == (RookValueMg + BishopValueMg))
-            sf = 36;
+            sf = 48;
         }
         else if (pos.count<QUEEN>() == 1)
             sf = 37;
