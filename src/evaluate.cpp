@@ -132,6 +132,7 @@ namespace {
   constexpr Score BishopOutpost       = S( 30, 23);
   constexpr Score BishopPawns         = S(  3,  7);
   constexpr Score BishopXRayPawns     = S(  4,  5);
+  constexpr Score BlockedCenter       = S( 15, 15);
   constexpr Score CorneredBishop      = S( 50, 50);
   constexpr Score FlankAttacks        = S(  8,  0);
   constexpr Score Hanging             = S( 69, 36);
@@ -588,6 +589,12 @@ namespace {
         score += SliderOnQueen * popcount(b & safe & attackedBy2[Us]);
     }
 
+    // Penalty if center is blocked
+    b  = shift<Up>(pos.pieces(Us, PAWN)) & pos.pieces(Them, PAWN);
+    b &= Center & ~attackedBy[Us][PAWN];
+    if (more_than_one(b))
+        score -= BlockedCenter;
+	
     if (T)
         Trace::add(THREAT, Us, score);
 
