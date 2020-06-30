@@ -778,10 +778,18 @@ namespace {
             if (   pos.non_pawn_material(WHITE) == BishopValueMg
                 && pos.non_pawn_material(BLACK) == BishopValueMg)
             {
-                if (pe->passed_pawns(strongSide) & attacks_bb<KING>(pos.square<KING>(~strongSide)))
+                int passedCount = popcount(pe->passed_pawns(strongSide));
+                Bitboard b =  pos.pieces(~strongSide, KING)
+                            |(pos.pieces(~strongSide, BISHOP) & attackedBy[~strongSide][KING])  				
+                            | attackedBy2[~strongSide] 
+                            |(attackedBy[~strongSide][ALL_PIECES] & ~attackedBy[strongSide][ALL_PIECES]);
+				
+                if ( passedCount == 0 )
                     sf = 18;
+                else if ( strongSide == WHITE )
+                    sf = 18 + 4 * (passedCount - popcount(shift<NORTH>(pe->passed_pawns(strongSide)) & b));
                 else
-				    sf = 18 + 4 * popcount(pe->passed_pawns(strongSide));
+                    sf = 18 + 4 * (passedCount - popcount(shift<SOUTH>(pe->passed_pawns(strongSide)) & b));
             }
             else
                 sf = 22 + 3 * pos.count<ALL_PIECES>(strongSide);
