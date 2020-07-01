@@ -780,11 +780,11 @@ namespace {
             {
                 int passedCount = popcount(pe->passed_pawns(strongSide));
                 if ( passedCount == 0 )
-                    sf = 18;
+                    sf = 16;
                 else if ( strongSide == WHITE )
-                    sf = 18 + 4 * (passedCount - popcount(shift<NORTH>(pe->passed_pawns(WHITE)) & (pos.pieces(BLACK, KING) | attackedBy2[BLACK])));
+                    sf = 16 + 5 * (passedCount - popcount(shift<NORTH>(pe->passed_pawns(WHITE)) & (pos.pieces(BLACK, KING) | (attackedBy2[BLACK] & ~attackedBy[WHITE][PAWN]))));
                 else
-                    sf = 18 + 4 * (passedCount - popcount(shift<SOUTH>(pe->passed_pawns(BLACK)) & (pos.pieces(WHITE, KING) | attackedBy2[WHITE])));
+                    sf = 16 + 5 * (passedCount - popcount(shift<SOUTH>(pe->passed_pawns(BLACK)) & (pos.pieces(WHITE, KING) | (attackedBy2[WHITE] & ~attackedBy[BLACK][PAWN]))));
             }
             else
                 sf = 22 + 3 * pos.count<ALL_PIECES>(strongSide);
