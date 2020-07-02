@@ -777,7 +777,12 @@ namespace {
         {
             if (   pos.non_pawn_material(WHITE) == BishopValueMg
                 && pos.non_pawn_material(BLACK) == BishopValueMg)
-                sf = 18 + 4 * popcount(pe->passed_pawns(strongSide));
+            {
+                if ( strongSide == WHITE )
+                    sf = 18 + 4 * popcount(shift<NORTH>(pe->passed_pawns(WHITE)) & ~(pos.pieces(BLACK, KING) | attackedBy2[BLACK] ));
+                else
+                    sf = 18 + 4 * popcount(shift<SOUTH>(pe->passed_pawns(BLACK)) & ~(pos.pieces(WHITE, KING) | attackedBy2[WHITE] ));
+            }
             else
                 sf = 22 + 3 * pos.count<ALL_PIECES>(strongSide);
         }
