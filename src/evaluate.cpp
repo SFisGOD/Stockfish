@@ -791,6 +791,8 @@ namespace {
         else if (pos.count<QUEEN>() == 1)
             sf = 37 + 3 * (pos.count<QUEEN>(WHITE) == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
                                                         : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
+        else if (pe->passed_pawns(strongSide) && !more_than_one(pe->passed_pawns(strongSide)))
+            sf = 56;
         else
             sf = std::min(sf, 36 + 7 * pos.count<PAWN>(strongSide));
     }
