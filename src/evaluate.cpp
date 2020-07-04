@@ -775,6 +775,13 @@ namespace {
             else
                 sf = 22 + 3 * pos.count<ALL_PIECES>(strongSide);
         }
+        else if (((pos.non_pawn_material(WHITE) == BishopValueMg && pos.non_pawn_material(BLACK) == KnightValueMg)
+                ||(pos.non_pawn_material(WHITE) == KnightValueMg && pos.non_pawn_material(BLACK) == BishopValueMg))
+                && !more_than_one(pe->passed_pawns(strongSide))
+                && pos.count<PAWN>(strongSide) - pos.count<PAWN>(~strongSide) <= 1
+                && bool(KingSide & pos.pieces(PAWN)) != bool(QueenSide & pos.pieces(PAWN))
+                && (pos.pieces(~strongSide, PAWN) & attackedBy[~strongSide][KING]))
+            sf = 36;
         else if (  pos.non_pawn_material(WHITE) == RookValueMg
                 && pos.non_pawn_material(BLACK) == RookValueMg
                 && pos.count<PAWN>(strongSide) - pos.count<PAWN>(~strongSide) <= 1
