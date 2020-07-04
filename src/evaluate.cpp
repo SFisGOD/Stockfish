@@ -782,8 +782,8 @@ namespace {
                 && (attacks_bb<KING>(pos.square<KING>(~strongSide)) & pos.pieces(~strongSide, PAWN)))
             sf = 36;
         else if (pos.count<QUEEN>() == 1)
-            sf = 37 + 3 * (pos.count<QUEEN>(WHITE) == 1 ? 8 - pos.count<PAWN>(BLACK)
-                                                        : 8 - pos.count<PAWN>(WHITE)) / 4
+            sf = 37 +     (pos.count<QUEEN>(WHITE) == 1 ? pos.count<PAWN>(BLACK)
+                                                        : pos.count<PAWN>(WHITE))
                     + 3 * (pos.count<QUEEN>(WHITE) == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
                                                         : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
         else
