@@ -1110,7 +1110,8 @@ moves_loop: // When in check, search starts from here
           extension = 1;
 	  
       // Queen capture extension
-      if (type_of(pos.piece_on(to_sq(move))) == QUEEN)
+      if (   type_of(pos.piece_on(to_sq(move))) == QUEEN
+          && type_of(movedPiece) == QUEEN)
           extension = 1;
 
       // Late irreversible move extension
