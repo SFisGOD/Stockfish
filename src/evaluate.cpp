@@ -782,14 +782,36 @@ namespace {
                 && (attacks_bb<KING>(pos.square<KING>(~strongSide)) & pos.pieces(~strongSide, PAWN)))
             sf = 36;
         else if (  pos.non_pawn_material( strongSide) == RookValueMg
-                && pos.non_pawn_material(~strongSide) == BishopValueMg
-                && pos.count<PAWN>(strongSide) == 1
+                && pos.non_pawn_material(~strongSide) == BishopValueMg)
+        {
+            if (    pos.count<PAWN>( strongSide) == 1
+                &&  pos.count<PAWN>(~strongSide) <= 2
                 && (pos.pieces(strongSide, PAWN) & (FileABB | FileHBB))
-                && (pos.pieces(strongSide, PAWN) & (strongSide == WHITE ? Rank2BB | Rank3BB | Rank4BB
-                                                                        : Rank5BB | Rank6BB | Rank7BB))
                 && (strongSide == WHITE ? shift<NORTH>(pos.pieces(strongSide, PAWN)) & pos.pieces(~strongSide, PAWN) & attackedBy[~strongSide][BISHOP]
                                         : shift<SOUTH>(pos.pieces(strongSide, PAWN)) & pos.pieces(~strongSide, PAWN) & attackedBy[~strongSide][BISHOP]))
-            sf = 36;
+            {
+                if (pos.pieces(strongSide, PAWN) & (strongSide == WHITE ? Rank2BB | Rank3BB | Rank4BB
+                                                                        : Rank5BB | Rank6BB | Rank7BB))
+                    sf = 36;
+                else if (  (pos.pieces( strongSide, PAWN) & (strongSide == WHITE ? Rank5BB : Rank4BB))
+                         &&(pos.pieces(~strongSide, PAWN) & (FileABB | FileHBB) & attackedBy[~strongSide][PAWN])
+                         &&(attacks_bb<KING>(pos.square<KING>(~strongSide)) & pos.pieces(~strongSide, PAWN)))
+                    sf = 36;
+                else
+                    sf = 43;
+            }
+            else if (   pos.count<PAWN>( strongSide) == 2
+                     && pos.count<PAWN>(~strongSide) == 2
+                     &&(pos.pieces(PAWN) & ~CenterFiles)
+                     && bool(KingSide & pos.pieces(PAWN)) != bool(QueenSide & pos.pieces(PAWN))
+                     &&(pos.pieces(~strongSide, PAWN) & (FileABB | FileHBB) & attackedBy[~strongSide][PAWN])
+                     &&(pos.pieces(~strongSide, PAWN) & (FileBBB | FileGBB) & attackedBy[~strongSide][BISHOP])
+                     &&(strongSide == WHITE ? shift<NORTH>(pos.pieces(strongSide, PAWN) & (FileABB | FileHBB)) & pos.pieces(~strongSide, PAWN)
+                                            : shift<SOUTH>(pos.pieces(strongSide, PAWN) & (FileABB | FileHBB)) & pos.pieces(~strongSide, PAWN)))
+                sf = 36;
+            else
+                sf = std::min(sf, 36 + 7 * pos.count<PAWN>(strongSide));
+        }
         else if (pos.count<QUEEN>() == 1)
             sf = 37 + 3 * (pos.count<QUEEN>(WHITE) == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
                                                         : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
