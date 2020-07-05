@@ -781,6 +781,15 @@ namespace {
                 && bool(KingSide & pos.pieces(strongSide, PAWN)) != bool(QueenSide & pos.pieces(strongSide, PAWN))
                 && (attacks_bb<KING>(pos.square<KING>(~strongSide)) & pos.pieces(~strongSide, PAWN)))
             sf = 36;
+        else if (  pos.non_pawn_material( strongSide) == RookValueMg
+                && pos.non_pawn_material(~strongSide) == BishopValueMg
+                && pos.count<PAWN>(strongSide) == 1
+                && (pos.pieces(strongSide, PAWN) & (FileABB | FileHBB))
+                && (pos.pieces(strongSide, PAWN) & (strongSide == WHITE ? Rank2BB | Rank3BB | Rank4BB
+                                                                        : Rank5BB | Rank6BB | Rank7BB))
+                && (strongSide == WHITE ? shift<NORTH>(pos.pieces(strongSide, PAWN)) & pos.pieces(~strongSide, PAWN) & attackedBy[~strongSide][BISHOP]
+                                        : shift<SOUTH>(pos.pieces(strongSide, PAWN)) & pos.pieces(~strongSide, PAWN) & attackedBy[~strongSide][BISHOP]))
+            sf = 36;
         else if (pos.count<QUEEN>() == 1)
             sf = 37 + 3 * (pos.count<QUEEN>(WHITE) == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
                                                         : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
