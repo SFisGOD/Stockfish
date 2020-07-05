@@ -783,7 +783,7 @@ namespace {
             sf = 36;
         else if (  pos.non_pawn_material( strongSide) == RookValueMg
                 && pos.non_pawn_material(~strongSide) == BishopValueMg
-                && (pos.pieces(PAWN) & ~CenterFiles)
+                && !(pos.pieces(PAWN) & CenterFiles)
                 && pos.count<PAWN>(~strongSide) - pos.count<PAWN>(strongSide) > 0
                 && bool(KingSide & pos.pieces(PAWN)) != bool(QueenSide & pos.pieces(PAWN)))
             sf = 36;
