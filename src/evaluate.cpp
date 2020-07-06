@@ -781,7 +781,7 @@ namespace {
                 && pawnsOnBothFlanks
                 && pos.pawns_on_same_color_squares(~strongSide, pos.square<BISHOP>(strongSide)) >= 3 
                 && more_than_one(pos.pieces(~strongSide, PAWN) & ~attackedBy[~strongSide][PAWN]))
-            sf = 92;
+            sf = 96;
         else if (  pos.non_pawn_material(WHITE) == RookValueMg
                 && pos.non_pawn_material(BLACK) == RookValueMg
                 && pos.count<PAWN>(strongSide) - pos.count<PAWN>(~strongSide) <= 1
