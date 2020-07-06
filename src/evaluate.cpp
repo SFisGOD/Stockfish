@@ -787,7 +787,7 @@ namespace {
                 && !pawnsOnBothFlanks
                 && pos.count<PAWN>(~strongSide) - pos.count<PAWN>(strongSide) >= 0
                 && (pos.pieces(~strongSide, PAWN) & attackedBy[~strongSide][KING]))
-            sf = 28;
+            sf = 36;
         else if (pos.count<QUEEN>() == 1)
             sf = 37 + 3 * (pos.count<QUEEN>(WHITE) == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
                                                         : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
