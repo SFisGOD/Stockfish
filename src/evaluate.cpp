@@ -784,7 +784,7 @@ namespace {
                 sf = 36;
             else if (   !(pos.pieces(PAWN) & CenterFiles)
                      && !pawnsOnBothFlanks)
-                sf = 24;
+                sf = 28;
             else
                 sf = std::min(sf, 36 + 7 * pos.count<PAWN>(strongSide));
         }
