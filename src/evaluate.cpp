@@ -787,7 +787,7 @@ namespace {
                 && !pawnsOnBothFlanks
                 && pos.count<PAWN>(~strongSide) - pos.count<PAWN>(strongSide) >= 0
                 && pos.pawns_on_same_color_squares(~strongSide, pos.square<BISHOP>(~strongSide)) >= 1)
-            sf = 36;
+            sf = 28;
         else if (pos.count<QUEEN>() == 1)
             sf = 37 + 3 * (pos.count<QUEEN>(WHITE) == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
                                                         : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
