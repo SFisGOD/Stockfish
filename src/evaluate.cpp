@@ -725,6 +725,10 @@ namespace {
 
   template<Tracing T>
   Value Evaluation<T>::winnable(Score score) const {
+	  
+    Value mg = mg_value(score);
+    Value eg = eg_value(score);
+    Color strongSide = eg > VALUE_DRAW ? WHITE : BLACK;
 
     int outflanking =  distance<File>(pos.square<KING>(WHITE), pos.square<KING>(BLACK))
                      - distance<Rank>(pos.square<KING>(WHITE), pos.square<KING>(BLACK));
@@ -737,6 +741,13 @@ namespace {
 
     bool infiltration =   rank_of(pos.square<KING>(WHITE)) > RANK_4
                        || rank_of(pos.square<KING>(BLACK)) < RANK_5;
+					   
+    bool sameColoredBishops =   pos.non_pawn_material(WHITE) == BishopValueMg
+                             && pos.non_pawn_material(BLACK) == BishopValueMg
+                             && !pos.opposite_bishops()
+                             && pawnsOnBothFlanks
+                             && pos.pawns_on_same_color_squares(~strongSide, pos.square<BISHOP>(strongSide)) >= 3 
+                             && more_than_one(pos.pieces(~strongSide, PAWN) & ~attackedBy[~strongSide][PAWN]);
 
     // Compute the initiative bonus for the attacking side
     int complexity =   9 * pe->passed_count()
@@ -744,12 +755,10 @@ namespace {
                     +  9 * outflanking
                     + 21 * pawnsOnBothFlanks
                     + 24 * infiltration
+                    + 24 * sameColoredBishops
                     + 51 * !pos.non_pawn_material()
                     - 43 * almostUnwinnable
                     -110 ;
-
-    Value mg = mg_value(score);
-    Value eg = eg_value(score);
 
     // Now apply the bonus: note that we find the attacking side by extracting the
     // sign of the midgame or endgame values, and that we carefully cap the bonus
@@ -761,7 +770,6 @@ namespace {
     eg += v;
 
     // Compute the scale factor for the winning side
-    Color strongSide = eg > VALUE_DRAW ? WHITE : BLACK;
     int sf = me->scale_factor(pos, strongSide);
 
     // If scale is not already specific, scale down the endgame via general heuristics
