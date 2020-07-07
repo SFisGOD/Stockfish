@@ -781,6 +781,11 @@ namespace {
                 && bool(KingSide & pos.pieces(strongSide, PAWN)) != bool(QueenSide & pos.pieces(strongSide, PAWN))
                 && (attacks_bb<KING>(pos.square<KING>(~strongSide)) & pos.pieces(~strongSide, PAWN)))
             sf = 36;
+        else if (  pos.non_pawn_material(WHITE) == pos.non_pawn_material(BLACK)
+                && !(pos.pieces(PAWN) & (FileDBB | FileEBB))
+                && almostUnwinnable
+                && pos.count<PAWN>(strongSide) - pos.count<PAWN>(~strongSide) <= 1)
+            sf = 36;
         else if (pos.count<QUEEN>() == 1)
             sf = 37 + 3 * (pos.count<QUEEN>(WHITE) == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
                                                         : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
