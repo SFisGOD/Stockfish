@@ -775,15 +775,23 @@ namespace {
             else
                 sf = 22 + 3 * pos.count<ALL_PIECES>(strongSide);
         }
+        else if (pos.count<QUEEN>() == 1)
+            sf = 37 + 3 * (pos.count<QUEEN>(WHITE) == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
+                                                        : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
         else if (  pos.non_pawn_material(WHITE) == RookValueMg
                 && pos.non_pawn_material(BLACK) == RookValueMg
                 && pos.count<PAWN>(strongSide) - pos.count<PAWN>(~strongSide) <= 1
                 && bool(KingSide & pos.pieces(strongSide, PAWN)) != bool(QueenSide & pos.pieces(strongSide, PAWN))
                 && (attacks_bb<KING>(pos.square<KING>(~strongSide)) & pos.pieces(~strongSide, PAWN)))
             sf = 36;
-        else if (pos.count<QUEEN>() == 1)
-            sf = 37 + 3 * (pos.count<QUEEN>(WHITE) == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
-                                                        : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
+        else if (  pos.non_pawn_material( strongSide) == RookValueMg
+                && pos.non_pawn_material(~strongSide) == BishopValueMg
+                && !pawnsOnBothFlanks
+                && !(pos.pieces(strongSide, PAWN) & CenterFiles)
+                && (pos.pieces(~strongSide, PAWN) & ~CenterFiles)
+                && pos.count<PAWN>(~strongSide) - pos.count<PAWN>(strongSide) >= 0
+                && pos.pawns_on_same_color_squares(~strongSide, pos.square<BISHOP>(~strongSide)) >= 1)
+            sf = 36;
         else
             sf = std::min(sf, 36 + 7 * pos.count<PAWN>(strongSide));
     }
