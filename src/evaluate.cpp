@@ -785,9 +785,8 @@ namespace {
                 && pos.non_pawn_material(~strongSide) == BishopValueMg
                 && !(pos.pieces(PAWN) & CenterFiles)
                 && !pawnsOnBothFlanks
-                && pos.count<PAWN>(~strongSide) - pos.count<PAWN>(strongSide) >= 0
-                && (pos.pieces(~strongSide, PAWN) & attackedBy[~strongSide][KING]))
-            sf = 28;
+                && pos.count<PAWN>(~strongSide) - pos.count<PAWN>(strongSide) >= 0)
+            sf = 40 - 4 * pos.pawns_on_same_color_squares(~strongSide, pos.square<BISHOP>(~strongSide));
         else if (pos.count<QUEEN>() == 1)
             sf = 37 + 3 * (pos.count<QUEEN>(WHITE) == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
                                                         : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
