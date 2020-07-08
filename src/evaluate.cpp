@@ -312,7 +312,7 @@ namespace {
             bb = OutpostRanks & attackedBy[Us][PAWN] & ~pe->pawn_attacks_span(Them);
             // Penalty if knight is on a bad outpost square
             if (   Pt == KNIGHT 
-                && bb & s & ~CenterFiles & (Us == WHITE ? Rank6BB : Rank3BB)
+                && bb & s & ~CenterFiles
                 && !(b & pos.pieces(Them) & ~pos.pieces(PAWN))
                 && b & pos.pieces(Them, PAWN) & attackedBy[Them][PAWN] & ~attackedBy[Us][PAWN])
                 score -= BadOutpost;
