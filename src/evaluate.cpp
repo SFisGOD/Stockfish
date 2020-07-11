@@ -315,7 +315,7 @@ namespace {
                 && bb & s & ~CenterFiles
                 && !(b & pos.pieces(Them) & ~pos.pieces(PAWN))
                 && !more_than_one(pos.pieces(Them) & ~pos.pieces(PAWN) & (s & QueenSide ? QueenSide : KingSide))
-                && !(pos.pieces(Them, ROOK) & (s & QueenSide ? QueenSide : KingSide)))
+                && more_than_one(pos.pieces(Them, ROOK) & CenterFiles))
                 score += BadOutpost;
             else if (bb & s)
                 score += Outpost[Pt == BISHOP];
