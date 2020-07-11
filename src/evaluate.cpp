@@ -325,13 +325,10 @@ namespace {
 							score += BadOutpost;
                         else
                             score += Outpost[0];
-						
                     }
                     else
                     {
-                        if ((SQ_H8 & pos.pieces(Them)) && !more_than_two((pos.pieces(Them) & ~pos.pieces(PAWN)) & KingSide))
-                            score += BadOutpost;
-                        else if((SQ_H8 & ~pos.pieces(Them)) && !more_than_one((pos.pieces(Them) & ~pos.pieces(PAWN)) & KingSide))
+                        if(!more_than_one((pos.pieces(Them) & ~pos.pieces(PAWN)) & KingSide))
 							score += BadOutpost;
                         else
                             score += Outpost[0];
@@ -347,13 +344,10 @@ namespace {
 							score += BadOutpost;
                         else
                             score += Outpost[0];
-						
                     }
                     else
                     {
-                        if ((SQ_H1 & pos.pieces(Them)) && !more_than_two((pos.pieces(Them) & ~pos.pieces(PAWN)) & KingSide))
-                            score += BadOutpost;
-                        else if((SQ_H1 & ~pos.pieces(Them)) && !more_than_one((pos.pieces(Them) & ~pos.pieces(PAWN)) & KingSide))
+                        if(!more_than_one((pos.pieces(Them) & ~pos.pieces(PAWN)) & KingSide))
 							score += BadOutpost;
                         else
                             score += Outpost[0];
