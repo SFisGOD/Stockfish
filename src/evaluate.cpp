@@ -793,7 +793,8 @@ namespace {
                                                         : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
         else if (   pos.non_pawn_material( strongSide) == RookValueMg
                  && pos.non_pawn_material(~strongSide) == BishopValueMg)
-            sf = std::min(sf, 36 + 7 * popcount(pos.pieces(strongSide, PAWN) & ~(FileABB | FileHBB)));
+            sf = std::min(sf, 36 + 9 * popcount(pos.pieces(strongSide, PAWN) & CenterFiles)
+                                 + 3 * popcount(pos.pieces(strongSide, PAWN) & (FileBBB | FileGBB)));
         else
             sf = std::min(sf, 36 + 7 * pos.count<PAWN>(strongSide));
     }
