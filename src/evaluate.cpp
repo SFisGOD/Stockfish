@@ -140,7 +140,7 @@ namespace {
   constexpr Score BishopXRayPawns     = S(  4,  5);
   constexpr Score CorneredBishop      = S( 50, 50);
   constexpr Score FlankAttacks        = S(  8,  0);
-  constexpr Score GoodReachableOutpost= S( 51, 22);
+  constexpr Score GoodReachableOutpost= S( 56, 22);
   constexpr Score Hanging             = S( 69, 36);
   constexpr Score KnightOnQueen       = S( 16, 11);
   constexpr Score LongDiagonalBishop  = S( 45,  0);
@@ -324,7 +324,7 @@ namespace {
             {
                 if (bb & b & CenterFiles & ~pos.pieces(Us) & attacks_bb<KNIGHT>(pos.square<KING>(Them)))
                     score += GoodReachableOutpost;
-				else
+                else
                     score += ReachableOutpost;
             }
 
