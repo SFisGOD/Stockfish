@@ -140,7 +140,7 @@ namespace {
   constexpr Score BishopXRayPawns     = S(  4,  5);
   constexpr Score CorneredBishop      = S( 50, 50);
   constexpr Score FlankAttacks        = S(  8,  0);
-  constexpr Score GoodReachableOutpost= S( 31, 31);
+  constexpr Score GoodReachableOutpost= S( 46, 29);
   constexpr Score Hanging             = S( 69, 36);
   constexpr Score KnightOnQueen       = S( 16, 11);
   constexpr Score LongDiagonalBishop  = S( 45,  0);
@@ -272,7 +272,7 @@ namespace {
                                                    : Rank5BB | Rank4BB | Rank3BB);
     const Square* pl = pos.squares<Pt>(Us);
 
-    Bitboard b, bb;
+    Bitboard b, bb, b1;
     Score score = SCORE_ZERO;
 
     attackedBy[Us][Pt] = 0;
@@ -312,6 +312,7 @@ namespace {
         {
             // Bonus if piece is on an outpost square or can reach one
             bb = OutpostRanks & attackedBy[Us][PAWN] & ~pe->pawn_attacks_span(Them);
+            b1 = pos.pieces(Them) & ~attackedBy[Them][ALL_PIECES];
             if (   Pt == KNIGHT
                 && bb & s & ~CenterFiles
                 && !(b & pos.pieces(Them) & ~pos.pieces(PAWN))
@@ -322,9 +323,15 @@ namespace {
                 score += Outpost[Pt == BISHOP];
             else if (Pt == KNIGHT && bb & b & ~pos.pieces(Us))
             {
-                if (bb & b & CenterFiles & ~pos.pieces(Us) & attacks_bb<KNIGHT>(pos.square<KING>(Them)))
-                    score += GoodReachableOutpost;
-				else
+                if (b1)
+                {
+                    Square ss = lsb(b1);
+                    if (bb & b & ~pos.pieces(Us) & CenterFiles & attacks_bb<KNIGHT>(ss))
+                        score += GoodReachableOutpost;
+                    else
+                        score += ReachableOutpost;
+                }
+                else
                     score += ReachableOutpost;
             }
 
