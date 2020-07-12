@@ -140,6 +140,7 @@ namespace {
   constexpr Score BishopXRayPawns     = S(  4,  5);
   constexpr Score CorneredBishop      = S( 50, 50);
   constexpr Score FlankAttacks        = S(  8,  0);
+  constexpr Score GoodReachableOutpost= S( 51, 22);
   constexpr Score Hanging             = S( 69, 36);
   constexpr Score KnightOnQueen       = S( 16, 11);
   constexpr Score LongDiagonalBishop  = S( 45,  0);
@@ -320,7 +321,12 @@ namespace {
             else if (bb & s)
                 score += Outpost[Pt == BISHOP];
             else if (Pt == KNIGHT && bb & b & ~pos.pieces(Us))
-                score += ReachableOutpost;
+            {
+                if (bb & b & CenterFiles & ~pos.pieces(Us) & attacks_bb<KNIGHT>(pos.square<KING>(Them)))
+                    score += GoodReachableOutpost;
+				else
+                    score += ReachableOutpost;
+            }
 
             // Bonus for a knight or bishop shielded by pawn
             if (shift<Down>(pos.pieces(PAWN)) & s)
