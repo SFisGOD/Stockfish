@@ -271,7 +271,7 @@ namespace {
                                                    : Rank5BB | Rank4BB | Rank3BB);
     const Square* pl = pos.squares<Pt>(Us);
 
-    Bitboard b, bb;
+    Bitboard b, bb, b1;
     Score score = SCORE_ZERO;
 
     attackedBy[Us][Pt] = 0;
@@ -311,11 +311,11 @@ namespace {
         {
             // Bonus if piece is on an outpost square or can reach one
             bb = OutpostRanks & attackedBy[Us][PAWN] & ~pe->pawn_attacks_span(Them);
+            b1 = pos.pieces(Them) & ~pos.pieces(PAWN) & (s & QueenSide ? QueenSide : KingSide);
             if (   Pt == KNIGHT
                 && bb & s & ~CenterFiles
                 && !(b & pos.pieces(Them) & ~pos.pieces(PAWN))
-                && !more_than_one(pos.pieces(Them) & ~pos.pieces(PAWN) & (s & QueenSide ? QueenSide : KingSide))
-                && !(pos.pieces(Them, ROOK) & (s & QueenSide ? QueenSide : KingSide) & (Us == WHITE ? Rank8BB : Rank1BB)))
+                && ((pos.pieces(Them) & SQ_A1)? !more_than_two(b1):!more_than_one(b1)))
                 score += BadOutpost;
             else if (bb & s)
                 score += Outpost[Pt == BISHOP];
