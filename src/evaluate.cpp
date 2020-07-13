@@ -140,6 +140,7 @@ namespace {
   constexpr Score BishopXRayPawns     = S(  4,  5);
   constexpr Score CorneredBishop      = S( 50, 50);
   constexpr Score FlankAttacks        = S(  8,  0);
+  constexpr Score GoodOutpost         = S( 84, 36);
   constexpr Score Hanging             = S( 69, 36);
   constexpr Score KnightOnQueen       = S( 16, 11);
   constexpr Score LongDiagonalBishop  = S( 45,  0);
@@ -317,6 +318,11 @@ namespace {
                 && !conditional_more_than_two(
                       pos.pieces(Them) & ~pos.pieces(PAWN) & (s & QueenSide ? QueenSide : KingSide)))
                 score += BadOutpost;
+            else if (   Pt == KNIGHT
+                     && bb & s & CenterFiles
+                     && b & attacks_bb<KING>(pos.square<KING>(Them)) 
+                     && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN])
+                score += GoodOutpost;
             else if (bb & s)
                 score += Outpost[Pt == BISHOP];
             else if (Pt == KNIGHT && bb & b & ~pos.pieces(Us))
