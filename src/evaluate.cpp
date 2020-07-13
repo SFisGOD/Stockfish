@@ -323,8 +323,8 @@ namespace {
             else if (   Pt == KNIGHT
                      && bb & s & CenterFiles
                      && b & b1
-                     && (more_than_one(b1)? more_than_one(attacks_bb<KING>(pos.square<KING>(Them)) & b       )
-                                          : more_than_two(attacks_bb<KING>(pos.square<KING>(Them)) & (b | b2))))
+                     && (more_than_one(b & b1)? more_than_one(attacks_bb<KING>(pos.square<KING>(Them)) & b       )
+                                              : more_than_two(attacks_bb<KING>(pos.square<KING>(Them)) & (b | b2))))
                 score += GoodOutpost;
             else if (bb & s)
                 score += Outpost[Pt == BISHOP];
