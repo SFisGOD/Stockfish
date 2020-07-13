@@ -140,6 +140,7 @@ namespace {
   constexpr Score BishopXRayPawns     = S(  4,  5);
   constexpr Score CorneredBishop      = S( 50, 50);
   constexpr Score FlankAttacks        = S(  8,  0);
+  constexpr Score GoodOutpost         = S( 89, 56);
   constexpr Score Hanging             = S( 69, 36);
   constexpr Score KnightOnQueen       = S( 16, 11);
   constexpr Score LongDiagonalBishop  = S( 45,  0);
@@ -271,7 +272,7 @@ namespace {
                                                    : Rank5BB | Rank4BB | Rank3BB);
     const Square* pl = pos.squares<Pt>(Us);
 
-    Bitboard b, bb;
+    Bitboard b, bb, b1, b2;
     Score score = SCORE_ZERO;
 
     attackedBy[Us][Pt] = 0;
@@ -311,12 +312,20 @@ namespace {
         {
             // Bonus if piece is on an outpost square or can reach one
             bb = OutpostRanks & attackedBy[Us][PAWN] & ~pe->pawn_attacks_span(Them);
+            b1 = pos.pieces(Them) & ~pos.pieces(PAWN, KNIGHT) & ~attackedBy[Them][PAWN];
+            b2 = attackedBy[Us][PAWN] | attacks_bb<BISHOP>(pos.square<BISHOP>(Us));
             if (   Pt == KNIGHT
                 && bb & s & ~CenterFiles
                 && !(b & pos.pieces(Them) & ~pos.pieces(PAWN))
                 && !conditional_more_than_two(
                       pos.pieces(Them) & ~pos.pieces(PAWN) & (s & QueenSide ? QueenSide : KingSide)))
                 score += BadOutpost;
+            else if (   Pt == KNIGHT
+                     && bb & s & CenterFiles
+                     && b & b1
+                     && (more_than_one(b1)? more_than_one(attacks_bb<KING>(pos.square<KING>(Them)) & b       )
+                                          : more_than_two(attacks_bb<KING>(pos.square<KING>(Them)) & (b | b2))))
+                score += GoodOutpost;
             else if (bb & s)
                 score += Outpost[Pt == BISHOP];
             else if (Pt == KNIGHT && bb & b & ~pos.pieces(Us))
