@@ -784,7 +784,7 @@ namespace {
         }
         else if (   pos.non_pawn_material(WHITE) == BishopValueMg
                  && pos.non_pawn_material(BLACK) == BishopValueMg)
-            sf = std::min(sf, 28 +  7 * (pos.count<PAWN>(strongSide) - pos.count<PAWN>(~strongSide))
+            sf = std::min(sf, 31 +  7 * (pos.count<PAWN>(strongSide) - pos.count<PAWN>(~strongSide))
                                  + 14 * pos.pawns_on_same_color_squares(~strongSide, pos.square<BISHOP>(strongSide)));
         else if (  pos.non_pawn_material(WHITE) == RookValueMg
                 && pos.non_pawn_material(BLACK) == RookValueMg
