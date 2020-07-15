@@ -1123,6 +1123,11 @@ moves_loop: // When in check, search starts from here
       else if (   PieceValue[EG][pos.captured_piece()] > PawnValueEg
                && pos.non_pawn_material() <= 2 * RookValueMg)
           extension = 1;
+		  
+      // Queen capture extension
+      else if (   type_of(pos.captured_piece()) == QUEEN
+               && type_of(movedPiece) == PAWN)
+          extension = 1;
 
       // Castling extension
       if (type_of(move) == CASTLING)
