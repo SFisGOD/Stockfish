@@ -333,7 +333,7 @@ namespace {
             // Bonus for a knight attacking a pawn on forward center
             if (   Pt == KNIGHT
                 && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank6BB | Rank7BB : Rank3BB | Rank2BB) & CenterFiles
-                && s & ~pe->pawn_attacks_span(Them))
+                && s & ~pe->pawn_attacks_span(Them) & ~attackedBy[Us][PAWN])
                 score += KnightOnForwardCenter;
 
             if (Pt == BISHOP)
