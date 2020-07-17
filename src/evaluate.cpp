@@ -333,7 +333,8 @@ namespace {
             // Bonus for a knight on weak square in enemy camp
             if (   Pt == KNIGHT
                 && relative_rank(Us, s) > RANK_4
-                && s & ~pe->pawn_attacks_span(Them) & ~attackedBy[Us][PAWN])
+                && s & ~pe->pawn_attacks_span(Them) & ~attackedBy[Us][PAWN]
+                && more_than_one(pos.pieces(Them) & ~pos.pieces(PAWN) & (s & KingSide ? KingSide : QueenSide)))
                 score += KnightInfiltration;
 
             if (Pt == BISHOP)
