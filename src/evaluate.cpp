@@ -134,31 +134,31 @@ namespace {
   };
 
   // Assorted bonuses and penalties
-  constexpr Score BadOutpost            = S( -7, 36);
-  constexpr Score BishopOnKingRing      = S( 24,  0);
-  constexpr Score BishopPawns           = S(  3,  7);
-  constexpr Score BishopXRayPawns       = S(  4,  5);
-  constexpr Score CorneredBishop        = S( 50, 50);
-  constexpr Score FlankAttacks          = S(  8,  0);
-  constexpr Score Hanging               = S( 69, 36);
-  constexpr Score KnightOnForwardCenter = S( 15,  0);
-  constexpr Score KnightOnQueen         = S( 16, 11);
-  constexpr Score LongDiagonalBishop    = S( 45,  0);
-  constexpr Score MinorBehindPawn       = S( 18,  3);
-  constexpr Score PassedFile            = S( 11,  8);
-  constexpr Score PawnlessFlank         = S( 17, 95);
-  constexpr Score QueenInfiltration     = S( -2, 14);
-  constexpr Score ReachableOutpost      = S( 31, 22);
-  constexpr Score RestrictedPiece       = S(  7,  7);
-  constexpr Score RookOnKingRing        = S( 16,  0);
-  constexpr Score RookOnQueenFile       = S(  6, 11);
-  constexpr Score SliderOnQueen         = S( 60, 18);
-  constexpr Score ThreatByKing          = S( 24, 89);
-  constexpr Score ThreatByPawnPush      = S( 48, 39);
-  constexpr Score ThreatBySafePawn      = S(173, 94);
-  constexpr Score TrappedRook           = S( 55, 13);
-  constexpr Score WeakQueenProtection   = S( 14,  0);
-  constexpr Score WeakQueen             = S( 56, 15);
+  constexpr Score BadOutpost          = S( -7, 36);
+  constexpr Score BishopOnKingRing    = S( 24,  0);
+  constexpr Score BishopPawns         = S(  3,  7);
+  constexpr Score BishopXRayPawns     = S(  4,  5);
+  constexpr Score CorneredBishop      = S( 50, 50);
+  constexpr Score FlankAttacks        = S(  8,  0);
+  constexpr Score Hanging             = S( 69, 36);
+  constexpr Score KnightOnForwardRanks= S( 15,  0);
+  constexpr Score KnightOnQueen       = S( 16, 11);
+  constexpr Score LongDiagonalBishop  = S( 45,  0);
+  constexpr Score MinorBehindPawn     = S( 18,  3);
+  constexpr Score PassedFile          = S( 11,  8);
+  constexpr Score PawnlessFlank       = S( 17, 95);
+  constexpr Score QueenInfiltration   = S( -2, 14);
+  constexpr Score ReachableOutpost    = S( 31, 22);
+  constexpr Score RestrictedPiece     = S(  7,  7);
+  constexpr Score RookOnKingRing      = S( 16,  0);
+  constexpr Score RookOnQueenFile     = S(  6, 11);
+  constexpr Score SliderOnQueen       = S( 60, 18);
+  constexpr Score ThreatByKing        = S( 24, 89);
+  constexpr Score ThreatByPawnPush    = S( 48, 39);
+  constexpr Score ThreatBySafePawn    = S(173, 94);
+  constexpr Score TrappedRook         = S( 55, 13);
+  constexpr Score WeakQueenProtection = S( 14,  0);
+  constexpr Score WeakQueen           = S( 56, 15);
 
 
 #undef S
@@ -330,11 +330,11 @@ namespace {
             // Penalty if the piece is far from the king
             score -= KingProtector[Pt == BISHOP] * distance(pos.square<KING>(Us), s);
 			
-            // Bonus for a knight attacking a pawn on forward center
+            // Bonus for a knight attacking a pawn on forward ranks
             if (   Pt == KNIGHT
-                && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank6BB | Rank7BB : Rank3BB | Rank2BB) & CenterFiles
+                && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank6BB | Rank7BB : Rank3BB | Rank2BB)
                 && s & ~pe->pawn_attacks_span(Them))
-                score += KnightOnForwardCenter;
+                score += KnightOnForwardRanks;
 
             if (Pt == BISHOP)
             {
