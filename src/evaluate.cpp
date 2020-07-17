@@ -272,7 +272,7 @@ namespace {
                                                    : Rank5BB | Rank4BB | Rank3BB);
     const Square* pl = pos.squares<Pt>(Us);
 
-    Bitboard b, bb;
+    Bitboard b, bb, b1;
     Score score = SCORE_ZERO;
 
     attackedBy[Us][Pt] = 0;
@@ -331,9 +331,11 @@ namespace {
             score -= KingProtector[Pt == BISHOP] * distance(pos.square<KING>(Us), s);
 			
             // Bonus for a knight attacking a pawn on forward ranks
+            b1 = pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank6BB | Rank7BB : Rank3BB | Rank2BB);
             if (   Pt == KNIGHT
-                && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank6BB | Rank7BB : Rank3BB | Rank2BB)
-                && s & ~pe->pawn_attacks_span(Them))
+                && s & ~pe->pawn_attacks_span(Them)
+                && b & b1 &  CenterFiles
+                && b & b1 & ~CenterFiles)
                 score += KnightOnForwardRanks;
 
             if (Pt == BISHOP)
