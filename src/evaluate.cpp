@@ -142,6 +142,7 @@ namespace {
   constexpr Score CorneredBishop      = S( 50, 50);
   constexpr Score FlankAttacks        = S(  8,  0);
   constexpr Score Hanging             = S( 69, 36);
+  constexpr Score KnightOnForwardRank = S( 15,  0);
   constexpr Score KnightOnQueen       = S( 16, 11);
   constexpr Score LongDiagonalBishop  = S( 45,  0);
   constexpr Score MinorBehindPawn     = S( 18,  3);
@@ -329,6 +330,12 @@ namespace {
 
             // Penalty if the piece is far from the king
             score -= KingProtector[Pt == BISHOP] * distance(pos.square<KING>(Us), s);
+			
+            // Bonus for a knight attacking at least one pawn on forward rank
+            if (   Pt == KNIGHT
+                && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank6BB : Rank3BB)
+                && s & ~pe->pawn_attacks_span(Them))
+                score += KnightOnForwardRank;
 
             if (Pt == BISHOP)
             {
