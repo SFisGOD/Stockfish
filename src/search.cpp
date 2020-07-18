@@ -1128,7 +1128,8 @@ moves_loop: // When in check, search starts from here
           extension = 1;
 
       // Castling extension
-      if (type_of(move) == CASTLING)
+      if (   type_of(move) == CASTLING
+          && popcount(pos.pieces(us) & (to_sq(move) & KingSide ? KingSide : QueenSide)) <= 3)
           extension = 1;
 
       // Late irreversible move extension
