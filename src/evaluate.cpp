@@ -333,7 +333,7 @@ namespace {
 			
             // Bonus for a knight attacking at least one pawn on forward rank
             if (   Pt == KNIGHT
-                && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank6BB : Rank3BB)
+                && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank7BB : Rank2BB)
                 && s & ~pe->pawn_attacks_span(Them))
                 score += KnightOnForwardRank;
 
