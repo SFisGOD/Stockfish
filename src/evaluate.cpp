@@ -136,6 +136,7 @@ namespace {
 
   // Assorted bonuses and penalties
   constexpr Score BadOutpost          = S( -7, 36);
+  constexpr Score BadReachableOutpost = S(  0, 22);
   constexpr Score BishopOnKingRing    = S( 24,  0);
   constexpr Score BishopPawns         = S(  3,  7);
   constexpr Score BishopXRayPawns     = S(  4,  5);
@@ -272,7 +273,7 @@ namespace {
                                                    : Rank5BB | Rank4BB | Rank3BB);
     const Square* pl = pos.squares<Pt>(Us);
 
-    Bitboard b, bb;
+    Bitboard b, bb, b1;
     Score score = SCORE_ZERO;
 
     attackedBy[Us][Pt] = 0;
@@ -312,6 +313,7 @@ namespace {
         {
             // Bonus if piece is on an outpost square or can reach one
             bb = OutpostRanks & attackedBy[Us][PAWN] & ~pe->pawn_attacks_span(Them);
+            b1 = bb & ~pos.pieces(Us);
             if (   Pt == KNIGHT
                 && bb & s & ~CenterFiles
                 && !(b & pos.pieces(Them) & ~pos.pieces(PAWN))
@@ -320,7 +322,11 @@ namespace {
                 score += BadOutpost;
             else if (bb & s)
                 score += Outpost[Pt == BISHOP];
-            else if (Pt == KNIGHT && bb & b & ~pos.pieces(Us))
+            else if (   Pt == KNIGHT
+                     && b1 & b & ~CenterFiles
+                     && !conditional_more_than_two(pos.pieces(Them) & ~pos.pieces(PAWN) & (b1 & b & ~CenterFiles & QueenSide ? QueenSide : KingSide)))
+                score += BadReachableOutpost;
+            else if (Pt == KNIGHT && b1 & b)
                 score += ReachableOutpost;
 
             // Bonus for a knight or bishop shielded by pawn
