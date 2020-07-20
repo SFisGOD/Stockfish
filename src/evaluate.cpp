@@ -324,6 +324,7 @@ namespace {
                 score += Outpost[Pt == BISHOP];
             else if (   Pt == KNIGHT
                      && b1 & b & ~CenterFiles
+                     && !(attacks_bb<KNIGHT>(lsb(b1 & b & ~CenterFiles)) & pos.pieces(Them) & ~pos.pieces(PAWN))
                      && !conditional_more_than_two(pos.pieces(Them) & ~pos.pieces(PAWN) & (b1 & b & ~CenterFiles & QueenSide ? QueenSide : KingSide)))
                 score += BadReachableOutpost;
             else if (Pt == KNIGHT && b1 & b)
