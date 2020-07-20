@@ -323,6 +323,13 @@ namespace {
                 score += Outpost[Pt == BISHOP];
             else if (Pt == KNIGHT && bb & b & ~pos.pieces(Us))
                 score += ReachableOutpost;
+            // Bonus for a knight attacking at least one pawn on forward center
+            else if (   Pt == KNIGHT
+                     && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] 
+                          & (Us == WHITE ? Rank5BB | Rank6BB | Rank7BB : Rank4BB | Rank3BB | Rank2BB) 
+                          & CenterFiles
+                     && s & ~pe->pawn_attacks_span(Them))
+                score += KnightOnForwardCenter;
 
             // Bonus for a knight or bishop shielded by pawn
             if (shift<Down>(pos.pieces(PAWN)) & s)
@@ -330,12 +337,6 @@ namespace {
 
             // Penalty if the piece is far from the king
             score -= KingProtector[Pt == BISHOP] * distance(pos.square<KING>(Us), s);
-			
-            // Bonus for a knight attacking at least one pawn on forward center
-            if (   Pt == KNIGHT
-                && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank5BB | Rank6BB | Rank7BB : Rank4BB | Rank3BB | Rank2BB) & CenterFiles
-                && s & ~pe->pawn_attacks_span(Them))
-                score += KnightOnForwardCenter;
 
             if (Pt == BISHOP)
             {
