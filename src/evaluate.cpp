@@ -271,6 +271,8 @@ namespace {
     constexpr Direction Down = -pawn_push(Us);
     constexpr Bitboard OutpostRanks = (Us == WHITE ? Rank4BB | Rank5BB | Rank6BB
                                                    : Rank5BB | Rank4BB | Rank3BB);
+    constexpr Bitboard ForwardCenter = CenterFiles & (Us == WHITE ? Rank5BB | Rank6BB 
+                                                                  : Rank4BB | Rank3BB);
     const Square* pl = pos.squares<Pt>(Us);
 
     Bitboard b, bb;
@@ -333,7 +335,7 @@ namespace {
 			
             // Bonus for a knight attacking at least one pawn on forward center
             if (   Pt == KNIGHT
-                && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank5BB | Rank6BB | Rank7BB : Rank4BB | Rank3BB | Rank2BB) & CenterFiles
+                && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & ForwardCenter
                 && s & ~pe->pawn_attacks_span(Them))
                 score += KnightOnForwardCenter;
 
