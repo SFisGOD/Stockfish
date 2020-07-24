@@ -136,6 +136,7 @@ namespace {
 
   // Assorted bonuses and penalties
   constexpr Score BadOutpost          = S( -7, 36);
+  constexpr Score BishopEnemyPawns    = S(  0,  3);
   constexpr Score BishopOnKingRing    = S( 24,  0);
   constexpr Score BishopPawns         = S(  3,  7);
   constexpr Score BishopXRayPawns     = S(  4,  5);
@@ -267,7 +268,8 @@ namespace {
   Score Evaluation<T>::pieces() {
 
     constexpr Color     Them = ~Us;
-    constexpr Direction Down = -pawn_push(Us);
+    constexpr Direction Up   = pawn_push(Us);
+    constexpr Direction Down = -Up;
     constexpr Bitboard OutpostRanks = (Us == WHITE ? Rank4BB | Rank5BB | Rank6BB
                                                    : Rank5BB | Rank4BB | Rank3BB);
     const Square* pl = pos.squares<Pt>(Us);
@@ -339,6 +341,12 @@ namespace {
 
                 score -= BishopPawns * pos.pawns_on_same_color_squares(Us, s)
                                      * (!(attackedBy[Us][PAWN] & s) + popcount(blocked & CenterFiles));
+									 
+                Bitboard blocked2 = pos.pieces(Them, PAWN) & shift<Up>(pos.pieces());
+
+                // Bonus according to the number of their pawns on the same color square as the bishop
+                score += BishopEnemyPawns * pos.centerfiles_pawns_on_same_color_squares(Them, s)
+                                          * (popcount(blocked2 & CenterFiles));
 
                 // Penalty for all enemy pawns x-rayed
                 score -= BishopXRayPawns * popcount(attacks_bb<BISHOP>(s) & pos.pieces(Them, PAWN));
