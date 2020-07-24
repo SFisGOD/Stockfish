@@ -136,7 +136,7 @@ namespace {
 
   // Assorted bonuses and penalties
   constexpr Score BadOutpost          = S( -7, 36);
-  constexpr Score BishopEnemyPawns    = S(  0,  3);
+  constexpr Score BishopEnemyPawns    = S(  0,  4);
   constexpr Score BishopOnKingRing    = S( 24,  0);
   constexpr Score BishopPawns         = S(  3,  7);
   constexpr Score BishopXRayPawns     = S(  4,  5);
