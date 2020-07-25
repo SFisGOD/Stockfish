@@ -142,7 +142,7 @@ namespace {
   constexpr Score CorneredBishop        = S( 50, 50);
   constexpr Score FlankAttacks          = S(  8,  0);
   constexpr Score Hanging               = S( 69, 36);
-  constexpr Score KnightOnForwardCenter = S( 15,  0);
+  constexpr Score KnightOnForwardCenter = S( 12,  0);
   constexpr Score KnightOnQueen         = S( 16, 11);
   constexpr Score LongDiagonalBishop    = S( 45,  0);
   constexpr Score MinorBehindPawn       = S( 18,  3);
@@ -334,7 +334,8 @@ namespace {
             // Bonus for a knight attacking at least one pawn on forward center
             if (   Pt == KNIGHT
                 && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank5BB | Rank6BB | Rank7BB : Rank4BB | Rank3BB | Rank2BB) & CenterFiles
-                && s & ~pe->pawn_attacks_span(Them))
+                && s & ~pe->pawn_attacks_span(Them)
+                && relative_rank(Us, s) > RANK_4)
                 score += KnightOnForwardCenter;
 
             if (Pt == BISHOP)
