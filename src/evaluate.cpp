@@ -793,7 +793,7 @@ namespace {
             sf = 37 + 3 * (pos.count<QUEEN>(WHITE) == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
                                                         : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
         else if (pos.count<ROOK>() == 1)
-            sf = 33 + 3 * (pos.count<ROOK>(WHITE)  == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
+            sf = 36 + 4 * (pos.count<ROOK>(WHITE)  == 1 ? pos.count<BISHOP>(BLACK) + pos.count<KNIGHT>(BLACK)
                                                         : pos.count<BISHOP>(WHITE) + pos.count<KNIGHT>(WHITE));
         else
             sf = std::min(sf, 36 + 7 * pos.count<PAWN>(strongSide));
