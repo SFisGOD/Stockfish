@@ -331,10 +331,9 @@ namespace {
             // Penalty if the piece is far from the king
             score -= KingProtector[Pt == BISHOP] * distance(pos.square<KING>(Us), s);
 			
-            // Bonus for a knight attacking at least one pawn on forward center
+            // Bonus for a knight attacking at least one pawn on forward centerfiles
             if (   Pt == KNIGHT
-                && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank5BB | Rank6BB | Rank7BB : Rank4BB | Rank3BB | Rank2BB) & CenterFiles
-                && s & ~pe->pawn_attacks_span(Them))
+                && b & pos.pieces(Them, PAWN) & ~attackedBy[Them][PAWN] & (Us == WHITE ? Rank5BB | Rank6BB | Rank7BB : Rank4BB | Rank3BB | Rank2BB) & CenterFiles)
                 score += KnightOnForwardCenter;
 
             if (Pt == BISHOP)
