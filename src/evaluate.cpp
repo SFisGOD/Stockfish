@@ -785,7 +785,7 @@ namespace {
         }
         else if (  pos.count<BISHOP>(WHITE) == 1
                 && pos.count<BISHOP>(BLACK) == 1)
-            sf = std::min(sf, 36 + 4 * pos.count<ALL_PIECES>(strongSide));
+            sf = std::min(sf, 28 + 3 * pos.count<ALL_PIECES>(strongSide));
         else if (  pos.non_pawn_material(WHITE) == RookValueMg
                 && pos.non_pawn_material(BLACK) == RookValueMg
                 && pos.count<PAWN>(strongSide) - pos.count<PAWN>(~strongSide) <= 1
