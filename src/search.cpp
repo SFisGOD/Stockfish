@@ -1134,6 +1134,13 @@ moves_loop: // When in check, search starts from here
       // Castling extension
       if (type_of(move) == CASTLING)
           extension = 1;
+	  
+      // Queen extension
+      if ((  type_of(pos.captured_piece()) == QUEEN
+          || type_of(pos.piece_on(to_sq(move))) == QUEEN)
+          && type_of(movedPiece) == QUEEN
+          && depth < 12)
+          extension = 1;
 
       // Late irreversible move extension
       if (   move == ttMove
