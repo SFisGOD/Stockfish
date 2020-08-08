@@ -1139,7 +1139,7 @@ moves_loop: // When in check, search starts from here
       if ((  type_of(pos.captured_piece()) == QUEEN
           || type_of(pos.piece_on(to_sq(move))) == QUEEN)
           && type_of(movedPiece) == QUEEN
-          && depth < 12)
+          && depth < 10)
           extension = 1;
 
       // Late irreversible move extension
