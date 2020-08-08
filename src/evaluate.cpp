@@ -940,8 +940,12 @@ Value Eval::evaluate(const Position& pos) {
   {
       Value balance = pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK);
       balance += 200 * (pos.count<PAWN>(WHITE) - pos.count<PAWN>(BLACK));
-      // Take NNUE eval only on balanced positions
-      if (abs(balance) < NNUEThreshold)
+      bool ocb =    pos.opposite_bishops()
+                 && pos.non_pawn_material(WHITE) == BishopValueMg
+                 && pos.non_pawn_material(BLACK) == BishopValueMg;
+	  
+      // Take NNUE eval only on balanced positions and non ocb endgames
+      if ((abs(balance) < NNUEThreshold) && !ocb)
          return NNUE::evaluate(pos) + Tempo;
   }
   return Evaluation<NO_TRACE>(pos).value();
