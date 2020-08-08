@@ -940,10 +940,13 @@ Value Eval::evaluate(const Position& pos) {
   {
       Value balance = pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK);
       balance += 200 * (pos.count<PAWN>(WHITE) - pos.count<PAWN>(BLACK));
-      bool rookEndgame =   pos.non_pawn_material(WHITE) == RookValueMg
-                        && pos.non_pawn_material(BLACK) == RookValueMg;
-      // Take NNUE eval only on balanced positions and non rook endgames
-      if ((abs(balance) < NNUEThreshold) && !rookEndgame)
+      bool pawnsOnBothFlanks =   (pos.pieces(PAWN) & QueenSide)
+                              && (pos.pieces(PAWN) & KingSide);
+      bool drawishRookEndgame =  !pawnsOnBothFlanks
+                               && pos.non_pawn_material(WHITE) == RookValueMg
+                               && pos.non_pawn_material(BLACK) == RookValueMg;
+      // Take NNUE eval only on balanced positions and non drawish rook endgames
+      if ((abs(balance) < NNUEThreshold) && !drawishRookEndgame)
          return NNUE::evaluate(pos) + Tempo;
   }
   return Evaluation<NO_TRACE>(pos).value();
