@@ -426,7 +426,9 @@ namespace {
                 score -= WeakQueen;
 			
             // Bonus for queen on weak square in enemy camp
-            if (relative_rank(Us, s) > RANK_5 && (~pe->pawn_attacks_span(Them) & s))
+            if (   relative_rank(Us, s) > RANK_5 
+                && (~pe->pawn_attacks_span(Them) & s) 
+                && !(pos.count<QUEEN>() == 1))
                 score += QueenInfiltration;
         }
     }
