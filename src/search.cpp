@@ -1131,7 +1131,11 @@ moves_loop: // When in check, search starts from here
           extension = 1;
 
       // Castling extension
-      if (type_of(move) == CASTLING)
+      if (   type_of(move) == CASTLING
+          && (to_sq(move) & KingSide))
+          extension = 2;
+		  
+      else if (type_of(move) == CASTLING)
           extension = 1;
 
       // Late irreversible move extension
