@@ -1118,6 +1118,13 @@ moves_loop: // When in check, search starts from here
       else if (    givesCheck
                && (pos.is_discovery_check_on_king(~us, move) || pos.see_ge(move)))
           extension = 1;
+		  
+      // Capture by queen extension
+      else if (   move == ttMove
+               && PieceValue[MG][pos.piece_on(to_sq(move))] > PawnValueMg
+               && type_of(movedPiece) == QUEEN
+               && pos.count<PAWN>() >= 10)
+          extension = 1;
 
       // Passed pawn extension
       else if (   move == ss->killers[0]
