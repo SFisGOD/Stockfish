@@ -1147,6 +1147,15 @@ moves_loop: // When in check, search starts from here
           && pos.rule50_count() > 80
           && (captureOrPromotion || type_of(movedPiece) == PAWN))
           extension = 2;
+		  
+      // Capture by queen extension
+      if (   move == ttMove
+          && type_of(movedPiece) == QUEEN
+          && type_of(pos.piece_on(to_sq(move))) == PAWN
+          && pos.count<PAWN>() >= 11
+          && pos.count<KNIGHT>() >= 3
+          && pos.count<BISHOP>() >= 3)
+          extension = 1;
 
       // Add extension to new depth
       newDepth += extension;
