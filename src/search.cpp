@@ -1147,6 +1147,12 @@ moves_loop: // When in check, search starts from here
           && pos.rule50_count() > 80
           && (captureOrPromotion || type_of(movedPiece) == PAWN))
           extension = 2;
+		  
+      // King infiltration extension
+      if (   type_of(movedPiece) == KING
+          && relative_rank(us, to_sq(move)) > RANK_4
+          && pos.non_pawn_material() > 4 * QueenValueMg)
+          extension = 1;
 
       // Add extension to new depth
       newDepth += extension;
