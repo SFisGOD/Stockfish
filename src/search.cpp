@@ -1143,7 +1143,9 @@ moves_loop: // When in check, search starts from here
           extension = 1;
 
       // Queen prior capture extension
-      if (type_of(pos.captured_piece()) == QUEEN)
+      if (   type_of(pos.captured_piece()) == QUEEN
+          && move == ttMove
+          && (captureOrPromotion || type_of(movedPiece) == PAWN))
           extension = 1;
 
       // Late irreversible move extension
