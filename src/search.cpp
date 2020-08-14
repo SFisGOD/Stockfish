@@ -1143,7 +1143,7 @@ moves_loop: // When in check, search starts from here
           if (popcount(pos.pieces(us) & ~pos.pieces(PAWN) & (to_sq(move) & KingSide ? KingSide : QueenSide)) <= 2)
               extension = 1;
           else if (   !pos.can_castle(~us & ANY_CASTLING)
-                   && to_sq(move) & (pos.pieces(~us, KING) & KingSide ? QueenSide : KingSide))
+                   && to_sq(move) & (pos.pieces(~us, KING) & KingSide ? KingSide : QueenSide))
               extension = 1;
       }
 
