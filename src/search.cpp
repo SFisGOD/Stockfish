@@ -1147,7 +1147,11 @@ moves_loop: // When in check, search starts from here
           && pos.rule50_count() > 80
           && (captureOrPromotion || type_of(movedPiece) == PAWN))
           extension = 2;
-
+		  
+      // Promotion extension
+      if (type_of(move) == PROMOTION)
+          extension = 1;
+	  
       // Add extension to new depth
       newDepth += extension;
 
