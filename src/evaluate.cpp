@@ -799,10 +799,10 @@ namespace {
                     +  9 * outflanking
                     + 21 * pawnsOnBothFlanks
                     + 24 * kingInfiltration
-                    + 24 * queenInfiltration
+                    + 36 * queenInfiltration
                     + 51 * !pos.non_pawn_material()
                     - 43 * almostUnwinnable
-                    -120 ;
+                    -125 ;
 
     Value mg = mg_value(score);
     Value eg = eg_value(score);
