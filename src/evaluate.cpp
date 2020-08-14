@@ -783,15 +783,23 @@ namespace {
     bool almostUnwinnable =   outflanking < 0
                            && !pawnsOnBothFlanks;
 
-    bool infiltration =   rank_of(pos.square<KING>(WHITE)) > RANK_4
-                       || rank_of(pos.square<KING>(BLACK)) < RANK_5;
+    bool kingInfiltration =   rank_of(pos.square<KING>(WHITE)) > RANK_4
+                           || rank_of(pos.square<KING>(BLACK)) < RANK_5;
+
+    bool queenInfiltration =  (pos.count<QUEEN>(WHITE) == 1
+                            && rank_of(pos.square<QUEEN>(WHITE)) > RANK_4
+                            && ~pe->pawn_attacks_span(BLACK) & pos.square<QUEEN>(WHITE))
+                            ||(pos.count<QUEEN>(BLACK) == 1
+                            && rank_of(pos.square<QUEEN>(BLACK)) < RANK_5
+                            && ~pe->pawn_attacks_span(WHITE) & pos.square<QUEEN>(BLACK));
 
     // Compute the initiative bonus for the attacking side
     int complexity =   9 * pe->passed_count()
                     + 12 * pos.count<PAWN>()
                     +  9 * outflanking
                     + 21 * pawnsOnBothFlanks
-                    + 24 * infiltration
+                    + 24 * kingInfiltration
+                    + 36 * queenInfiltration
                     + 51 * !pos.non_pawn_material()
                     - 43 * almostUnwinnable
                     -110 ;
