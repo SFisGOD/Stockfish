@@ -787,10 +787,10 @@ namespace {
                            || rank_of(pos.square<KING>(BLACK)) < RANK_5;
 
     bool queenInfiltration =  (pos.count<QUEEN>(WHITE) == 1
-                            && rank_of(pos.square<QUEEN>(WHITE)) > RANK_4
+                            && rank_of(pos.square<QUEEN>(WHITE)) > RANK_5
                             && ~pe->pawn_attacks_span(BLACK) & pos.square<QUEEN>(WHITE))
                             ||(pos.count<QUEEN>(BLACK) == 1
-                            && rank_of(pos.square<QUEEN>(BLACK)) < RANK_5
+                            && rank_of(pos.square<QUEEN>(BLACK)) < RANK_4
                             && ~pe->pawn_attacks_span(WHITE) & pos.square<QUEEN>(BLACK));
 
     // Compute the initiative bonus for the attacking side
