@@ -1147,6 +1147,14 @@ moves_loop: // When in check, search starts from here
           && pos.rule50_count() > 80
           && (captureOrPromotion || type_of(movedPiece) == PAWN))
           extension = 2;
+		  
+      // Opposite colored bishop extension
+      if (   PieceValue[EG][pos.piece_on(to_sq(move))] > PawnValueEg
+          && pos.opposite_bishops()
+          && pos.non_pawn_material(WHITE) == pos.non_pawn_material(BLACK)
+          && pos.non_pawn_material(WHITE) == (BishopValueMg + PieceValue[MG][pos.piece_on(to_sq(move))])
+          && PieceValue[MG][pos.piece_on(to_sq(move))] ==  PieceValue[MG][pos.piece_on(from_sq(move))])
+          extension = 1;
 
       // Add extension to new depth
       newDepth += extension;
