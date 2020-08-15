@@ -1147,6 +1147,11 @@ moves_loop: // When in check, search starts from here
           && pos.rule50_count() > 80
           && (captureOrPromotion || type_of(movedPiece) == PAWN))
           extension = 2;
+		  
+      // Promotion via capture extension
+      if (   type_of(move) == PROMOTION
+          && PieceValue[EG][pos.piece_on(to_sq(move))] > PawnValueEg)
+          extension = 2;
 
       // Add extension to new depth
       newDepth += extension;
