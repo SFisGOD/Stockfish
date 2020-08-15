@@ -1131,6 +1131,15 @@ moves_loop: // When in check, search starts from here
                && pos.advanced_pawn_push(move)
                && pos.pawn_passed(us, to_sq(move)))
           extension = 1;
+		  
+      // Opposite colored bishop extension
+      // Extend captures which lead to ocb
+      else if (   PieceValue[EG][pos.piece_on(to_sq(move))] > PawnValueEg
+          && pos.opposite_bishops()
+          && pos.non_pawn_material(WHITE) == pos.non_pawn_material(BLACK)
+          && pos.non_pawn_material(WHITE) == (BishopValueMg + PieceValue[MG][pos.piece_on(to_sq(move))])
+          && PieceValue[MG][pos.piece_on(to_sq(move))] ==  PieceValue[MG][pos.piece_on(from_sq(move))])
+          extension = 1;
 
       // Last captures extension
       else if (   PieceValue[EG][pos.captured_piece()] > PawnValueEg
