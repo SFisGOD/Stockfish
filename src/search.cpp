@@ -1134,7 +1134,7 @@ moves_loop: // When in check, search starts from here
       // Passed pawn extension
       if (   pos.advanced_pawn_push(move)
           && pos.pawn_passed(us, to_sq(move))
-          && to_sq(move) & (pos.pieces(~us, KING) & KingSide ? KingSide : QueenSide))
+          && to_sq(move) & (pos.pieces(~us, KING) & KingSide ? QueenSide : KingSide))
           extension = 1;
 
       // Castling extension
