@@ -1121,6 +1121,12 @@ moves_loop: // When in check, search starts from here
       else if (    givesCheck
                && (pos.is_discovery_check_on_king(~us, move) || pos.see_ge(move)))
           extension = 1;
+		  
+      // Last captures extension
+      else if (   PieceValue[EG][pos.piece_on(to_sq(move))] > PawnValueEg
+               && pos.non_pawn_material() <= 2 * RookValueMg + 2 * PieceValue[EG][pos.piece_on(to_sq(move))]
+               && PieceValue[EG][pos.piece_on(to_sq(move))] == PieceValue[EG][pos.piece_on(from_sq(move))])
+          extension = 1;
 
       // Castling extension
       if (   type_of(move) == CASTLING
