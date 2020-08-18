@@ -1126,6 +1126,12 @@ moves_loop: // When in check, search starts from here
       if (   type_of(move) == CASTLING
           && popcount(pos.pieces(us) & ~pos.pieces(PAWN) & (to_sq(move) & KingSide ? KingSide : QueenSide)) <= 2)
           extension = 1;
+		  
+      // Passed pawn extension
+      if (   pos.advanced_pawn_push2(move)
+          && pos.pawn_passed(us, to_sq(move))
+          && to_sq(move) & (pos.pieces(~us, KING) & KingSide ? QueenSide : KingSide))
+          extension = 1;
 
       // Late irreversible move extension
       if (   move == ttMove
