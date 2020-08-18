@@ -1161,6 +1161,11 @@ moves_loop: // When in check, search starts from here
               || thisThread->ttHitAverage < 427 * TtHitAverageResolution * TtHitAverageWindow / 1024))
       {
           Depth r = reduction(improving, depth, moveCount);
+		  
+          // Decrease reduction for queen exchange
+          if (   type_of(pos.piece_on(to_sq(move))) == QUEEN
+              && type_of(movedPiece) == QUEEN)
+              r--;
 
           // Decrease reduction at non-check cut nodes for second move at low depths
           if (   cutNode
