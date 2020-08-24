@@ -950,7 +950,7 @@ Value Eval::evaluate(const Position& pos) {
                       : NNUE::evaluate(pos) * 5 / 4 + Tempo;
 					  
   if (!classical && majors)
-      v = v * 3 / 5;
+      v = v * 4 / 5;
 
   if (classical && Eval::useNNUE && abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
       v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
