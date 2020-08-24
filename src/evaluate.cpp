@@ -940,10 +940,17 @@ make_v:
 
 Value Eval::evaluate(const Position& pos) {
 
+  bool majors =   pos.count<KNIGHT>() == 0
+               && pos.count<BISHOP>() == 0
+               && pos.count<QUEEN>() == 2;
+			   
   bool classical = !Eval::useNNUE
                 ||  abs(eg_value(pos.psq_score())) * 16 > NNUEThreshold1 * (16 + pos.rule50_count());
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
                       : NNUE::evaluate(pos) * 5 / 4 + Tempo;
+					  
+  if (!classical && majors)
+      v = v * 3 / 5;
 
   if (classical && Eval::useNNUE && abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
       v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
