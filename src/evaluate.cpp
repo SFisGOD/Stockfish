@@ -117,7 +117,7 @@ namespace {
   constexpr Value SpaceThreshold = Value(12222);
   constexpr Value NNUEThreshold1 =   Value(550);
   constexpr Value NNUEThreshold2 =   Value(150);
-  constexpr Value NNUEThreshold3 =   Value(350);
+  constexpr Value NNUEThreshold3 =   Value(300);
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
   constexpr int KingAttackWeights[PIECE_TYPE_NB] = { 0, 0, 81, 52, 44, 10 };
@@ -946,11 +946,11 @@ Value Eval::evaluate(const Position& pos) {
                 ||  abs(eg) * 16 > NNUEThreshold1 * (16 + pos.rule50_count());
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
                       :(abs(eg) < NNUEThreshold3 ? NNUE::evaluate(pos) * 5 / 4 + Tempo
-                                                 : NNUE::evaluate(pos) * 5 / 4 + Tempo + abs(eg)/10);
+                                                 : NNUE::evaluate(pos) * 5 / 4 + Tempo + abs(eg)/8);
 
   if (classical && Eval::useNNUE && abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
       v = abs(eg) < NNUEThreshold3 ? NNUE::evaluate(pos) * 5 / 4 + Tempo
-                                   : NNUE::evaluate(pos) * 5 / 4 + Tempo + abs(eg)/10 ;
+                                   : NNUE::evaluate(pos) * 5 / 4 + Tempo + abs(eg)/8 ;
 
   // Damp down the evaluation linearly when shuffling
   v = v * (100 - pos.rule50_count()) / 100;
