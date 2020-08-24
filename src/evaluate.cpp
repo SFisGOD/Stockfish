@@ -945,12 +945,12 @@ Value Eval::evaluate(const Position& pos) {
   bool classical = !Eval::useNNUE
                 ||  abs(eg) * 16 > NNUEThreshold1 * (16 + pos.rule50_count());
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
-                      : abs(eg) < NNUEThreshold3 ? NNUE::evaluate(pos) * 5 / 4 + Tempo
-                                                 : std::max(eg, NNUE::evaluate(pos) * 5 / 4 + Tempo) ;
+                      :(abs(eg) < NNUEThreshold3 ? NNUE::evaluate(pos) * 5 / 4 + Tempo
+                                                 : NNUE::evaluate(pos) * 5 / 4 + Tempo + abs(eg)/10);
 
   if (classical && Eval::useNNUE && abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
       v = abs(eg) < NNUEThreshold3 ? NNUE::evaluate(pos) * 5 / 4 + Tempo
-                                   : std::max(eg, NNUE::evaluate(pos) * 5 / 4 + Tempo);
+                                   : NNUE::evaluate(pos) * 5 / 4 + Tempo + abs(eg)/10 ;
 
   // Damp down the evaluation linearly when shuffling
   v = v * (100 - pos.rule50_count()) / 100;
