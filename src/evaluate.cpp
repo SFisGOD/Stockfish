@@ -945,8 +945,14 @@ Value Eval::evaluate(const Position& pos) {
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
                       : NNUE::evaluate(pos) * 5 / 4 + Tempo;
 
-  if (classical && Eval::useNNUE && abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
-      v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
+  if (classical && Eval::useNNUE)
+  {
+	  if (abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
+          v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
+      else if (   pos.count<ROOK>() == 0
+               && pos.count<QUEEN>() == 0)
+          v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
+  }
 
   // Damp down the evaluation linearly when shuffling
   v = v * (100 - pos.rule50_count()) / 100;
