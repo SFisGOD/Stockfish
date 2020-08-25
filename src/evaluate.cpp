@@ -947,10 +947,11 @@ Value Eval::evaluate(const Position& pos) {
 
   if (classical && Eval::useNNUE)
   {
-	  if (abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
+	  
+      if (abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
           v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
-      else if (   pos.count<ROOK>() == 0
-               && pos.count<QUEEN>() == 0)
+      else if (   pos.count<BISHOP>() == 0
+               && pos.count<KNIGHT>() == 0)
           v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
   }
 
