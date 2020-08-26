@@ -117,7 +117,7 @@ namespace {
   constexpr Value SpaceThreshold = Value(12222);
   constexpr Value NNUEThreshold1 =   Value(550);
   constexpr Value NNUEThreshold2 =   Value(150);
-  constexpr Value NNUEThreshold3 =   Value(275);
+  constexpr Value NNUEThreshold3 =   Value(175);
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
   constexpr int KingAttackWeights[PIECE_TYPE_NB] = { 0, 0, 81, 52, 44, 10 };
@@ -950,7 +950,7 @@ Value Eval::evaluate(const Position& pos) {
       v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
  
   if (!classical && abs(eg_value(pos.psq_score())) * 16 > NNUEThreshold3 * (16 + pos.rule50_count()))
-      v += Tempo;
+      v += Value(14);
 
   // Damp down the evaluation linearly when shuffling
   v = v * (100 - pos.rule50_count()) / 100;
