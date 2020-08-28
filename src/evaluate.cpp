@@ -175,29 +175,30 @@ namespace {
   };
 
   // Assorted bonuses and penalties
-  constexpr Score BadOutpost          = S( -7, 36);
-  constexpr Score BishopOnKingRing    = S( 24,  0);
-  constexpr Score BishopPawns         = S(  3,  7);
-  constexpr Score BishopXRayPawns     = S(  4,  5);
-  constexpr Score CorneredBishop      = S( 50, 50);
-  constexpr Score FlankAttacks        = S(  8,  0);
-  constexpr Score Hanging             = S( 69, 36);
-  constexpr Score KnightOnQueen       = S( 16, 11);
-  constexpr Score LongDiagonalBishop  = S( 45,  0);
-  constexpr Score MinorBehindPawn     = S( 18,  3);
-  constexpr Score PassedFile          = S( 11,  8);
-  constexpr Score PawnlessFlank       = S( 17, 95);
-  constexpr Score ReachableOutpost    = S( 31, 22);
-  constexpr Score RestrictedPiece     = S(  7,  7);
-  constexpr Score RookOnKingRing      = S( 16,  0);
-  constexpr Score RookOnQueenFile     = S(  6, 11);
-  constexpr Score SliderOnQueen       = S( 60, 18);
-  constexpr Score ThreatByKing        = S( 24, 89);
-  constexpr Score ThreatByPawnPush    = S( 48, 39);
-  constexpr Score ThreatBySafePawn    = S(173, 94);
-  constexpr Score TrappedRook         = S( 55, 13);
-  constexpr Score WeakQueenProtection = S( 14,  0);
-  constexpr Score WeakQueen           = S( 56, 15);
+  constexpr Score BadOutpost            = S( -7, 36);
+  constexpr Score BishopOnKingRing      = S( 24,  0);
+  constexpr Score BishopPawns           = S(  3,  7);
+  constexpr Score BishopXRayPawns       = S(  4,  5);
+  constexpr Score BlockedDiagonalBishop = S( 45,-25);
+  constexpr Score CorneredBishop        = S( 50, 50);
+  constexpr Score FlankAttacks          = S(  8,  0);
+  constexpr Score Hanging               = S( 69, 36);
+  constexpr Score KnightOnQueen         = S( 16, 11);
+  constexpr Score LongDiagonalBishop    = S( 45,  0);
+  constexpr Score MinorBehindPawn       = S( 18,  3);
+  constexpr Score PassedFile            = S( 11,  8);
+  constexpr Score PawnlessFlank         = S( 17, 95);
+  constexpr Score ReachableOutpost      = S( 31, 22);
+  constexpr Score RestrictedPiece       = S(  7,  7);
+  constexpr Score RookOnKingRing        = S( 16,  0);
+  constexpr Score RookOnQueenFile       = S(  6, 11);
+  constexpr Score SliderOnQueen         = S( 60, 18);
+  constexpr Score ThreatByKing          = S( 24, 89);
+  constexpr Score ThreatByPawnPush      = S( 48, 39);
+  constexpr Score ThreatBySafePawn      = S(173, 94);
+  constexpr Score TrappedRook           = S( 55, 13);
+  constexpr Score WeakQueenProtection   = S( 14,  0);
+  constexpr Score WeakQueen             = S( 56, 15);
 
 
 #undef S
@@ -386,7 +387,14 @@ namespace {
                 score -= BishopXRayPawns * popcount(attacks_bb<BISHOP>(s) & pos.pieces(Them, PAWN));
 
                 // Bonus for bishop on a long diagonal which can "see" both center squares
-                if (more_than_one(attacks_bb<BISHOP>(s, pos.pieces(PAWN)) & Center))
+                // Endgame penalty if center is blocked (BlockedDiagonalBishop)
+                Bitboard blockedCenter = pos.pieces(Us, PAWN) & shift<Down>(pos.pieces(Them, PAWN)) & Center;
+                bool bishopOnCenter = more_than_one(attacks_bb<BISHOP>(s, pos.pieces(PAWN)) & Center);
+                bool bishopOnBlockedCenter = more_than_one(attacks_bb<BISHOP>(s, blockedCenter));
+				
+                if (bishopOnBlockedCenter)
+                    score += BlockedDiagonalBishop;
+                else if (bishopOnCenter)
                     score += LongDiagonalBishop;
 
                 // An important Chess960 pattern: a cornered bishop blocked by a friendly
