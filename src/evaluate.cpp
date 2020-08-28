@@ -179,7 +179,7 @@ namespace {
   constexpr Score BishopOnKingRing      = S( 24,  0);
   constexpr Score BishopPawns           = S(  3,  7);
   constexpr Score BishopXRayPawns       = S(  4,  5);
-  constexpr Score BlockedDiagonalBishop = S( 45,-25);
+  constexpr Score BlockedDiagonalBishop = S( 30,-10);
   constexpr Score CorneredBishop        = S( 50, 50);
   constexpr Score FlankAttacks          = S(  8,  0);
   constexpr Score Hanging               = S( 69, 36);
@@ -387,14 +387,10 @@ namespace {
                 score -= BishopXRayPawns * popcount(attacks_bb<BISHOP>(s) & pos.pieces(Them, PAWN));
 
                 // Bonus for bishop on a long diagonal which can "see" both center squares
-                // Endgame penalty if center is blocked (BlockedDiagonalBishop)
-                Bitboard blockedCenter = pos.pieces(Us, PAWN) & shift<Down>(pos.pieces(Them, PAWN)) & Center;
-                bool bishopOnCenter = more_than_one(attacks_bb<BISHOP>(s, pos.pieces(PAWN)) & Center);
-                bool bishopOnBlockedCenter = more_than_one(attacks_bb<BISHOP>(s, blockedCenter));
-				
-                if (bishopOnBlockedCenter)
+                // Reduced bonus if center is blocked (BlockedDiagonalBishop)
+                if (more_than_one(attacks_bb<BISHOP>(s, blocked) & Center))
                     score += BlockedDiagonalBishop;
-                else if (bishopOnCenter)
+                else if (more_than_one(attacks_bb<BISHOP>(s, pos.pieces(PAWN)) & Center))
                     score += LongDiagonalBishop;
 
                 // An important Chess960 pattern: a cornered bishop blocked by a friendly
