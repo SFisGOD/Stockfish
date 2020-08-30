@@ -949,7 +949,7 @@ Value Eval::evaluate(const Position& pos) {
       v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
   
   if (!classical)
-      v += 5 * eg_value(pos.psq_score()) / PawnValueEg;
+      v += 5 * (pos.side_to_move() == WHITE ? eg_value(pos.psq_score()) : -eg_value(pos.psq_score())) / PawnValueEg;
 
   // Damp down the evaluation linearly when shuffling
   v = v * (100 - pos.rule50_count()) / 100;
