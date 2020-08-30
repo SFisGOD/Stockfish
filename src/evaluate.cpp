@@ -947,6 +947,9 @@ Value Eval::evaluate(const Position& pos) {
 
   if (classical && Eval::useNNUE && abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
       v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
+  
+  if (!classical)
+      v += 5 * eg_value(pos.psq_score()) / PawnValueEg;
 
   // Damp down the evaluation linearly when shuffling
   v = v * (100 - pos.rule50_count()) / 100;
