@@ -1024,7 +1024,7 @@ Value Eval::evaluate(const Position& pos) {
       v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
   
   if (   !classical 
-      && abs(v) < PawnValueMg / 4 
+      && abs(v) < PawnValueMg / 8 
       && pos.side_to_move() == WHITE)
       v = Evaluation<NO_TRACE>(pos).value();
 
