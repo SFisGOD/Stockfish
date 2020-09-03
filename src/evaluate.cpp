@@ -1024,8 +1024,8 @@ Value Eval::evaluate(const Position& pos) {
       v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
   
   if (   !classical 
-      && abs(v) <= Tempo
-      && abs(eg_value(pos.psq_score())) > PawnValueMg / 8)
+      && abs(v) >= Tempo
+      && abs(v) < PawnValueMg / 3)
       v = Evaluation<NO_TRACE>(pos).value();
 
   // Damp down the evaluation linearly when shuffling
