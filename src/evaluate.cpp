@@ -254,6 +254,7 @@ namespace {
   constexpr Score BishopOnKingRing    = S( 24,  0);
   constexpr Score BishopPawns         = S(  3,  7);
   constexpr Score BishopXRayPawns     = S(  4,  5);
+  constexpr Score CenterKnightOnQueen = S( 15,  0);
   constexpr Score CorneredBishop      = S( 50, 50);
   constexpr Score FlankAttacks        = S(  8,  0);
   constexpr Score Hanging             = S( 69, 36);
@@ -446,6 +447,11 @@ namespace {
 
             // Penalty if the piece is far from the king
             score -= KingProtector[Pt == BISHOP] * distance(pos.square<KING>(Us), s);
+			
+            if (   Pt == KNIGHT
+                && pos.count<QUEEN>(Them) == 1
+                && s & Center & attacks_bb<KNIGHT>(pos.square<QUEEN>(Them)))
+                score += CenterKnightOnQueen;
 
             if (Pt == BISHOP)
             {
