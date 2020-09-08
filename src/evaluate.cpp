@@ -1025,7 +1025,7 @@ Value Eval::evaluate(const Position& pos) {
                 ||  useClassical
                 || (psqt > PawnValueMg / 4 && !(node & 0xB))
                 || (!(psqt > PawnValueMg / 4) && psqt > PawnValueMg / 8 && !(node & 0xF))
-                || (!(psqt > PawnValueMg / 4) && !(psqt > PawnValueMg / 8) && !(node & 0x1F));
+                || (!(psqt > PawnValueMg / 8) && !(node & 0x1F));
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
                       : NNUE::evaluate(pos) * 5 / 4 + Tempo;
 
