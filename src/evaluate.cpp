@@ -1015,6 +1015,8 @@ make_v:
 
 Value Eval::evaluate(const Position& pos) {
 
+  // Use classical eval if there is a large imbalance
+  // For moderate imbalance, use classical eval with probability 1/8
   bool useClassical = abs(eg_value(pos.psq_score())) * 16 > NNUEThreshold1 * (16 + pos.rule50_count());
   bool classical = !Eval::useNNUE
                 ||  useClassical
