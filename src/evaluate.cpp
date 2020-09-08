@@ -1023,7 +1023,7 @@ Value Eval::evaluate(const Position& pos) {
 
   // If the classical eval is smaller than the large imbalance threshold,
   // fall back to NNUE with probability 3/4
-  if (   useClassical 
+  if (   classical 
       && Eval::useNNUE 
       && (abs(v) * 16 < NNUEThreshold1 * (16 + pos.rule50_count()) && (pos.this_thread()->nodes & 0x3)))
       v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
