@@ -1021,13 +1021,13 @@ Value Eval::evaluate(const Position& pos) {
   int psqt = abs(eg_value(pos.psq_score()));
   int node = pos.this_thread()->nodes;
   bool useClassical = psqt * 16 > NNUEThreshold1 * (16 + pos.rule50_count());
-  bool level1 = psqt > PawnValueMg;
-  bool level2 = psqt > PawnValueMg / 2;
+  bool level1 = psqt * 4 > NNUEThreshold1 * 3;
+  bool level2 = psqt * 2 > NNUEThreshold1;
   bool level3 = psqt > PawnValueMg / 4;
   bool level4 = psqt > PawnValueMg / 8;
   bool classical = !Eval::useNNUE
                 ||  useClassical
-                || (level1 && !(node & 0x1)) // 1/2 chance
+                || (level1 && (node & 0x1)) // 1/2 chance
                 || (!(level1) && level2 && !(node & 0x3)) // 1/4 chance
                 || (!(level2) && level3 && !(node & 0xB)) // 1/8 chance
                 || (!(level3) && level4 && !(node & 0xF)) // 1/16 chance
