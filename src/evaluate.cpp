@@ -460,8 +460,9 @@ namespace {
                 // Penalty for all enemy pawns x-rayed
                 score -= BishopXRayPawns * popcount(attacks_bb<BISHOP>(s) & pos.pieces(Them, PAWN));
 
-                // Bonus for bishop on a long diagonal which can "see" both center squares
-                if (more_than_one(attacks_bb<BISHOP>(s, pos.pieces(PAWN)) & Center))
+                // Probabilistic bonus for bishop on a long diagonal which can "see" both center squares (3/4)
+                if (   more_than_one(attacks_bb<BISHOP>(s, pos.pieces(PAWN)) & Center)
+                    && (pos.this_thread()->nodes & 0x3))
                     score += LongDiagonalBishop;
 
                 // An important Chess960 pattern: a cornered bishop blocked by a friendly
