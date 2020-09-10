@@ -1023,7 +1023,7 @@ Value Eval::evaluate(const Position& pos) {
   bool useClassical = psqt * 16 > NNUEThreshold1 * (16 + pos.rule50_count());
   bool classical = !Eval::useNNUE
                 ||  useClassical
-                || (psqt > PawnValueEg && (node & 0x1))       // 1 out of 2 chance
+                || (psqt > 2 * PawnValueEg && (node & 0x1))   // 1 out of 2 chance
                 || (psqt > PawnValueMg / 4 && !(node & 0xB)); // 1 out of 8 chance
 
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
