@@ -1016,14 +1016,14 @@ make_v:
 Value Eval::evaluate(const Position& pos) {
 
   // Use classical eval if there is a large imbalance
-  // For moderate imbalance, use classical eval with different probabilities,
+  // For moderate imbalance, use classical eval with probability (1/8),
   // as derived from the node counter.
   int psqt = abs(eg_value(pos.psq_score()));
   int node = pos.this_thread()->nodes;
   bool useClassical = psqt * 16 > NNUEThreshold1 * (16 + pos.rule50_count());
   bool classical = !Eval::useNNUE
                 ||  useClassical
-                || (psqt > PawnValueEg && !(node & 0x3))      // 1 out of 4 chance
+                || (psqt > PawnValueEg && !(node & 0xD))      // 1 out of 8 chance
                 || (psqt > PawnValueMg / 4 && !(node & 0xB)); // 1 out of 8 chance
 				
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
