@@ -191,7 +191,8 @@ namespace {
   constexpr Value LazyThreshold2 =  Value(1300);
   constexpr Value SpaceThreshold = Value(12222);
   constexpr Value NNUEThreshold1 =   Value(550);
-  constexpr Value NNUEThreshold2 =   Value(150);
+  constexpr Value NNUEThreshold2 =   Value(325);
+  constexpr Value NNUEThreshold3 =   Value(150);
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
   constexpr int KingAttackWeights[PIECE_TYPE_NB] = { 0, 0, 81, 52, 44, 10 };
@@ -1023,15 +1024,15 @@ Value Eval::evaluate(const Position& pos) {
   bool useClassical = psqt * 16 > NNUEThreshold1 * (16 + pos.rule50_count());
   bool classical = !Eval::useNNUE
                 ||  useClassical
-                || (psqt > PawnValueEg && !(node & 0x3))      // 1 out of 4 chance
+                || (psqt > NNUEThreshold2 && !(node & 0x3))   // 1 out of 4 chance
                 || (psqt > PawnValueMg / 4 && !(node & 0xB)); // 1 out of 8 chance
-				
+
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
                       : NNUE::evaluate(pos) * 5 / 4 + Tempo;
 					
   if (   useClassical 
       && Eval::useNNUE 
-      && abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
+      && abs(v) * 16 < NNUEThreshold3 * (16 + pos.rule50_count()))
       v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
 
   // Damp down the evaluation linearly when shuffling
