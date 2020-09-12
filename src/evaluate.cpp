@@ -1024,7 +1024,14 @@ Value Eval::evaluate(const Position& pos) {
                 || (abs(eg_value(pos.psq_score())) > PawnValueMg / 4 && !(pos.this_thread()->nodes & 0xB));
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
                       : NNUE::evaluate(pos) * 5 / 4 + Tempo;
-
+					  
+  // Fall back to NNUE with probability 1/32				  
+  if (   classical
+      && Eval::useNNUE
+      && !(pos.this_thread()->nodes & 0x1F))
+      v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
+	  
+  // Fall back to NNUE if classical eval is smaller than expected
   if (   useClassical 
       && Eval::useNNUE 
       && abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
