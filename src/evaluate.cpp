@@ -1025,10 +1025,10 @@ Value Eval::evaluate(const Position& pos) {
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
                       : NNUE::evaluate(pos) * 5 / 4 + Tempo;
 					  
-  // Fall back to NNUE with probability 1/32				  
+  // Fall back to NNUE with probability 1/16				  
   if (   classical
       && Eval::useNNUE
-      && !(pos.this_thread()->nodes & 0x1F))
+      && !(pos.this_thread()->nodes & 0xF))
       v = NNUE::evaluate(pos) * 5 / 4 + Tempo;
 	  
   // Fall back to NNUE if classical eval is smaller than expected
