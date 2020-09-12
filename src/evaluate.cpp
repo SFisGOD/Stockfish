@@ -1027,7 +1027,7 @@ Value Eval::evaluate(const Position& pos) {
 
   // Use classical eval if NNUE eval is large
   if (   !classical
-      && abs(v) > 2 * NNUEThreshold1)
+      && abs(v) > 3 * NNUEThreshold1)
       v = Evaluation<NO_TRACE>(pos).value();
 
   // Fall back to NNUE if classical eval is smaller than expected
