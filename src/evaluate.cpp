@@ -1018,11 +1018,12 @@ Value Eval::evaluate(const Position& pos) {
   // Use classical eval if there is a large imbalance
   // For moderate imbalance, use classical eval with probability (1/8),
   // as derived from the node counter.
-  bool useClassical = abs(eg_value(pos.psq_score())) * 16 > NNUEThreshold1 * (16 + pos.rule50_count());
+  Value psqt = Value(abs(eg_value(pos.psq_score())));
+  bool useClassical = psqt * 16 > NNUEThreshold1 * (16 + pos.rule50_count());
   bool classical = !Eval::useNNUE
                 ||  useClassical
-                || (abs(eg_value(Material::probe(pos)->imbalance())) > Value(60))
-                || (abs(eg_value(pos.psq_score())) > PawnValueMg / 4 && !(pos.this_thread()->nodes & 0xB));
+                || (psqt > 2 * PawnValueEg && abs(eg_value(Material::probe(pos)->imbalance())) > Value(80))
+                || (psqt > PawnValueMg / 4 && !(pos.this_thread()->nodes & 0xB));
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
                       : NNUE::evaluate(pos) * 5 / 4 + Tempo;
 
