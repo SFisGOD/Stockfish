@@ -1028,7 +1028,7 @@ Value Eval::evaluate(const Position& pos) {
   // Use altered NNUE eval if not opposite colored bishops	
   if (   !classical
       && !pos.opposite_bishops())
-      v = v * 5 / 4 + Tempo;
+      v = (v - Tempo) * 5 / 4 + Tempo;
 
   // Fall back to NNUE if classical eval is smaller than expected
   if (   useClassical 
