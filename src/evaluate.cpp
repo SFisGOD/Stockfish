@@ -1023,8 +1023,14 @@ Value Eval::evaluate(const Position& pos) {
                 ||  useClassical
                 || (abs(eg_value(pos.psq_score())) > PawnValueMg / 4 && !(pos.this_thread()->nodes & 0xB));
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
-                      : NNUE::evaluate(pos) * 5 / 4 + Tempo;
+                      : NNUE::evaluate(pos) + Tempo;
 
+  // Use altered NNUE eval if not opposite colored bishops	
+  if (   !classical
+      && !pos.opposite_bishops())
+      v = v * 5 / 4 + Tempo;
+
+  // Fall back to NNUE if classical eval is smaller than expected
   if (   useClassical 
       && Eval::useNNUE 
       && abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
