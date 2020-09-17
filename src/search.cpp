@@ -87,7 +87,12 @@ namespace {
 
   // Add a small random component to draw evaluations to avoid 3fold-blindness
   Value value_draw(Thread* thisThread) {
-    return VALUE_DRAW + Value(2 * (thisThread->nodes & 1) - 1);
+    int node = thisThread->nodes;
+    return VALUE_DRAW + Value(2 * (node & 0x1) - 1)
+                      + Value(2 * (node & 0x2) - 1)
+                      + Value(2 * (node & 0x4) - 1)
+                      + Value(2 * (node & 0x8) - 1)
+                      + Value(!(node & 0xB));
   }
 
   // Skill structure is used to implement strength limit
