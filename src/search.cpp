@@ -87,7 +87,7 @@ namespace {
 
   // Add a small random component to draw evaluations to avoid 3fold-blindness
   Value value_draw(Score psq, Thread* thisThread) {
-    return VALUE_DRAW + (1 + 8 * abs(eg_value(psq)) / PawnValueMg) * Value(2 * (thisThread->nodes & 1) - 1);
+    return VALUE_DRAW + (1 + 16 * abs(eg_value(psq)) / PawnValueMg) * Value(2 * (thisThread->nodes & 1) - 1);
   }
 
   // Skill structure is used to implement strength limit
