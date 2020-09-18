@@ -1025,6 +1025,11 @@ Value Eval::evaluate(const Position& pos) {
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
                       : NNUE::evaluate(pos) * 5 / 4 + Tempo;
 
+  // Probabilistic small component
+  if (   !classical
+      && abs(v) < 20)
+      v = v + Value(4 * (pos.this_thread()->nodes & 0x1) - 2);
+	  
   if (   useClassical 
       && Eval::useNNUE 
       && abs(v) * 16 < NNUEThreshold2 * (16 + pos.rule50_count()))
