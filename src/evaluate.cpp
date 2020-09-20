@@ -1032,7 +1032,7 @@ Value Eval::evaluate(const Position& pos) {
       && pos.opposite_bishops()
       && pos.non_pawn_material(WHITE) == BishopValueMg
       && pos.non_pawn_material(BLACK) == BishopValueMg)
-      v = v * (18 + 4 * pe->passed_count()) / 64;
+      v = v * (26 + 4 * pe->passed_count()) / 64;
 
   if (   useClassical 
       && Eval::useNNUE 
