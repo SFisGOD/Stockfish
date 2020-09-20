@@ -1025,10 +1025,10 @@ Value Eval::evaluate(const Position& pos) {
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
                       : NNUE::evaluate(pos) * 5 / 4 + Tempo;
 	
-  // Scale down eval when opposite bishops	
+  // Scale down NNUE eval when opposite bishops	
   if (   !classical
       && pos.opposite_bishops())
-      v = v * (22 + 3 * pos.count<ALL_PIECES>() / 2) / 64;
+      v = v * (26 + 3 * pos.count<ALL_PIECES>() / 2) / 64;
 
   if (   useClassical 
       && Eval::useNNUE 
