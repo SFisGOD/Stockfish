@@ -1018,12 +1018,20 @@ Value Eval::evaluate(const Position& pos) {
   // Use classical eval if there is a large imbalance
   // If there is a moderate imbalance, use classical eval with probability (1/8),
   // as derived from the node counter.
+  Pawns::Entry* pe;
+  pe = Pawns::probe(pos);
   bool useClassical = abs(eg_value(pos.psq_score())) * 16 > NNUEThreshold1 * (16 + pos.rule50_count());
   bool classical = !Eval::useNNUE
                 ||  useClassical
                 || (abs(eg_value(pos.psq_score())) > PawnValueMg / 4 && !(pos.this_thread()->nodes & 0xB));
   Value v = classical ? Evaluation<NO_TRACE>(pos).value()
                       : NNUE::evaluate(pos) * 5 / 4 + Tempo;
+					  
+  // Scale down eval for opposite colored bishops endgame
+  if (   pos.opposite_bishops()
+      && pos.non_pawn_material(WHITE) == BishopValueMg
+      && pos.non_pawn_material(BLACK) == BishopValueMg)
+      v = v * (44 + 4 * pe->passed_count()) / 64;
 
   if (   useClassical 
       && Eval::useNNUE 
