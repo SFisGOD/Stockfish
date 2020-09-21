@@ -191,7 +191,7 @@ namespace {
   constexpr Value LazyThreshold2 =  Value(1300);
   constexpr Value SpaceThreshold = Value(12222);
   constexpr Value NNUEThreshold1 =   Value(550);
-  constexpr Value NNUEThreshold2 =   Value(150);
+  constexpr Value NNUEThreshold2 =   Value(200);
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
   constexpr int KingAttackWeights[PIECE_TYPE_NB] = { 0, 0, 81, 52, 44, 10 };
@@ -1034,7 +1034,8 @@ Value Eval::evaluate(const Position& pos) {
 
       // if the classical eval is small and imbalance large, use NNUE nevertheless.
       if (   largePsq
-          && abs(v) * 16 < NNUEThreshold2 * r50)
+          && abs(v) * 16 < NNUEThreshold2 * r50
+          && pos.this_thread()->nodes & 0x1)
           v = adjusted_NNUE();
   }
 
