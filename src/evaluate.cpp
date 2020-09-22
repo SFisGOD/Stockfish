@@ -1032,6 +1032,14 @@ Value Eval::evaluate(const Position& pos) {
 
       v = classical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
+      // Scale down NNUE eval when opposite bishops
+      if (   !classical
+          && pos.opposite_bishops())
+      {
+          Color strongSide = eg_value(pos.psq_score()) > VALUE_DRAW ? WHITE : BLACK;
+          v = v * std::min(64, 30 + 3 * pos.count<ALL_PIECES>(strongSide)) / 64;
+      }
+
       // if the classical eval is small and imbalance large, use NNUE nevertheless.
       if (   largePsq
           && abs(v) * 16 < NNUEThreshold2 * r50)
