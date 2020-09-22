@@ -1036,6 +1036,18 @@ Value Eval::evaluate(const Position& pos) {
       if (   largePsq
           && abs(v) * 16 < NNUEThreshold2 * r50)
           v = adjusted_NNUE();
+      {
+          v = adjusted_NNUE();
+          classical = false;
+      }
+
+      // Scale down NNUE eval when opposite bishops
+      if (   !classical
+          && pos.opposite_bishops())
+      {
+          Color strongSide = eg_value(pos.psq_score()) > VALUE_DRAW ? WHITE : BLACK;
+          v = v * (28 + 3 * pos.count<ALL_PIECES>(strongSide)) / 64;
+      }
   }
 
   // Damp down the evaluation linearly when shuffling
