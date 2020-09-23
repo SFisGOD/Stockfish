@@ -1032,6 +1032,12 @@ Value Eval::evaluate(const Position& pos) {
 
       v = classical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
+      // Switch to classical eval with small probability if adjusted NNUE eval is small
+      if (   !classical
+          && abs(v) < 40
+          && !(pos.this_thread()->nodes & 0xB))
+          v = Evaluation<NO_TRACE>(pos).value();
+
       // if the classical eval is small and imbalance large, use NNUE nevertheless.
       if (   largePsq
           && abs(v) * 16 < NNUEThreshold2 * r50)
