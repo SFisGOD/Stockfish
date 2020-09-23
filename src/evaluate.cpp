@@ -1039,7 +1039,7 @@ Value Eval::evaluate(const Position& pos) {
               && pos.non_pawn_material(BLACK) == BishopValueMg)
               v = v * (42 + 4 * popcount(Pawns::probe(pos)->passed_pawns(strongSide))) / 64;
           else
-			  v = v * (24 + 3 * pos.count<ALL_PIECES>(strongSide)) / 64;
+              v = v * (24 + 3 * pos.count<ALL_PIECES>(strongSide)) / 64;
       }
 
       // if the classical eval is small and imbalance large, use NNUE nevertheless.
