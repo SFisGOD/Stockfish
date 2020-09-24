@@ -192,6 +192,7 @@ namespace {
   constexpr Value SpaceThreshold = Value(12222);
   constexpr Value NNUEThreshold1 =   Value(550);
   constexpr Value NNUEThreshold2 =   Value(150);
+  constexpr Value NNUEThreshold3 =   Value(100);
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
   constexpr int KingAttackWeights[PIECE_TYPE_NB] = { 0, 0, 81, 52, 44, 10 };
@@ -1031,6 +1032,12 @@ Value Eval::evaluate(const Position& pos) {
       bool  classical = largePsq || (psq > PawnValueMg / 4 && !(pos.this_thread()->nodes & 0xB));
 
       v = classical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
+
+      // Switch to classical eval with small probability if adjusted NNUE eval is small
+      if (   !classical
+          && (abs(v) + pos.non_pawn_material() / PawnValueMg) * r50 < NNUEThreshold3 * 16
+          && !(pos.this_thread()->nodes & 0xB))
+          v = Evaluation<NO_TRACE>(pos).value();
 
       // if the classical eval is small and imbalance large, use NNUE nevertheless.
       if (   largePsq
