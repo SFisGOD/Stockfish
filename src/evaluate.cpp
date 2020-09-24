@@ -1029,8 +1029,8 @@ Value Eval::evaluate(const Position& pos) {
       int   r50 = 16 + pos.rule50_count();
       bool  largePsq = psq * 16 > (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50;
       bool  classical =   largePsq 
-                       || (psq > PawnValueMg / 4 && !(pos.this_thread()->nodes & 0xB))
-                       || (pos.opposite_bishops() && !(pos.this_thread()->nodes & 0xF));
+                       || (!(pos.this_thread()->nodes & 0xB) && psq > PawnValueMg / 4)
+                       || (!(pos.this_thread()->nodes & 0xF4) && pos.opposite_bishops() && psq > PawnValueMg / 8);
 
       v = classical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
@@ -1039,9 +1039,9 @@ Value Eval::evaluate(const Position& pos) {
       // small probability if the classical eval is less than the threshold.
       if (   largePsq
           && (abs(v) * 16 < NNUEThreshold2 * r50
-          || (   pos.opposite_bishops()
-              && abs(v) * 16 < (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50
-              && !(pos.this_thread()->nodes & 0xB))))
+          || (   !(pos.this_thread()->nodes & 0xB)
+              && pos.opposite_bishops()
+              && abs(v) * 16 < (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50)))
           v = adjusted_NNUE();
   }
 
