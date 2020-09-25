@@ -1034,7 +1034,7 @@ Value Eval::evaluate(const Position& pos) {
 
       // Scale down NNUE eval if opposite colored bishops
       if (   pos.opposite_bishops()
-          && psq * 8 < PawnValueEg * r50
+          && psq * 8 < PawnValueMg * r50
           && !classical)
       {
           Color strongSide = v > VALUE_DRAW ? WHITE : BLACK;
