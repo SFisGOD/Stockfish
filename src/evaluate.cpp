@@ -1032,6 +1032,15 @@ Value Eval::evaluate(const Position& pos) {
 
       v = classical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
+      // Scale down NNUE eval if opposite colored bishops
+      if (   pos.opposite_bishops()
+          && psq * 8 < PawnValueEg * r50
+          && !classical)
+      {
+          Color strongSide = v > VALUE_DRAW ? WHITE : BLACK;
+          v = v * (26 + 3 * pos.count<ALL_PIECES>(strongSide)) / 64;
+      }
+
       // If the classical eval is small and imbalance large, use NNUE nevertheless.
       // For the case of opposite colored bishops, switch to NNUE eval with
       // small probability if the classical eval is less than the threshold.
