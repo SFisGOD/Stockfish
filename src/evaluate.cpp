@@ -1038,7 +1038,7 @@ Value Eval::evaluate(const Position& pos) {
       {
           Color strongSide = v > VALUE_DRAW ? WHITE : BLACK;
           if (pos.count<ALL_PIECES>(strongSide) - pos.count<PAWN>(strongSide) > 1)
-              v = v * (26 + 3 * pos.count<ALL_PIECES>(strongSide)) / 64;
+              v = v * (8 + 5 * pos.count<ALL_PIECES>(strongSide)) / 64;
           else
               v = v * (22 + 4 * popcount(Pawns::probe(pos)->passed_pawns(strongSide))) / 64;
       }
