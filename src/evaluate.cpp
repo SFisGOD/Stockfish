@@ -1037,7 +1037,7 @@ Value Eval::evaluate(const Position& pos) {
           && !classical)
       {
           Color strongSide = v > VALUE_DRAW ? WHITE : BLACK;
-          v = v * (22 + 3 * pos.count<ALL_PIECES>(strongSide)) / 64;
+          v = v * (40 + 5 * pos.count<ALL_PIECES>(strongSide)) / 128;
       }
 
       // If the classical eval is small and imbalance large, use NNUE nevertheless.
