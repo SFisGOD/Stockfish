@@ -897,8 +897,10 @@ namespace {
             if (   pos.non_pawn_material(WHITE) == BishopValueMg
                 && pos.non_pawn_material(BLACK) == BishopValueMg)
                 sf = 18 + 4 * popcount(pe->passed_pawns(strongSide));
-            else
+            else if (abs(eg_value(pos.psq_score())) * 16 < 550 * (16 + pos.rule50_count()))
                 sf = 22 + 3 * pos.count<ALL_PIECES>(strongSide);
+            else
+                sf = std::min(sf, 36 + 7 * pos.count<PAWN>(strongSide));
         }
         else if (  pos.non_pawn_material(WHITE) == RookValueMg
                 && pos.non_pawn_material(BLACK) == RookValueMg
