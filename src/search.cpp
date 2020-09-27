@@ -58,8 +58,11 @@ using namespace Search;
 namespace {
 	
   int netbiases[1] = {-162}; // int32_t
+  auto myfunc = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 10, m + 10);};
+  TUNE(SetRange(myfunc), netbiases);
   int netweights[32] = {-18, -14, -79, 50, -20, 127, -127, 17, 34, 48, -43, 14, 21, -42, -14, 87, -39, 23, 34, 36, -12, -19, 16, -33, -25, -38, -15, -14, -21, 30, -12, 22}; // int8_t
-
+  auto myfunc127 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(std::max(-127, m - 10),std::min(127,m + 10));};
+  TUNE(SetRange(myfunc127), netweights);
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
 
