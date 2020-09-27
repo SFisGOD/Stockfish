@@ -56,6 +56,9 @@ using Eval::evaluate;
 using namespace Search;
 
 namespace {
+	
+  int netbiases[1] = {-162}; // int32_t
+  int netweights[32] = {-18, -14, -79, 50, -20, 127, -127, 17, 34, 48, -43, 14, 21, -42, -14, 87, -39, 23, 34, 36, -12, -19, 16, -33, -25, -38, -15, -14, -21, 30, -12, 22}; // int8_t
 
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
@@ -222,23 +225,40 @@ void MainThread::search() {
       return;
   }
   
-  size_t ndim=Eval::NNUE::Network::kOutputDimensions;
-  std::cout << "int netbiases[" << ndim << "] = {";
-  for (size_t i=0; i < ndim; ++i)
+  if (false)
   {
-      std::cout << int(Eval::NNUE::network->biases_[i]);
-      if (i < ndim - 1) std::cout << ", ";
-  }
-  std::cout << "}; // int32_t " << std::endl;
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions;
+     std::cout << "  int netbiases[" << ndim << "] = {";
+     for (size_t i=0; i < ndim; ++i)
+     {
+         std::cout << int(Eval::NNUE::network->biases_[i]);
+         if (i < ndim - 1) std::cout << ", ";
+     }
+     std::cout << "}; // int32_t" << std::endl;
 
-  ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
-  std::cout << "int netweights[" << ndim << "] = {";
-  for (size_t i=0; i < ndim; ++i)
-  {
-      std::cout << int(Eval::NNUE::network->weights_[i]);
-      if (i < ndim - 1) std::cout << ", ";
+     ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     std::cout << "  int netweights[" << ndim << "] = {";
+     for (size_t i=0; i < ndim; ++i)
+     {
+         std::cout << int(Eval::NNUE::network->weights_[i]);
+         if (i < ndim - 1) std::cout << ", ";
+     }
+     std::cout << "}; // int8_t" << std::endl;
   }
-  std::cout << "}; // int8_t " << std::endl;
+  else
+  {
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+         Eval::NNUE::network->biases_[i] = netbiases[i];
+     }
+     ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+        Eval::NNUE::network->weights_[i] = netweights[i];
+     }
+  }
+
 
   Color us = rootPos.side_to_move();
   Time.init(Limits, us, rootPos.game_ply());
