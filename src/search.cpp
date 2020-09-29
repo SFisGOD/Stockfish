@@ -56,6 +56,56 @@ using Eval::evaluate;
 using namespace Search;
 
 namespace {
+	
+  int netbiases[1] = {-154}; // int32_t
+  auto myfunc0 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 60, m + 60);};
+  TUNE(SetRange(myfunc0), netbiases);
+  int netweights[32] = {-20, -16, -77, 51, -19, 121, -120, 24, 32, 49, -45, 14, 19, -37, -26, 96, -44, 28, 38, 38, -15, -16, 16, -35, -13, -41, -15, -11, -26, 30, -15, 20}; // int8_t
+  auto myfunc7b = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(std::max(-127, m - 70),std::min(127,m + 70));};
+  auto myfunc8b = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(std::max(-127, m - 80),std::min(127,m + 80));};
+  auto myfunc1 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 10, m + 10);};
+  auto myfunc2 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 20, m + 20);};
+  auto myfunc3 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 30, m + 30);};
+  auto myfunc4 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 40, m + 40);};
+  auto myfunc5 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 50, m + 50);};
+  auto myfunc6 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 60, m + 60);};
+  auto myfunc7 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 70, m + 70);};
+  auto myfunc8 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 80, m + 80);};
+  auto myfunc9 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 90, m + 90);};
+  auto myfunc11 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 110, m + 110);};
+  auto myfunc13 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 130, m + 130);};
+
+  
+  TUNE(SetRange(myfunc1), netweights[0], netweights[1], netweights[2]);
+  TUNE(SetRange(myfunc2), netweights[3]);
+  TUNE(SetRange(myfunc1), netweights[4]);
+  TUNE(SetRange(myfunc7b), netweights[5]);
+  TUNE(SetRange(myfunc8b), netweights[6]);
+  TUNE(SetRange(myfunc9), netweights[7]);
+  TUNE(SetRange(myfunc1), netweights[8]);
+  TUNE(SetRange(myfunc1), netweights[9]);
+  TUNE(SetRange(myfunc2), netweights[10]);
+  TUNE(SetRange(myfunc1), netweights[11]);
+  TUNE(SetRange(myfunc3), netweights[12]);
+  TUNE(SetRange(myfunc5), netweights[13]);
+  TUNE(SetRange(myfunc11), netweights[14]);
+  TUNE(SetRange(myfunc9), netweights[15]);
+  TUNE(SetRange(myfunc6), netweights[16]);
+  TUNE(SetRange(myfunc7), netweights[17]);
+  TUNE(SetRange(myfunc4), netweights[18]);
+  TUNE(SetRange(myfunc2), netweights[19]);
+  TUNE(SetRange(myfunc4), netweights[20]);
+  TUNE(SetRange(myfunc4), netweights[21]);
+  TUNE(SetRange(myfunc2), netweights[22]);
+  TUNE(SetRange(myfunc3), netweights[23]);
+  TUNE(SetRange(myfunc13), netweights[24]);
+  TUNE(SetRange(myfunc3), netweights[25]);
+  TUNE(SetRange(myfunc1), netweights[26]);
+  TUNE(SetRange(myfunc2), netweights[27]);
+  TUNE(SetRange(myfunc4), netweights[28]);
+  TUNE(SetRange(myfunc1), netweights[29]);
+  TUNE(SetRange(myfunc4), netweights[30]);
+  TUNE(SetRange(myfunc1), netweights[31]);
 
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
