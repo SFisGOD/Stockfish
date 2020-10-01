@@ -34,6 +34,7 @@
 #include "tt.h"
 #include "uci.h"
 #include "syzygy/tbprobe.h"
+#include "nnue/evaluate_nnue.h"
 
 namespace Search {
 
@@ -219,6 +220,40 @@ void MainThread::search() {
       nodes = perft<true>(rootPos, Limits.perft);
       sync_cout << "\nNodes searched: " << nodes << "\n" << sync_endl;
       return;
+  }
+  
+  if (false)
+  {
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions;
+     std::cout << "  int netbiases[" << ndim << "] = {";
+     for (size_t i=0; i < ndim; ++i)
+     {
+         std::cout << int(Eval::NNUE::network->biases_[i]);
+         if (i < ndim - 1) std::cout << ", ";
+     }
+     std::cout << "}; // int32_t" << std::endl;
+
+     ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     std::cout << "  int netweights[" << ndim << "] = {";
+     for (size_t i=0; i < ndim; ++i)
+     {
+         std::cout << int(Eval::NNUE::network->weights_[i]);
+         if (i < ndim - 1) std::cout << ", ";
+     }
+     std::cout << "}; // int8_t" << std::endl;
+  }
+  else
+  {
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+         Eval::NNUE::network->biases_[i] = netbiases[i];
+     }
+     ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+        Eval::NNUE::network->weights_[i] = netweights[i];
+     }
   }
 
   Color us = rootPos.side_to_move();
