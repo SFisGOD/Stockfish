@@ -56,6 +56,13 @@ using Eval::evaluate;
 using namespace Search;
 
 namespace {
+	
+  int netbiases[1] = {-154};
+  auto myfunc = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 80, m + 80);};
+  TUNE(SetRange(myfunc), netbiases);
+  int netweights[32] = {-20, -16, -77, 51, -19, 121, -120, 24, 32, 49, -45, 14, 19, -37, -26, 96, -44, 28, 38, 38, -15, -16, 16, -35, -13, -41, -15, -11, -26, 30, -15, 20};
+  auto myfunc127 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(std::max(-127, m - 80),std::min(127,m + 80));};
+  TUNE(SetRange(myfunc127), netweights);
 
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
