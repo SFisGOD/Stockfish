@@ -274,7 +274,10 @@ namespace {
   constexpr Score WeakQueenProtection = S( 14,  0);
   constexpr Score WeakQueen           = S( 56, 15);
 
-
+int   aa  = 450;
+int   bb  = 250;
+auto myfunc = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(m - 200, m + 200);};
+TUNE(SetRange(myfunc), aa, bb);
 #undef S
 
   // Evaluation class computes and stores attacks tables and other working data
@@ -1031,7 +1034,10 @@ Value Eval::evaluate(const Position& pos) {
       Value psq = Value(abs(eg_value(pos.psq_score())));
       int   r50 = 16 + pos.rule50_count();
       bool  largePsq = psq * 16 > (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50;
-      bool  classical = largePsq || (psq > PawnValueMg / 4 && !(pos.this_thread()->nodes & 0xB));
+      bool  classical =   largePsq
+                       || ( (pos.this_thread()->nodes & 0x8) && psq > aa)                              // 1 in 2 chance
+                       || (!(pos.this_thread()->nodes & 0x9) && !(psq > aa) && psq > bb)               // 1 in 4 chance
+                       || (!(pos.this_thread()->nodes & 0xB) && !(psq > bb) && psq > PawnValueMg / 4); // 1 in 8 chance
 
       v = classical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
