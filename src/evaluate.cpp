@@ -1033,7 +1033,7 @@ Value Eval::evaluate(const Position& pos) {
       bool  largePsq = psq * 16 > (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50;
       bool  classical =   largePsq
                        || (!(pos.this_thread()->nodes & 0xB) && psq > PawnValueMg / 4)
-                       || (pos.count<QUEEN>() == 1 && (pos.this_thread()->nodes & 0x9));
+                       || (pos.count<QUEEN>() == 1 && !(pos.this_thread()->nodes & 0x9));
 
       v = classical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
