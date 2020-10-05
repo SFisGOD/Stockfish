@@ -1046,7 +1046,7 @@ Value Eval::evaluate(const Position& pos) {
                    && pos.opposite_bishops()
                    && abs(v) * 16 < (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50)
               v = adjusted_NNUE();
-          else if (   !(pos.this_thread()->nodes & 0xF)
+          else if (   !(pos.this_thread()->nodes & 0x1F)
                    && pos.count<QUEEN>() == 1
                    && abs(v) * 16 < (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50)
               v = adjusted_NNUE();
