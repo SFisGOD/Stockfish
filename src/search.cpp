@@ -90,9 +90,9 @@ namespace {
     return VALUE_DRAW + Value(2 * (thisThread->nodes & 1) - 1);
   }
   Value value_draw_repetition(Thread* thisThread) {
-    return VALUE_DRAW + Value(2 * (thisThread->nodes & 1) - 1)
-                      + Value(2 * (thisThread->nodes & 1) - 1)
-                      + Value(thisThread->nodes & 1);
+    return VALUE_DRAW + Value(2 * (thisThread->nodes & 0x1) - 1)
+                      + Value(2 * (thisThread->nodes & 0x2) - 1)
+                      + Value(thisThread->nodes & 0x4);
   }
 
   // Skill structure is used to implement strength limit
