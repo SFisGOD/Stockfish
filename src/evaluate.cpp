@@ -1033,8 +1033,8 @@ Value Eval::evaluate(const Position& pos) {
       int   r50 = 16 + pos.rule50_count();
       bool  largePsq = psq * 16 > (NNUEThreshold1 + npm / 64) * r50;
       bool  classical =   largePsq
-                       || (!(pos.this_thread()->nodes & 0xB) && npm >= 8300 && npm < 16350 && psq > PawnValueMg / 4)
-                       || (!(pos.this_thread()->nodes & 0x5) && npm <  8300 && psq > PawnValueMg / 4);
+                       || (!(pos.this_thread()->nodes & 0xB) && npm >= 4100 && npm < 16350 && psq > PawnValueMg / 4)
+                       || (!(pos.this_thread()->nodes & 0x9) && npm <  4100 && psq > PawnValueMg / 4);
 
       v = classical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
