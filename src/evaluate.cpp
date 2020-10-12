@@ -1045,7 +1045,7 @@ Value Eval::evaluate(const Position& pos) {
               v = adjusted_NNUE();
           else if (   (pos.this_thread()->nodes & 0x1)
                    && abs(v) * 16 < NNUEThreshold1 * r50
-                   && pos.non_pawn_material() > 4000)
+                   && pos.non_pawn_material() > 8000)
               v = adjusted_NNUE();
           else if (   !(pos.this_thread()->nodes & 0xB)
                    && pos.opposite_bishops()
