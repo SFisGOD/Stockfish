@@ -1034,10 +1034,10 @@ Value Eval::evaluate(const Position& pos) {
       bool  classical =   largePsq
                        || (!(pos.this_thread()->nodes & 0xB) && psq > PawnValueMg / 4);
 
-      if (!(pos.this_thread()->nodes & 0x7))
+      if (!(pos.this_thread()->nodes & 0xF) && pos.side_to_move() == WHITE && !classical)
       {
           v = Evaluation<NO_TRACE>(pos).value();
-          v = abs(v) > Value(650) ? v : adjusted_NNUE();
+          v = v > NNUEThreshold1 ? v : adjusted_NNUE();
       }
       else
       {
