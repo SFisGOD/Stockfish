@@ -1028,17 +1028,21 @@ Value Eval::evaluate(const Position& pos) {
       };
 
       // If there is PSQ imbalance use classical eval, with small probability if it is small
-      Value psq = Value(abs(eg_value(pos.psq_score())));
-      int   r50 = 16 + pos.rule50_count();
-      bool  largePsq = psq * 16 > (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50;
-      bool  classical = largePsq || (psq > PawnValueMg / 4 && !(pos.this_thread()->nodes & 0xB));
+      Value psq  = Value(abs(eg_value(pos.psq_score())));
+      Value psq2 = Value(eg_value(pos.psq_score()));
+      int   r50  = 16 + pos.rule50_count();
+      bool  largePsqBlack = pos.side_to_move() == BLACK && (psq  * 16 > (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50);
+      bool  largePsqWhite = pos.side_to_move() == WHITE && (psq2 * 16 > (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50);
+      bool  classical =   largePsqBlack
+                       || largePsqWhite
+                       || (!(pos.this_thread()->nodes & 0xB) && psq > PawnValueMg / 4);
 
       v = classical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
       // If the classical eval is small and imbalance large, use NNUE nevertheless.
       // For the case of opposite colored bishops, switch to NNUE eval with
       // small probability if the classical eval is less than the threshold.
-      if (   largePsq
+      if (   (largePsqBlack || largePsqWhite)
           && (abs(v) * 16 < NNUEThreshold2 * r50
           || (   pos.opposite_bishops()
               && abs(v) * 16 < (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50
