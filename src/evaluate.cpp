@@ -429,8 +429,7 @@ namespace {
                               & ~pe->pawn_attacks_span(Them);
             Bitboard targets = pos.pieces(Them) & ~pos.pieces(PAWN);
 
-            if (   Pt == KNIGHT
-                && bb & s & ~CenterFiles // on a side outpost
+            if (   bb & s & ~CenterFiles // on a side outpost
                 && !(b & targets)        // no relevant attacks
                 && (!more_than_one(targets & (s & QueenSide ? QueenSide : KingSide))))
                 score += BadOutpost;
