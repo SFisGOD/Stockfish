@@ -53,6 +53,8 @@ namespace Eval::NNUE {
 
   template <typename T>
   using LargePagePtr = std::unique_ptr<T, LargePageDeleter<T>>;
+  
+  extern AlignedPtr<Network> network;
 
 }  // namespace Eval::NNUE
 
