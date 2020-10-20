@@ -682,7 +682,7 @@ void MainThread::search() {
   auto& weights = Eval::NNUE::network->previous_layer_.previous_layer_.previous_layer_.previous_layer_.weights_;
   
   /*
-  // last 32x32 layer
+  // 32x32 layer
   constexpr size_t outputDimensions = Eval::NNUE::Network::PrevLayer::PrevLayer::kOutputDimensions;
   constexpr size_t inputDimensions = Eval::NNUE::Network::PrevLayer::PrevLayer::kPaddedInputDimensions;
   auto& biases = Eval::NNUE::network->previous_layer_.previous_layer_.biases_;
@@ -695,6 +695,9 @@ void MainThread::search() {
   auto& biases = Eval::NNUE::network->biases_;
   auto& weights = Eval::NNUE::network->weights_;
   */
+  
+  if (false)
+  {
      size_t ndim=outputDimensions;
      std::cout << "  int netbiases[" << ndim << "] = {";
      for (size_t i=0; i < ndim; ++i)
@@ -712,6 +715,20 @@ void MainThread::search() {
          if (i < ndim - 1) std::cout << ", ";
      }
      std::cout << "}; // int8_t" << std::endl;
+  }
+  else
+  {
+     size_t ndim=outputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+         biases[i] = netbiases[i];
+     }
+     ndim=inputDimensions * outputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+        weights[i] = netweights[i];
+     }
+  }
 
   Color us = rootPos.side_to_move();
   Time.init(Limits, us, rootPos.game_ply());
