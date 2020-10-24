@@ -1029,6 +1029,15 @@ Value Eval::evaluate(const Position& pos) {
       int   r50 = 16 + pos.rule50_count();
       bool  largePsq = psq * 16 > (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50;
       bool  classical = largePsq || (psq > PawnValueMg / 4 && !(pos.this_thread()->nodes & 0xB));
+	  
+      if (   !(pos.this_thread()->nodes & 0x9)
+          && largePsq
+          && psq < QueenValueMg
+          && popcount(pos.pieces(WHITE, PAWN) & shift<-pawn_push(WHITE)>(pos.pieces(BLACK, PAWN))) >= 5)
+      {
+          classical = false;
+          largePsq  = false;
+      }
 
       v = classical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
