@@ -1032,6 +1032,9 @@ Value Eval::evaluate(const Position& pos) {
 
       v = classical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
+      if (!(pos.this_thread()->nodes & 0xF) && !classical)
+      v = v + pos.this_thread()->contempt;
+
       // If the classical eval is small and imbalance large, use NNUE nevertheless.
       // For the case of opposite colored bishops, switch to NNUE eval with
       // small probability if the classical eval is less than the threshold.
