@@ -1028,7 +1028,11 @@ Value Eval::evaluate(const Position& pos) {
       Value psq = Value(abs(eg_value(pos.psq_score())));
       int   r50 = 16 + pos.rule50_count();
       bool  largePsq = psq * 16 > (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50;
-      bool  classical = largePsq || (psq > PawnValueMg / 4 && !(pos.this_thread()->nodes & 0xB));
+      bool  classical =   largePsq
+                       || (!(pos.this_thread()->nodes & 0xB) && psq > PawnValueMg / 4);
+
+      if (pos.non_pawn_material() == BishopValueMg)
+          classical = pos.this_thread()->nodes & 0x3;
 
       v = classical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
