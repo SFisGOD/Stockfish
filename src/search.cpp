@@ -57,10 +57,12 @@ using namespace Search;
 
 namespace {
 	
-  int netbiases[1] = {-154};
-  TUNE(netbiases);
-  int netweights[32] = {-20, -16, -77, 51, -19, 121, -120, 24, 32, 49, -45, 14, 19, -37, -26, 96, -44, 28, 38, 38, -15, -16, 16, -35, -13, -41, -15, -11, -26, 30, -15, 20};
-  auto myfunc127 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(std::max(-127, m - 20),std::min(127,m + 20));};
+  int netbiases[1] = {-158};
+  TUNE(SetRange(-300, 0), netbiases);
+  int netweights[32] = {-158,	-24,	-16,	-75,	55,	-17,	122,	-118,	22,	32,	
+  50,	-34,	19,	15,	-37,	-20,	97,	-55,	30,	35,	41,	-19,	-21,	17,	-30,	
+  -12,	-37,	-21,	-10,	-29,	28,	-13,	17,};
+  auto myfunc127 = [](int m){return m == 0 ? std::pair<int, int>(0, 0) : std::pair<int, int>(std::max(-127, m - 80),std::min(127,m + 80));};
   TUNE(SetRange(myfunc127), netweights);
 
   // Different node types, used as a template parameter
