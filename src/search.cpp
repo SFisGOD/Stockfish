@@ -95,7 +95,7 @@ int netweights[1024] = {-5,	15,	-3,	6,	-8,	3,	-11,	-11,	-16,	21,	51,	-8,	-27,	-8
 25,	-13,	-2,	-39,	20,	-18,	-12,	12,	-9,	-5,	-23,	16,	-6,	4,	14,	3,	-28,	34,	13,	-12,	26,	17,	37,	13,	35,	29,	7,	-22,	-13,	-22,	-38,	6
 }; // int8_t
 
-  auto myfunc = [](int m){return std::pair<int, int>(std::max(-127, m - 20),std::min(127,m + 20));};
+  auto myfunc = [](int m){return std::pair<int, int>(std::max(-127, m - 80),std::min(127,m + 80));};
   TUNE(SetRange(myfunc), netweights);
 
   // Different node types, used as a template parameter
