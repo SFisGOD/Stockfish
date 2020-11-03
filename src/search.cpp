@@ -34,6 +34,7 @@
 #include "tt.h"
 #include "uci.h"
 #include "syzygy/tbprobe.h"
+#include "nnue/evaluate_nnue.h"
 
 namespace Search {
 
@@ -55,6 +56,9 @@ using Eval::evaluate;
 using namespace Search;
 
 namespace {
+
+  int netbiasesW[1] = {-146};
+  int netbiasesB[1] = {-200};
 
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
@@ -220,6 +224,11 @@ void MainThread::search() {
       sync_cout << "\nNodes searched: " << nodes << "\n" << sync_endl;
       return;
   }
+
+  if (rootPos.side_to_move() == WHITE)
+      Eval::NNUE::network->biases_[0] = netbiasesW[0];
+  else
+      Eval::NNUE::network->biases_[0] = netbiasesB[0];
 
   Color us = rootPos.side_to_move();
   Time.init(Limits, us, rootPos.game_ply());
