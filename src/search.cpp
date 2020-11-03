@@ -57,8 +57,14 @@ using namespace Search;
 
 namespace {
 
-  int netbiasesW[1] = {-146};
-  int netbiasesB[1] = {-200};
+  int netbiasesW[1] = {-148};
+  int netweightsW[32] = {-28,	-20,	-75,	58,	-20,	120,	-117,	25,	36,	53,	-33,	
+  20,	21,	-35,	-17,	100,	-57,	30,	38,	42,	-20,	-22,	16,	-31,	-12,	
+  -43,	-23,	-11,	-39,	35,	-13,	20};
+
+  int netbiasesB[1] = {-158};
+  int netweightsB[32] = {-24, -16, -75, 55, -17, 122, -118, 22, 32, 50, -34, 19, 
+  15, -37, -20, 97, -54, 30, 35, 41, -18, -20, 17, -30, -12, -37, -21, -10, -29, 28, -13, 17};
 
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
@@ -226,9 +232,25 @@ void MainThread::search() {
   }
 
   if (rootPos.side_to_move() == WHITE)
-      Eval::NNUE::network->biases_[0] = netbiasesW[0];
+  {
+     Eval::NNUE::network->biases_[0] = netbiasesW[0];
+
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+        Eval::NNUE::network->weights_[i] = netweightsW[i];
+     }
+  }
   else
-      Eval::NNUE::network->biases_[0] = netbiasesB[0];
+  {
+     Eval::NNUE::network->biases_[0] = netbiasesB[0];
+
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+        Eval::NNUE::network->weights_[i] = netweightsB[i];
+     }
+  }
 
   Color us = rootPos.side_to_move();
   Time.init(Limits, us, rootPos.game_ply());
