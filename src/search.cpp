@@ -58,19 +58,19 @@ using namespace Search;
 namespace {
 
   // Output layer for white
-  int netbiasesW[1] = {-154};
-  int netweightsW[32] =
+  int netbiases_white[1] = {-162};
+  int netweights_white[32] =
   {
-      -28,  -20,  -75,   58,  -20,  120, -117,   25,   36,   53,  -33,   20,   21,  -35,  -17,  100,
-      -57,   30,   38,   42,  -20,  -22,   16,  -31,  -12,  -43,  -23,  -11,  -39,   35,  -13,   20
+      -26,  -17,  -78,   52,  -23,  122, -120,   26,   33,   45,  -28,   22,   16,  -37,  -22,  100,
+      -47,   31,   42,   39,  -18,  -26,   22,  -31,   -7,  -34,  -19,  -11,  -30,   31,  -18,   25
   };
 
   // Output layer for black
-  int netbiasesB[1] = {-158};
-  int netweightsB[32] =
+  int netbiases_black[1] = {-154};
+  int netweights_black[32] =
   {
-      -24,  -16,  -75,   55,  -17,  122, -118,   22,   32,   50,  -34,   19,   15,  -37,  -20,   97, 
-      -54,   30,   35,   41,  -18,  -20,   17,  -30,  -12,  -37,  -21,  -10,  -29,   28,  -13,   17
+      -27,  -13,  -74,   55,  -23,  123, -117,   24,   34,   46,  -25,   24,   12,  -37,  -20,  100, 
+      -59,   33,   33,   41,  -21,  -18,   22,  -40,  -21,  -38,  -25,  -15,  -27,   29,  -13,   24
   };
 
   // Different node types, used as a template parameter
@@ -240,22 +240,22 @@ void MainThread::search() {
 
   if (rootPos.side_to_move() == WHITE)
   {
-     Eval::NNUE::network->biases_[0] = netbiasesW[0];
+     Eval::NNUE::network->biases_[0] = netbiases_white[0];
 
      size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
      for (size_t i=0; i < ndim; ++i)
      {
-        Eval::NNUE::network->weights_[i] = netweightsW[i];
+        Eval::NNUE::network->weights_[i] = netweights_white[i];
      }
   }
   else
   {
-     Eval::NNUE::network->biases_[0] = netbiasesB[0];
+     Eval::NNUE::network->biases_[0] = netbiases_black[0];
 
      size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
      for (size_t i=0; i < ndim; ++i)
      {
-        Eval::NNUE::network->weights_[i] = netweightsB[i];
+        Eval::NNUE::network->weights_[i] = netweights_black[i];
      }
   }
 
