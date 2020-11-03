@@ -57,8 +57,8 @@ using namespace Search;
 
 namespace {
 
-  int netbiasesW[1] = {-146};
-  int netbiasesB[1] = {-200};
+  int netbiasesW[1] = {-200};
+  int netbiasesB[1] = {-158};
 
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
