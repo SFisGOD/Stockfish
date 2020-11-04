@@ -34,6 +34,7 @@
 #include "tt.h"
 #include "uci.h"
 #include "syzygy/tbprobe.h"
+#include "nnue/evaluate_nnue.h"
 
 namespace Search {
 
@@ -55,6 +56,22 @@ using Eval::evaluate;
 using namespace Search;
 
 namespace {
+
+  // Output layer for white
+  int netbiases_white[1] = {-150};
+  int netweights_white[32] =
+  {
+      -28,  -22,  -74,   57,  -22,  117, -119,   23,   31,   56,  -28,   16,   21,  -37,  -16,  102,
+      -56,   27,   32,   46,  -19,  -24,   14,  -35,  -12,  -46,  -21,  -10,  -36,   37,   -9,   22
+  };
+
+  // Output layer for black
+  int netbiases_black[1] = {-161};
+  int netweights_black[32] =
+  {
+      -27,  -15,  -77,   51,  -19,  123, -117,   21,   31,   51,  -30,   21,   12,  -36,  -23,   98, 
+      -58,   33,   37,   43,  -20,  -20,   18,  -28,  -18,  -30,  -21,  -13,  -30,   25,  -17,   19
+  };
 
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
@@ -221,6 +238,27 @@ void MainThread::search() {
       nodes = perft<true>(rootPos, Limits.perft);
       sync_cout << "\nNodes searched: " << nodes << "\n" << sync_endl;
       return;
+  }
+
+  if (rootPos.side_to_move() == WHITE)
+  {
+     Eval::NNUE::network->biases_[0] = netbiases_white[0];
+
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+        Eval::NNUE::network->weights_[i] = netweights_white[i];
+     }
+  }
+  else
+  {
+     Eval::NNUE::network->biases_[0] = netbiases_black[0];
+
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+        Eval::NNUE::network->weights_[i] = netweights_black[i];
+     }
   }
 
   Color us = rootPos.side_to_move();
