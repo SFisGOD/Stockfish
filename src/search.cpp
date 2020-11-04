@@ -58,7 +58,7 @@ using namespace Search;
 namespace {
 
   // Output layer for white
-  int netbiasesW[1] = {-154};
+  int netbiasesW[1] = {-100};
   int netweightsW[32] =
   {
       -28,  -20,  -75,   58,  -20,  120, -117,   25,   36,   53,  -33,   20,   21,  -35,  -17,  100,
