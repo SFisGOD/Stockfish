@@ -250,7 +250,7 @@ void MainThread::search() {
       return;
   }
 
-  if (pos.non_pawn_material() > npm)
+  if (rootPos.non_pawn_material() > npm)
   {
      Eval::NNUE::network->biases_[0] = netbiases_op[0];
 
