@@ -57,28 +57,31 @@ using namespace Search;
 
 namespace {
 
-  // Output layer for white
-  int netbiases_white[1] = {-148};
-  int netweights_white[32] =
+  // Separation of opening-middlegame from endgame
+  int npm = 8000;
+TUNE(npm);
+  // Output layer for opening-middlegame
+  int netbiases_op[1] = {-148};
+  int netweights_op[32] =
   {
       -28,  -20,  -75,   58,  -20,  120, -117,   25,   36,   53,  -33,   20,   21,  -35,  -17,  100,
       -57,   30,   38,   42,  -20,  -22,   16,  -31,  -12,  -43,  -23,  -11,  -39,   35,  -13,   20
   };
 
 auto myfunc127 = [](int m){ return std::pair<int, int>(std::max(-127, m - 80),std::min(127,m + 80));};
-TUNE(SetRange(-300, 0), netbiases_white);
-TUNE(SetRange(myfunc127), netweights_white);
+TUNE(SetRange(-300, 0), netbiases_op);
+TUNE(SetRange(myfunc127), netweights_op);
 
-  // Output layer for black
-  int netbiases_black[1] = {-158};
-  int netweights_black[32] =
+  // Output layer for endgame
+  int netbiases_ed[1] = {-158};
+  int netweights_ed[32] =
   {
       -24,  -16,  -75,   55,  -17,  122, -118,   22,   32,   50,  -34,   19,   15,  -37,  -20,   97, 
       -54,   30,   35,   41,  -18,  -20,   17,  -30,  -12,  -37,  -21,  -10,  -29,   28,  -13,   17
   };
 
-TUNE(SetRange(-300, 0), netbiases_black);
-TUNE(SetRange(myfunc127), netweights_black);
+TUNE(SetRange(-300, 0), netbiases_ed);
+TUNE(SetRange(myfunc127), netweights_ed);
 
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
@@ -247,24 +250,24 @@ void MainThread::search() {
       return;
   }
 
-  if (rootPos.side_to_move() == WHITE)
+  if (pos.non_pawn_material() > npm)
   {
-     Eval::NNUE::network->biases_[0] = netbiases_white[0];
+     Eval::NNUE::network->biases_[0] = netbiases_op[0];
 
      size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
      for (size_t i=0; i < ndim; ++i)
      {
-        Eval::NNUE::network->weights_[i] = netweights_white[i];
+        Eval::NNUE::network->weights_[i] = netweights_op[i];
      }
   }
   else
   {
-     Eval::NNUE::network->biases_[0] = netbiases_black[0];
+     Eval::NNUE::network->biases_[0] = netbiases_ed[0];
 
      size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
      for (size_t i=0; i < ndim; ++i)
      {
-        Eval::NNUE::network->weights_[i] = netweights_black[i];
+        Eval::NNUE::network->weights_[i] = netweights_ed[i];
      }
   }
 
