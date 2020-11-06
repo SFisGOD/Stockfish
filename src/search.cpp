@@ -68,6 +68,10 @@ namespace {
       -57,   30,   38,   42,  -20,  -22,   16,  -31,  -12,  -43,  -23,  -11,  -39,   35,  -13,   20
   };
 
+auto myfunc127 = [](int m){ return std::pair<int, int>(std::max(-127, m - 80),std::min(127,m + 80));};
+TUNE(SetRange(-300, 0), netbiases_op);
+TUNE(SetRange(myfunc127), netweights_op);
+
   // Output layer for middlegame
   int netbiases_mg[1] = {-153};
   int netweights_mg[32] =
@@ -76,6 +80,9 @@ namespace {
       -56,   30,   37,   42,  -19,  -21,   16,  -31,  -12,  -40,  -22,  -11,  -34,   32,  -13,   19
   };
 
+TUNE(SetRange(-300, 0), netbiases_mg);
+TUNE(SetRange(myfunc127), netweights_mg);
+
   // Output layer for endgame
   int netbiases_eg[1] = {-158};
   int netweights_eg[32] =
@@ -83,6 +90,9 @@ namespace {
       -24,  -16,  -75,   55,  -17,  122, -118,   22,   32,   50,  -34,   19,   15,  -37,  -20,   97, 
       -54,   30,   35,   41,  -18,  -20,   17,  -30,  -12,  -37,  -21,  -10,  -29,   28,  -13,   17
   };
+
+TUNE(SetRange(-300, 0), netbiases_eg);
+TUNE(SetRange(myfunc127), netweights_eg);
 
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
