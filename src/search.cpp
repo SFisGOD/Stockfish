@@ -57,12 +57,23 @@ using namespace Search;
 
 namespace {
 
-  // Output layer for middlegame
-  int netbiases_mg[1] = {-148};
-  int netweights_mg[32] =
+  // Separation of middlegame and endgame
+  int npm = 8000;
+
+  // Output layer for opening
+  int netbiases_op[1] = {-148};
+  int netweights_op[32] =
   {
       -28,  -20,  -75,   58,  -20,  120, -117,   25,   36,   53,  -33,   20,   21,  -35,  -17,  100,
       -57,   30,   38,   42,  -20,  -22,   16,  -31,  -12,  -43,  -23,  -11,  -39,   35,  -13,   20
+  };
+
+  // Output layer for middlegame
+  int netbiases_mg[1] = {-153};
+  int netweights_mg[32] =
+  {
+      -26,  -18,  -75,   57,  -19,  121, -117,   24,   34,   52,  -33,   20,   18,  -36,  -18,   99,
+      -56,   30,   37,   42,  -19,  -21,   16,  -31,  -12,  -40,  -22,  -11,  -34,   32,  -13,   19
   };
 
   // Output layer for endgame
@@ -240,8 +251,18 @@ void MainThread::search() {
       return;
   }
 
-  // Use the appropriate output layer depending on the number of pieces
-  if (rootPos.count<ALL_PIECES>() > 16)
+  // Use the appropriate output layer depending on the phase of the game
+  if (rootPos.count<ALL_PIECES>() >= 30)
+  {
+     Eval::NNUE::network->biases_[0] = netbiases_op[0];
+
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+        Eval::NNUE::network->weights_[i] = netweights_op[i];
+     }
+  }
+  else if (rootPos.non_pawn_material() > npm)
   {
      Eval::NNUE::network->biases_[0] = netbiases_mg[0];
 
