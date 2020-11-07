@@ -77,7 +77,7 @@ namespace {
   };
 
   // Output layer for endgame
-  int netbiases_eg[1] = {-158};
+  int netbiases_eg[1] = {-200};
   int netweights_eg[32] =
   {
       -24,  -16,  -75,   55,  -17,  122, -118,   22,   32,   50,  -34,   19,   15,  -37,  -20,   97, 
