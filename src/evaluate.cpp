@@ -1046,7 +1046,7 @@ Value Eval::evaluate(const Position& pos) {
 
           // For the case of opposite colored bishops, switch to NNUE eval with
           // small probability if the classical eval is less than the threshold.
-          else if (   !(pos.this_thread()->nodes & 0xB)
+          else if (   !(pos.this_thread()->nodes & 0x2A)
                    && pos.opposite_bishops()
                    && abs(v) * 16 < (NNUEThreshold1 + pos.non_pawn_material() / 64) * r50)
               v = adjusted_NNUE();
