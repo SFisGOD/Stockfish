@@ -34,6 +34,7 @@
 #include "tt.h"
 #include "uci.h"
 #include "syzygy/tbprobe.h"
+#include "nnue/evaluate_nnue.h"
 
 namespace Search {
 
@@ -55,6 +56,27 @@ using Eval::evaluate;
 using namespace Search;
 
 namespace {
+
+  // Separation of middlegame and endgame
+  int npm = 8457;
+
+  // Output layer for middlegame
+  int netbiases_mg[1] = {-156};
+  int netweights_mg[32] =
+  {
+-29,	-21,	-72,	45,	-24,	121,	-117,	27,	33,	51,	-28,	21,	28,	-28,	-12,	95,	
+-60,	28,	34,	35,	-19,	-15,	14,	-32,	-7,	-38,	-19,	-6,	-38,	37,	-11,	21
+
+  };
+
+  // Output layer for endgame
+  int netbiases_eg[1] = {-170};
+  int netweights_eg[32] =
+  {
+-27,	-17,	-79,	59,	-28,	123,	-116,	21,	27,	55,	-40,	17,	18,	-38,	-20,	97,	
+-58,	27,	34,	46,	-24,	-23,	21,	-29,	-11,	-41,	-20,	-8,	-26,	28,	-15,	15
+
+  };
 
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
@@ -221,6 +243,28 @@ void MainThread::search() {
       nodes = perft<true>(rootPos, Limits.perft);
       sync_cout << "\nNodes searched: " << nodes << "\n" << sync_endl;
       return;
+  }
+
+  // Use the appropriate output layer depending on the phase of the game
+  if (rootPos.non_pawn_material() > npm)
+  {
+     Eval::NNUE::network->biases_[0] = netbiases_mg[0];
+
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+        Eval::NNUE::network->weights_[i] = netweights_mg[i];
+     }
+  }
+  else
+  {
+     Eval::NNUE::network->biases_[0] = netbiases_eg[0];
+
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+        Eval::NNUE::network->weights_[i] = netweights_eg[i];
+     }
   }
 
   Color us = rootPos.side_to_move();
