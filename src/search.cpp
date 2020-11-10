@@ -1169,6 +1169,10 @@ moves_loop: // When in check, search starts from here
           if (ss->ttPv)
               r -= 2;
 
+          // Decrease reduction for castling
+          if (type_of(move) == CASTLING)
+              r--;
+
           if (moveCountPruning && !formerPv)
               r++;
 
