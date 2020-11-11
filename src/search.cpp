@@ -58,16 +58,12 @@ using namespace Search;
 namespace {
 
   // Output layer for opposite-colored bishops
-  int netbias_ocb[1] = {-200};
+  int netbias_ocb[1] = {-201};
   int netweights_ocb[32] =
   {
-      -24,  -16,  -75,   55,  -17,  122, -118,   22,   32,   50,  -34,   19,   15,  -37,  -20,   97, 
-      -54,   30,   35,   41,  -18,  -20,   17,  -30,  -12,  -37,  -21,  -10,  -29,   28,  -13,   17
+-23,	-19,	-75,	54,	-20,	123,	-116,	22,	29,	48,	-37,	18,	18,	-39,	-17,	97,	-52,	
+34,	34,	37,	-17,	-23,	22,	-28,	-14,	-37,	-17,	-15,	-31,	28,	-16,	19
   };
-
-auto myfunc127 = [](int m){ return std::pair<int, int>(std::max(-127, m - 80),std::min(127,m + 80));};
-TUNE(SetRange(-300, 0), netbias_ocb);
-TUNE(SetRange(myfunc127), netweights_ocb);
 
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
