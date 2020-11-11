@@ -1173,6 +1173,10 @@ moves_loop: // When in check, search starts from here
           if ((rootNode || !PvNode) && depth > 10 && thisThread->bestMoveChanges <= 2)
               r++;
 
+          // Increase reduction at root probabilistically
+          if (rootNode && !(thisThread->nodes & 0xF))
+              r++;
+
           if (moveCountPruning && !formerPv)
               r++;
 
