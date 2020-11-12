@@ -58,7 +58,7 @@ using namespace Search;
 namespace {
 
   // Separation of middlegame and endgame
-  int npm = 4000;
+  int npm = 2500;
 
   // Output layer for endgame
   int netbiases_eg[1] = {-220};
