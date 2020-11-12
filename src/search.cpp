@@ -68,10 +68,6 @@ namespace {
 41,	40,	50,	-26,	-14,	33,	-36,	-19,	-40,	-11,	-20,	-34,	30,	-26,	26
   };
 
-auto myfunc127 = [](int m){ return std::pair<int, int>(std::max(-127, m - 200),std::min(127,m + 200));};
-TUNE(SetRange(-500, 500), netbiases_eg);
-TUNE(SetRange(myfunc127), netweights_eg);
-
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
 
