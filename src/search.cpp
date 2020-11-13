@@ -58,14 +58,14 @@ using namespace Search;
 namespace {
 
   // Separation of middlegame and endgame
-  int npm = 2500;
+  int npm = 8000;
 
   // Output layer for endgame
-  int netbiases_eg[1] = {-220};
+  int netbiases_eg[1] = {-84};
   int netweights_eg[32] =
   {
--31,	-25,	-72,	52,	-21,	115,	-116,	22,	35,	46,	-25,	23,	12,	-41,	-21,	80,	-49,	36,	41,	
-55,	-22,	-14,	33,	-38,	-19,	-41,	-10,	-17,	-37,	26,	-22,	23
+-23,	-15,	-80,	60,	-25,	120,	-114,	27,	30,	26,	-32,	25,	18,	-21,	-21,	105,	
+-64,	37,	39,	37,	-26,	-30,	30,	-53,	-21,	-39,	-24,	-20,	-35,	27,	-19,	29
   };
 
   // Different node types, used as a template parameter
