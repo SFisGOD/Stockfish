@@ -1203,13 +1203,17 @@ moves_loop: // When in check, search starts from here
           if (thisThread->ttHitAverage > 509 * TtHitAverageResolution * TtHitAverageWindow / 1024)
               r--;
 
-          // Reduction if other threads are searching this position
+          // Increase reduction if other threads are searching this position
           if (th.marked())
               r++;
 
           // Decrease reduction if position is or has been on the PV (~10 Elo)
           if (ss->ttPv)
               r -= 2;
+
+          // Increase reduction at root and non-PV nodes when the best move does not change frequently
+          if ((rootNode || !PvNode) && depth > 10 && thisThread->bestMoveChanges <= 2)
+              r++;
 
           if (moveCountPruning && !formerPv)
               r++;
@@ -1567,7 +1571,7 @@ moves_loop: // When in check, search starts from here
       moveCount++;
 
       // Futility pruning
-      if (   !ss->inCheck
+      if (    bestValue > VALUE_TB_LOSS_IN_MAX_PLY
           && !givesCheck
           &&  futilityBase > -VALUE_KNOWN_WIN
           && !pos.advanced_pawn_push(move))
@@ -1594,7 +1598,7 @@ moves_loop: // When in check, search starts from here
       }
 
       // Do not search moves with negative SEE values
-      if (   !ss->inCheck
+      if (    bestValue > VALUE_TB_LOSS_IN_MAX_PLY
           && !(givesCheck && pos.is_discovery_check_on_king(~pos.side_to_move(), move))
           && !pos.see_ge(move))
           continue;
