@@ -1173,6 +1173,10 @@ moves_loop: // When in check, search starts from here
           if ((rootNode || !PvNode) && depth > 10 && thisThread->bestMoveChanges <= 2)
               r++;
 
+          // Increase reduction for king moves at non-PV nodes
+          if (!PvNode && type_of(pos.moved_piece(move)) == KING)
+              r++;
+
           if (moveCountPruning && !formerPv)
               r++;
 
