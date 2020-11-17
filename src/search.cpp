@@ -56,9 +56,8 @@ using Eval::evaluate;
 using namespace Search;
 
 namespace {
-	
-  int netbiases[1] = {-200};
- TUNE(SetRange(-400,0), netbiases);
+
+  int netbiases[1] = {33};
   int netweights[32] = {-24, -16, -75, 55, -17, 122, -118, 22, 32, 50, -34, 19, 
   15, -37, -20, 97, -54, 30, 35, 41, -18, -20, 17, -30, -12, -37, -21, -10, -29, 28, -13, 17};
   TUNE(SetRange(-127, 127), netweights);
