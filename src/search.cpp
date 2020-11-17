@@ -513,10 +513,10 @@ int netweights[16384] = {-12, -4, 2, -1, -1, -1, 1, 1, -3, 3, -1, -2, 0, -3, -6,
 
 auto myfunc = [](int m){return std::pair<int, int>(std::max(-127, m - 80),std::min(127,m + 80));};
 TUNE(SetRange(myfunc),
-netweights[1104],	netweights[2384],	netweights[4565],	netweights[6435],	netweights[6503],	netweights[6541],	netweights[6558],	netweights[6613],	
-netweights[11088],	netweights[11471],	netweights[11697],	netweights[12318],	netweights[12384],	netweights[12721],	netweights[13474],	netweights[13575],	
-netweights[13600],	netweights[13603],	netweights[13615],	netweights[13640],	netweights[13643],	netweights[13646],	netweights[13671],	netweights[13685],	
-netweights[13709],	netweights[13726],	netweights[13761],	netweights[13781],	netweights[13904],	netweights[14983],	netweights[15239],	netweights[15858],	netweights[16114]
+netweights[80],	netweights[1104],	netweights[2384],	netweights[2896],	netweights[2897],	netweights[6503],	netweights[6577],	netweights[6613],	
+netweights[7249],	netweights[9296],	netweights[11441],	netweights[11616],	netweights[11697],	netweights[11856],	netweights[12318],	netweights[12384],	
+netweights[12465],	netweights[12721],	netweights[12880],	netweights[13575],	netweights[13603],	netweights[13640],	netweights[13646],	netweights[13671],	
+netweights[13709],	netweights[13726],	netweights[13761],	netweights[13781],	netweights[13904],	netweights[14160],	netweights[14983],	netweights[15008],	netweights[15239]
 );
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
