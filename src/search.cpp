@@ -233,7 +233,7 @@ void MainThread::search() {
   }
 
   // Use output layer for endgame
-  if (rootPos.count<ALL_PIECES>() - rootPos.count<PAWN>() <= 6)
+  if (rootPos.count<ALL_PIECES>() - rootPos.count<PAWN>() <= 8)
   {
      Eval::NNUE::network->biases_[0] = netbias_eg[0];
 
