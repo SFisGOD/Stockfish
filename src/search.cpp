@@ -57,12 +57,12 @@ using namespace Search;
 
 namespace {
 
-  // Output layer for endgame
-  int netbias_eg[1] = {-195};
+  // Output layer for closed positions
+  int netbias_eg[1] = {-194};
   int netweights_eg[32] =
   {
--27,	-13,	-74,	56,	-27,	122,	-117,	19,	30,	52,	-33,	23,	20,	-37,	-22,	95,	
--50,	28,	39,	45,	-18,	-23,	16,	-43,	-20,	-40,	-16,	-9,	-29,	28,	-14,	13
+-28,	-13,	-72,	54,	-24,	121,	-116,	22,	34,	51,	-33,	18,	15,	-35,	-19,	102,	
+-59,	35,	37,	46,	-20,	-18,	20,	-26,	-16,	-38,	-20,	-13,	-27,	29,	-14,	16
   };
 
   // Different node types, used as a template parameter
@@ -232,8 +232,8 @@ void MainThread::search() {
       return;
   }
 
-  // Use output layer for endgame
-  if (rootPos.count<ALL_PIECES>() - rootPos.count<PAWN>() <= 6)
+  // Use output layer for closed positions
+  if (Pawns::probe(rootPos)->blocked_count() >= 4)
   {
      Eval::NNUE::network->biases_[0] = netbias_eg[0];
 
