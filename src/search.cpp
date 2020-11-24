@@ -59,8 +59,11 @@ namespace {
 
   // Output layer for middlegame
   int netbias_mg[1] = {-200};
+  TUNE(netbias_mg);
   int netweights_mg[32] = {-24, -16, -75, 55, -17, 122, -118, 22, 32, 50, -34, 19, 
   15, -37, -20, 97, -54, 30, 35, 41, -18, -20, 17, -30, -12, -37, -21, -10, -29, 28, -13, 17};
+  auto myfunc127 = [](int m){ return std::pair<int, int>(std::max(-127, m - 80),std::min(127,m + 80));};
+  TUNE(SetRange(myfunc127), netweights_mg);
 
   // Output layer for endgame
   int netbias_eg[1] = {-195};
