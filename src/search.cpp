@@ -57,6 +57,11 @@ using namespace Search;
 
 namespace {
 
+  // Output layer for middlegame
+  int netbias_mg[1] = {-200};
+  int netweights_mg[32] = {-24, -16, -75, 55, -17, 122, -118, 22, 32, 50, -34, 19, 
+  15, -37, -20, 97, -54, 30, 35, 41, -18, -20, 17, -30, -12, -37, -21, -10, -29, 28, -13, 17};
+
   // Output layer for endgame
   int netbias_eg[1] = {-195};
   int netweights_eg[32] =
@@ -241,6 +246,16 @@ void MainThread::search() {
      for (size_t i=0; i < ndim; ++i)
      {
         Eval::NNUE::network->weights_[i] = netweights_eg[i];
+     }
+  }
+  else
+  {
+     Eval::NNUE::network->biases_[0] = netbias_mg[0];
+
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+        Eval::NNUE::network->weights_[i] = netweights_mg[i];
      }
   }
 
