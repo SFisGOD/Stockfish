@@ -34,6 +34,7 @@
 #include "tt.h"
 #include "uci.h"
 #include "syzygy/tbprobe.h"
+#include "nnue/evaluate_nnue.h"
 
 namespace Search {
 
@@ -55,6 +56,14 @@ using Eval::evaluate;
 using namespace Search;
 
 namespace {
+
+  // Output layer for root positions with kings on opposite flanks
+  int netbias_kof[1] = {-205};
+  int netweights_kof[32] =
+  {
+   -30,	-16,	-77,	55,	-20,	123,	-119,	30,	32,	59,	-40,	19,	17,	-33,	-29,	96,	
+   -55,	21,	42,	43,	-22,	-21,	19,	-31,	-13,	-35,	-20,	-15,	-35,	32,	-14,	16
+  };
 
   // Different node types, used as a template parameter
   enum NodeType { NonPV, PV };
@@ -221,6 +230,18 @@ void MainThread::search() {
       nodes = perft<true>(rootPos, Limits.perft);
       sync_cout << "\nNodes searched: " << nodes << "\n" << sync_endl;
       return;
+  }
+
+  // Use output layer for root positions with kings on opposite flanks
+  if ((rootPos.pieces(WHITE, KING) & KingSide) != (rootPos.pieces(BLACK, KING) & KingSide))
+  {
+     Eval::NNUE::network->biases_[0] = netbias_kof[0];
+
+     size_t ndim=Eval::NNUE::Network::kOutputDimensions * Eval::NNUE::Network::kPaddedInputDimensions;
+     for (size_t i=0; i < ndim; ++i)
+     {
+        Eval::NNUE::network->weights_[i] = netweights_kof[i];
+     }
   }
 
   Color us = rootPos.side_to_move();
