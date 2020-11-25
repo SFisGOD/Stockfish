@@ -223,10 +223,10 @@ void MainThread::search() {
       return;
   }
 
-  if (rootPos.non_pawn_material() < 8000)
-      Options["EvalFile"] = string(EvalFileEndgame);
-  else
+  if (rootPos.non_pawn_material() > 5200)
       Options["EvalFile"] = string(EvalFileDefaultName);
+  else
+      Options["EvalFile"] = string(EvalFileEndgame);
 
   Color us = rootPos.side_to_move();
   Time.init(Limits, us, rootPos.game_ply());
