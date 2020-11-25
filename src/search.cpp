@@ -223,7 +223,7 @@ void MainThread::search() {
       return;
   }
 
-  if (rootPos.count<ALL_PIECES>() - rootPos.count<PAWN>() <= 8)
+  if (rootPos.non_pawn_material() < 8000)
       Options["EvalFile"] = string(EvalFileEndgame);
   else
       Options["EvalFile"] = string(EvalFileDefaultName);
