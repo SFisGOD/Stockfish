@@ -223,7 +223,10 @@ void MainThread::search() {
       return;
   }
 
-  if (rootPos.count<ALL_PIECES>() - rootPos.count<PAWN>() <= 8)
+  if (   rootPos.count<ALL_PIECES>() - rootPos.count<PAWN>() <= 12
+      && !(rootPos.this_thread()->nodes & 0x7))
+      Options["EvalFile"] = string(EvalFileEndgame);
+  else if (rootPos.count<ALL_PIECES>() - rootPos.count<PAWN>() <= 6)
       Options["EvalFile"] = string(EvalFileEndgame);
   else
       Options["EvalFile"] = string(EvalFileDefaultName);
