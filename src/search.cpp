@@ -224,7 +224,7 @@ void MainThread::search() {
   }
 
   if (   rootPos.count<ALL_PIECES>() - rootPos.count<PAWN>() <= 12
-      && !(rootPos.this_thread()->nodes & 0x7))
+      && !(rootPos.key() & 0xB))
       Options["EvalFile"] = string(EvalFileEndgame);
   else if (rootPos.count<ALL_PIECES>() - rootPos.count<PAWN>() <= 6)
       Options["EvalFile"] = string(EvalFileEndgame);
