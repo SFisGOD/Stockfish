@@ -223,7 +223,7 @@ void MainThread::search() {
       return;
   }
 
-  if (rootPos.non_pawn_material() < 8000)
+  if (rootPos.non_pawn_material() < 0)
       Options["EvalFile"] = string(EvalFileEndgame);
   else
       Options["EvalFile"] = string(EvalFileDefaultName);
