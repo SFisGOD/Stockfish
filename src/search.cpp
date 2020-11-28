@@ -1161,6 +1161,17 @@ moves_loop: // When in check, search starts from here
           if (thisThread->ttHitAverage > 537 * TtHitAverageResolution * TtHitAverageWindow / 1024)
               r--;
 
+          Value psq = Value(abs(eg_value(pos.psq_score())));
+          int   r50 = 16 + pos.rule50_count();
+          bool  largePsq = psq * 16 > (682 + pos.non_pawn_material() / 64) * r50;
+
+          // Decrease reduction for nodes evaluated with NNUE
+          if (   !(thisThread->nodes & 0xF)
+              && !largePsq
+              && !(psq > PawnValueMg / 4 && !(thisThread->nodes & 0xB))
+              && !(pos.non_pawn_material() < 2 * RookValueMg && pos.count<PAWN>() < 2))
+              r--;
+
           // Increase reduction if other threads are searching this position
           if (th.marked())
               r++;
