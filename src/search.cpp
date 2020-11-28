@@ -1173,15 +1173,15 @@ moves_loop: // When in check, search starts from here
           if ((rootNode || !PvNode) && depth > 10 && thisThread->bestMoveChanges <= 2)
               r++;
 
-          Value psq = Value(abs(eg_value(pos.psq_score())));
-          int   r50 = 16 + pos.rule50_count();
-          bool  largePsq = psq * 16 > (682 + pos.non_pawn_material() / 64) * r50;
-
-          // Increase reduction for nodes evaluated with NNUE
-          if (   !largePsq
-              && !(psq > PawnValueMg / 4 && !(thisThread->nodes & 0xB))
-              && !(pos.non_pawn_material() < 2 * RookValueMg && pos.count<PAWN>() < 2))
-              r++;
+          // Increase reduction probabilistically for nodes evaluated with NNUE
+          if (thisThread->nodes & 0x1)
+          {
+              Value psq = Value(abs(eg_value(pos.psq_score())));
+              if (   !(psq * 16 > (682 + pos.non_pawn_material() / 64) * (16 + pos.rule50_count()))
+                  && !(psq > PawnValueMg / 4 && !(thisThread->nodes & 0xB))
+                  && !(pos.non_pawn_material() < 2 * RookValueMg && pos.count<PAWN>() < 2))
+                  r++;
+          }
 
           if (moveCountPruning && !formerPv)
               r++;
