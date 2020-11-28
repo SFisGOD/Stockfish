@@ -1161,6 +1161,11 @@ moves_loop: // When in check, search starts from here
           if (thisThread->ttHitAverage > 537 * TtHitAverageResolution * TtHitAverageWindow / 1024)
               r--;
 
+          // Decrease reduction for nodes evaluated with classical
+          if (   !(thisThread->nodes & 0xB)
+              && Value(abs(eg_value(pos.psq_score()))) > PawnValueMg / 4)
+              r--;
+
           // Increase reduction if other threads are searching this position
           if (th.marked())
               r++;
