@@ -1036,7 +1036,7 @@ Value Eval::evaluate(const Position& pos) {
       bool  classical =   largePsq
                        || (!(pos.this_thread()->nodes & 0xB) && psq > PawnValueMg / 4)
                        || (   !more_than_two(pos.pieces(WHITE, PAWN) & shift<-pawn_push(WHITE)>(pos.pieces(BLACK, PAWN)))
-                           && (pos.count<ALL_PIECES>() - pos.count<PAWN>() >= 8)
+                           && (pos.count<ALL_PIECES>() - pos.count<PAWN>() >= 10)
                            && pos.count<PAWN>() <= 8
                            && pos.count<QUEEN>() > 0
                            && psq > PawnValueMg / 4);
