@@ -1222,6 +1222,12 @@ moves_loop: // When in check, search starts from here
           }
           else
           {
+              // Increase reduction at root for captures/promotions if late move and at low depth
+              if (   rootNode
+                  && depth < 8
+                  && moveCount > 2)
+                  r++;
+
               // Unless giving check, this capture is likely bad
               if (   !givesCheck
                   && ss->staticEval + PieceValue[EG][pos.captured_piece()] + 210 * depth <= alpha)
