@@ -193,23 +193,6 @@ namespace {
   constexpr Value NNUEThreshold1 =   Value(682);
   constexpr Value NNUEThreshold2 =   Value(176);
 
-int scaling = 679;
-int eg1 = 0;
-int eg2 = 0;
-int eg3 = 0;
-int eg4 = 0;
-int eg5 = 0;
-int eg6 = 0;
-int eg7 = 0;
-int eg8 = 0;
-int eg9 = 0;
-int eg10 = 0;
-int eg11 = 0;
-int eg12 = 0;
-int eg13 = 0;
-int eg14 = 0;
-int eg15 = 0;
-
   // KingAttackWeights[PieceType] contains king attack weights by piece type
   constexpr int KingAttackWeights[PIECE_TYPE_NB] = { 0, 0, 81, 52, 44, 10 };
 
@@ -1059,22 +1042,22 @@ Value Eval::evaluate(const Position& pos) {
 
       auto  adjusted_NNUE_eg = [&](){
          int mat = pos.non_pawn_material() + PawnValueMg * pos.count<PAWN>();
-         int eg_factors =   eg1  *  pos.opposite_bishops()
-                          + eg2  * (pos.count<ROOK>(WHITE) == 1 && pos.count<ROOK>(BLACK) == 1)
-                          + eg3  * (pos.count<KNIGHT>(WHITE) == 1 && pos.count<KNIGHT>(BLACK) == 1)
-                          + eg4  * (pos.count<BISHOP>(WHITE) == 1 && pos.count<BISHOP>(BLACK) == 1)
-                          + eg5  * (pos.count<QUEEN>(WHITE) == 1 && pos.count<QUEEN>(BLACK) == 1)
-                          + eg6  * (pos.count<BISHOP>(WHITE) == 2 || pos.count<BISHOP>(BLACK) == 2)
-                          + eg7  * (pos.count<KNIGHT>(WHITE) == 2 || pos.count<KNIGHT>(BLACK) == 2)
-                          + eg8  * (pos.count<ROOK>(WHITE) == 2 || pos.count<ROOK>(BLACK) == 2)
-                          + eg9  * (pos.count<QUEEN>() == 1)
-                          + eg10 * (pos.count<ROOK>() == 1)
-                          + eg11 * (pos.count<BISHOP>() == 1)
-                          + eg12 * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == abs(BishopValueMg - KnightValueMg))
-                          + eg13 * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == abs(BishopValueMg - RookValueMg))
-                          + eg14 * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == abs(KnightValueMg - RookValueMg))
-                          + eg15 * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == BishopValueMg);
-         return NNUE::evaluate(pos) * (scaling + mat / 32 + eg_factors) / 1024 + Tempo;
+         int eg_factors =   -10  *  pos.opposite_bishops()
+                          + -10  * (pos.count<ROOK>(WHITE) == 1 && pos.count<ROOK>(BLACK) == 1)
+                          +  10  * (pos.count<KNIGHT>(WHITE) == 1 && pos.count<KNIGHT>(BLACK) == 1)
+                          + -10  * (pos.count<BISHOP>(WHITE) == 1 && pos.count<BISHOP>(BLACK) == 1)
+                          + -10  * (pos.count<QUEEN>(WHITE) == 1 && pos.count<QUEEN>(BLACK) == 1)
+                          +  10  * (pos.count<BISHOP>(WHITE) == 2 || pos.count<BISHOP>(BLACK) == 2)
+                          + -10  * (pos.count<KNIGHT>(WHITE) == 2 || pos.count<KNIGHT>(BLACK) == 2)
+                          +  10  * (pos.count<ROOK>(WHITE) == 2 || pos.count<ROOK>(BLACK) == 2)
+                          + -10  * (pos.count<QUEEN>() == 1)
+                          + -10  * (pos.count<ROOK>() == 1)
+                          +  10  * (pos.count<BISHOP>() == 1)
+                          +  10  * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == abs(BishopValueMg - KnightValueMg))
+                          +  10  * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == abs(BishopValueMg - RookValueMg))
+                          + -10  * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == abs(KnightValueMg - RookValueMg))
+                          +  10  * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == BishopValueMg);
+         return NNUE::evaluate(pos) * (679 + mat / 32 + eg_factors) / 1024 + Tempo;
       };
 
       // If there is PSQ imbalance use classical eval, with small probability if it is small
