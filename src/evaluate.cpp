@@ -1042,21 +1042,21 @@ Value Eval::evaluate(const Position& pos) {
 
       auto  adjusted_NNUE_eg = [&](){
          int mat = pos.non_pawn_material() + PawnValueMg * pos.count<PAWN>();
-         int eg_factors =   -10  *  pos.opposite_bishops()
-                          + -10  * (pos.count<ROOK>(WHITE) == 1 && pos.count<ROOK>(BLACK) == 1)
-                          +  10  * (pos.count<KNIGHT>(WHITE) == 1 && pos.count<KNIGHT>(BLACK) == 1)
-                          + -10  * (pos.count<BISHOP>(WHITE) == 1 && pos.count<BISHOP>(BLACK) == 1)
-                          + -10  * (pos.count<QUEEN>(WHITE) == 1 && pos.count<QUEEN>(BLACK) == 1)
-                          +  10  * (pos.count<BISHOP>(WHITE) == 2 || pos.count<BISHOP>(BLACK) == 2)
-                          + -10  * (pos.count<KNIGHT>(WHITE) == 2 || pos.count<KNIGHT>(BLACK) == 2)
-                          +  10  * (pos.count<ROOK>(WHITE) == 2 || pos.count<ROOK>(BLACK) == 2)
-                          + -10  * (pos.count<QUEEN>() == 1)
-                          + -10  * (pos.count<ROOK>() == 1)
-                          +  10  * (pos.count<BISHOP>() == 1)
-                          +  10  * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == abs(BishopValueMg - KnightValueMg))
-                          +  10  * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == abs(BishopValueMg - RookValueMg))
-                          + -10  * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == abs(KnightValueMg - RookValueMg))
-                          +  10  * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == BishopValueMg);
+         int eg_factors =    10  *  pos.opposite_bishops()
+                          +  10  * (pos.count<ROOK>(WHITE) == 1 && pos.count<ROOK>(BLACK) == 1)
+                          + -10  * (pos.count<KNIGHT>(WHITE) == 1 && pos.count<KNIGHT>(BLACK) == 1)
+                          +  10  * (pos.count<BISHOP>(WHITE) == 1 && pos.count<BISHOP>(BLACK) == 1)
+                          +  10  * (pos.count<QUEEN>(WHITE) == 1 && pos.count<QUEEN>(BLACK) == 1)
+                          + -10  * (pos.count<BISHOP>(WHITE) == 2 || pos.count<BISHOP>(BLACK) == 2)
+                          +  10  * (pos.count<KNIGHT>(WHITE) == 2 || pos.count<KNIGHT>(BLACK) == 2)
+                          + -10  * (pos.count<ROOK>(WHITE) == 2 || pos.count<ROOK>(BLACK) == 2)
+                          +  10  * (pos.count<QUEEN>() == 1)
+                          +  10  * (pos.count<ROOK>() == 1)
+                          + -10  * (pos.count<BISHOP>() == 1)
+                          + -10  * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == abs(BishopValueMg - KnightValueMg))
+                          + -10  * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == abs(BishopValueMg - RookValueMg))
+                          +  10  * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == abs(KnightValueMg - RookValueMg))
+                          + -10  * (abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == BishopValueMg);
          return NNUE::evaluate(pos) * (679 + mat / 32 + eg_factors) / 1024 + Tempo;
       };
 
