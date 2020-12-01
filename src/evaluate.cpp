@@ -194,6 +194,7 @@ namespace {
   constexpr Value NNUEThreshold2 =   Value(176);
 
 int scaling = 679;
+TUNE(scaling);
 int eg1 = 0;
 int eg2 = 0;
 int eg3 = 0;
@@ -209,6 +210,7 @@ int eg12 = 0;
 int eg13 = 0;
 int eg14 = 0;
 int eg15 = 0;
+TUNE(SetRange(-100,100), eg1,eg2,eg3,eg4,eg5,eg6,eg7,eg8,eg9,eg10,eg11,eg12,eg13,eg14,eg15);
 
   // KingAttackWeights[PieceType] contains king attack weights by piece type
   constexpr int KingAttackWeights[PIECE_TYPE_NB] = { 0, 0, 81, 52, 44, 10 };
