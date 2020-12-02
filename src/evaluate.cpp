@@ -1034,10 +1034,15 @@ Value Eval::evaluate(const Position& pos) {
       v = Evaluation<NO_TRACE>(pos).value();
   else
   {
+      int mat = pos.non_pawn_material() + PawnValueMg * pos.count<PAWN>();
       // Scale and shift NNUE for compatibility with search and classical evaluation
       auto  adjusted_NNUE = [&](){
-         int mat = pos.non_pawn_material() + PawnValueMg * pos.count<PAWN>();
          return NNUE::evaluate(pos) * (679 + mat / 32) / 1024 + Tempo;
+      };
+
+      auto  adjusted_NNUE_eg = [&](){
+         int eg_factors = -10 * pos.opposite_bishops();
+         return NNUE::evaluate(pos) * (679 + mat / 32 + eg_factors) / 1024 + Tempo;
       };
 
       // If there is PSQ imbalance use classical eval, with small probability if it is small
@@ -1048,7 +1053,9 @@ Value Eval::evaluate(const Position& pos) {
 
       bool strongClassical = pos.non_pawn_material() < 2 * RookValueMg && pos.count<PAWN>() < 2;
 
-      v = classical || strongClassical ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
+      v =  classical || strongClassical ? Evaluation<NO_TRACE>(pos).value()
+         : pos.count<ALL_PIECES>() - pos.count<PAWN>() <= 8 ? adjusted_NNUE_eg()
+         : adjusted_NNUE();
 
       // If the classical eval is small and imbalance large, use NNUE nevertheless.
       // For the case of opposite colored bishops, switch to NNUE eval with
