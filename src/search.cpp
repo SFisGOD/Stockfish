@@ -57,10 +57,10 @@ using namespace Search;
 
 namespace {
 
-  int netbiases[1] = {-200};
+  int netbiases[1] = {-193};
   TUNE(netbiases);
-  int netweights[32] = {-24, -16, -75, 55, -17, 122, -118, 22, 32, 50, -34, 19, 
-  15, -37, -20, 97, -54, 30, 35, 41, -18, -20, 17, -30, -12, -37, -21, -10, -29, 28, -13, 17};
+  int netweights[32] = {-27,	-16,	-76,	57,	-21,	121,	-118,	25,	31,	52,	-34,	22,	13,	-37,	-20,	96,	
+  -57,	34,	36,	41,	-18,	-19,	16,	-31,	-12,	-36,	-22,	-10,	-33,	26,	-12,	18};
   auto myfunc127 = [](int m){ return std::pair<int, int>(std::max(-127, m - 80),std::min(127,m + 80));};
   TUNE(SetRange(myfunc127), netweights);
 
@@ -1264,10 +1264,6 @@ moves_loop: // When in check, search starts from here
           }
           else
           {
-              // Increase reduction for captures/promotions if late move and at low depth
-              if (depth < 8 && moveCount > 2)
-                  r++;
-
               // Unless giving check, this capture is likely bad
               if (   !givesCheck
                   && ss->staticEval + PieceValue[EG][pos.captured_piece()] + 210 * depth <= alpha)
@@ -1298,9 +1294,6 @@ moves_loop: // When in check, search starts from here
           {
               int bonus = value > alpha ?  stat_bonus(newDepth)
                                         : -stat_bonus(newDepth);
-
-              if (move == ss->killers[0])
-                  bonus += bonus / 4;
 
               update_continuation_histories(ss, movedPiece, to_sq(move), bonus);
           }
@@ -1599,7 +1592,6 @@ moves_loop: // When in check, search starts from here
 
       // Do not search moves with negative SEE values
       if (    bestValue > VALUE_TB_LOSS_IN_MAX_PLY
-          && !(givesCheck && pos.is_discovery_check_on_king(~pos.side_to_move(), move))
           && !pos.see_ge(move))
           continue;
 
