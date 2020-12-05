@@ -1049,9 +1049,9 @@ Value Eval::evaluate(const Position& pos) {
       bool strongClassical =   pos.non_pawn_material() < 2 * RookValueMg
                             && pos.count<PAWN>() < 2;
 
-      // Always use NNUE for endgames when position is blocked
+      // Always use NNUE for endgames when pawns are only on one side
       bool strongNNUE =   pos.count<PAWN>() <= 8
-                       && more_than_one(pos.pieces(WHITE, PAWN) & shift<-pawn_push(WHITE)>(pos.pieces(BLACK, PAWN)));
+                       && !((pos.pieces(PAWN) & QueenSide) && (pos.pieces(PAWN) & KingSide));
 
       v = ((classical || strongClassical) && !strongNNUE) ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
