@@ -1067,7 +1067,7 @@ Value Eval::evaluate(const Position& pos) {
       // Use NNUE for endgames with moderate number of pawns
       bool strongNNUE =   pos.non_pawn_material() < 3 * RookValueMg
                        && pos.count<PAWN>() <= 8
-                       && pos.count<PAWN>() >= 2;
+                       && pos.count<PAWN>() >= 3;
 
       v = (classical || strongClassical) && !strongNNUE ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
 
