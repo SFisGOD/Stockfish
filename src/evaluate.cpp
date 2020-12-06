@@ -1067,8 +1067,8 @@ Value Eval::evaluate(const Position& pos) {
                             && pos.count<PAWN>() < 2;
 
       // Use NNUE for bishop endgames with moderate number of pawns
-      bool strongNNUE =   pos.non_pawn_material() == BishopValueMg
-                       && pos.count<PAWN>() <= 6
+      bool strongNNUE =   abs(pos.non_pawn_material(WHITE) - pos.non_pawn_material(BLACK)) == BishopValueMg
+                       && pos.count<PAWN>() <= 7
                        && pos.count<PAWN>() >= 4;
 
       v = (classical || strongClassical) && !strongNNUE ? Evaluation<NO_TRACE>(pos).value() : adjusted_NNUE();
